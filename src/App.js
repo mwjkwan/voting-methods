@@ -1,7 +1,9 @@
 import React from 'react';
 import Sidebar from './components/Sidebar';
+import Navigation from './components/Navigation';
 import NavigationBar from './pages/NavigationBar';
 import PageAbout from './pages/PageAbout';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'styles/styles.scss';
 
 import { Route, Switch } from 'react-router-dom';
@@ -43,11 +45,12 @@ class App extends React.Component {
     return (
       <Router>
         <div className="Page">
-          <Sidebar leftSidebar={<NavigationBar />}>
+          <Navigation />
+          {/* <Sidebar leftSidebar={<NavigationBar />}>
             <Switch>
               <Route exact path={`/`} render={() => <PageAbout />} />
             </Switch>
-          </Sidebar>
+          </Sidebar> */}
         </div>
       </Router>
     );

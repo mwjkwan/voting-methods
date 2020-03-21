@@ -5,23 +5,20 @@ import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+
 const navbarStyle = css`
-  .Navigation {
-    display: flex;
+  .desktop {
     flex-direction: column;
     align-items: right;
     color: #515151;
     position: relative;
     overflow: auto;
-    padding: 4em;
 
     .link {
-      margin-bottom: 10px;
-      position: relative;
+      margin-right: 1em;
       cursor: pointer;
       line-height: 27px;
       letter-spacing: 0.1em;
-      color: #ffffff;
       text-decoration: none;
     }
 
@@ -40,16 +37,15 @@ const navbarStyle = css`
       max-width: 100px;
     }
 
+    .links {
+      display: flex;
+    }
+
     .Highlight {
       a {
         font-size: 16px;
-        font-family: 'Apercu';
         color: #77bbdd;
       }
-    }
-
-    .mobile {
-      display: inline-block;
     }
   }
 `;
@@ -67,8 +63,8 @@ export default class Navbar extends Component {
   renderLinks() {
     const { links, pathname } = this.props;
 
-    var parts = pathname.split('/');
-    var path = '/' + parts[1] + (parts[2] ? '/' + parts[2] : '');
+    const parts = pathname.split('/');
+    const path = '/' + parts[1] + (parts[2] ? '/' + parts[2] : '');
 
     return (
       <div className="links">
@@ -97,7 +93,7 @@ export default class Navbar extends Component {
   renderSide() {
     return (
       <div css={navbarStyle}>
-        <div className="Navigation">
+        <div className="Navigation desktop">
           <div className="logo">
             <h1>
               Voting Methods
@@ -122,7 +118,6 @@ export default class Navbar extends Component {
 Navbar.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({
-      icon: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
     }),
