@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
-import React from 'react';
-import { css, jsx } from '@emotion/core';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { css, jsx } from "@emotion/core";
+import { Link } from "react-router-dom";
 
 const thumbnailStyle = css`
   .Thumbnail {
@@ -38,16 +38,16 @@ const Thumbnail = props => {
             <div className="img-hover-zoom">
               <img
                 alt={header}
-                src={image || require('assets/empty.png')}
+                src={image || require("assets/empty.png")}
                 style={{
-                  width: '100%',
-                  objectFit: 'cover',
+                  width: "100%",
+                  objectFit: "cover",
                   marginBottom: 0,
                   minWidth: 125,
-                  background: `url(${require('assets/loading.svg')})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
+                  background: `url(${require("assets/loading.svg")})`,
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center"
                 }}
               />
             </div>

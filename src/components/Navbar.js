@@ -1,10 +1,9 @@
 /** @jsx jsx */
 
-import { Component } from 'react';
-import { jsx, css } from '@emotion/core';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
+import { Component } from "react";
+import { jsx, css } from "@emotion/core";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const navbarStyle = css`
   .desktop {
@@ -51,9 +50,9 @@ const navbarStyle = css`
 `;
 
 const renderLink = (link, path) => {
-  const highlight = link.to !== '/' ? path.includes(link.to) : path === '/';
+  const highlight = link.to !== "/" ? path.includes(link.to) : path === "/";
   return (
-    <div key={link.text} className={'link' + (highlight ? ' Highlight' : '')}>
+    <div key={link.text} className={"link" + (highlight ? " Highlight" : "")}>
       <Link to={link.to}>{link.text}</Link>
     </div>
   );
@@ -63,8 +62,8 @@ export default class Navbar extends Component {
   renderLinks() {
     const { links, pathname } = this.props;
 
-    const parts = pathname.split('/');
-    const path = '/' + parts[1] + (parts[2] ? '/' + parts[2] : '');
+    const parts = pathname.split("/");
+    const path = "/" + parts[1] + (parts[2] ? "/" + parts[2] : "");
 
     return (
       <div className="links">
@@ -80,9 +79,7 @@ export default class Navbar extends Component {
       <div css={navbarStyle}>
         <div className="Navigation mobile">
           <div className="logo">
-            <h1>
-              Voting Methods
-            </h1>
+            <h1>Voting Methods</h1>
           </div>
           <div>{this.renderLinks()}</div>
         </div>
@@ -95,9 +92,7 @@ export default class Navbar extends Component {
       <div css={navbarStyle}>
         <div className="Navigation desktop">
           <div className="logo">
-            <h1>
-              Voting Methods
-            </h1>
+            <h1>Voting Methods</h1>
           </div>
           {this.renderLinks()}
         </div>
@@ -119,8 +114,8 @@ Navbar.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired,
-    }),
+      to: PropTypes.string.isRequired
+    })
   ).isRequired,
-  pathname: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired
 };

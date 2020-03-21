@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
-import { Component } from 'react';
-import { css, jsx } from '@emotion/core';
+import { Component } from "react";
+import { css, jsx } from "@emotion/core";
 
 const descriptionStyle = css`
   .description {

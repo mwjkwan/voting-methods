@@ -21,56 +21,19 @@ body,
 }
 
 @font-face {
-  font-family: 'apercu';
+  font-family: 'akkurat';
   font-style: normal;
   font-weight: normal;
-  src: local('apercu'),
-    url(../assets/fonts/apercu_regular_pro.otf) format('opentype');
+  src: local('akkurat'),
+    url(../assets/fonts/AkkuratPro-Regular.otf) format('opentype');
 }
 
 @font-face {
-  font-family: 'apercu-mono';
-  src: local('apercu'),
-    url(../assets/fonts/apercu-mono-webfont.woff) format('woff');
-}
-
-@font-face {
-  font-family: 'apercu-light';
-  // font-style: normal;
-  // font-weight: lighter;
-  src: local('apercu'), url(../assets/fonts/Apercu-Light.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'apercu';
-  font-style: normal;
-  font-weight: medium;
-  src: local('apercu'),
-    url(../assets/fonts/apercu_medium_pro.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'apercu';
-  font-style: normal;
-  font-weight: bold;
-  src: local('apercu'),
-    url(../assets/fonts/apercu_bold_pro.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'inconsolata';
+  font-family: 'akkurat-mono';
   font-style: normal;
   font-weight: normal;
-  src: local('inconsolata'),
-    url(../assets/fonts/Inconsolata-Regular.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'inconsolata';
-  font-style: normal;
-  font-weight: bold;
-  src: local('inconsolata'),
-    url(../assets/fonts/Inconsolata-Bold.ttf) format('truetype');
+  src: local('akkurat'),
+    url(../assets/fonts/Akkurat-Mono.OTF) format('opentype');
 }
 
 .AuthLinks {
@@ -91,30 +54,32 @@ h4,
 a {
   color: $text-color;
   text-decoration:none;
-  margin-bottom: 5px;
-  margin-top: 0.5em;
 }
 
 a {
-  font-family: 'apercu';
+  font-family: tablet-gothic, sans-serif;
   font-weight: 400;
-  margin-bottom: 5;
-  margin-top: 5;
+  font-style: normal;
 }
 
 p {
-  font-family: 'apercu-light';
+  font-family: tablet-gothic, sans-serif;
+  font-weight: 400;
+  font-style: normal;
   margin-bottom: 0;
 }
 
 div,
 p {
-  font-family: 'apercu-light';
+  font-family: tablet-gothic, sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 b {
-  font-family: 'apercu';
-  font-weight: 'medium';
+  font-family: tablet-gothic, sans-serif;
+  font-weight: 600;
+  font-style: normal;
 }
 
 h1,
@@ -122,9 +87,9 @@ h2,
 h3,
 h4,
 h5 {
-  // font-family: "Hind";
-  font-family: 'apercu';
-  font-weight: 'medium';
+  font-family: tablet-gothic, sans-serif;
+  font-weight: 600 !important;
+  font-style: normal;
 }
 
 h1 {
@@ -143,19 +108,6 @@ a:hover {
 
 .col >* {
   margin-bottom: 1em;
-}
-
-button {
-  background: $highlight-color;
-  box-shadow: 0.2em 0.2em $light-shadow;
-  font-size: 18px;
-  color: white;
-  width: 100%;
-  height: 30px;
-  border-width: 0px;
-  &:focus {
-    outline: 0;
-  }
 }
 
 iframe {

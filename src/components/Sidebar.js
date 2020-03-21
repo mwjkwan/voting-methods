@@ -1,11 +1,11 @@
 /** @jsx jsx */
 
-import React, { Component } from 'react';
-import { css, jsx } from '@emotion/core';
-import ReactDom from 'react-dom';
-import { withRouter } from 'react-router';
+import React, { Component } from "react";
+import { css, jsx } from "@emotion/core";
+import ReactDom from "react-dom";
+import { withRouter } from "react-router";
 
-import Sidebar from 'react-sidebar';
+import Sidebar from "react-sidebar";
 
 const leftSidebar = 250;
 const center = 400;
@@ -37,12 +37,12 @@ const sidebarStyle = css`
     overflow: visible;
 
     a {
-      font-family: 'Apercu-light';
+      font-family: "Apercu-light";
       letter-spacing: 1px;
     }
 
     div {
-      font-family: 'Apercu-light';
+      font-family: "Apercu-light";
       letter-spacing: 1px;
     }
   }
@@ -67,7 +67,7 @@ class MySidebar extends Component {
     this.state = {
       leftSidebarOpen: false,
       leftSidebarDocked: true,
-      transitions: false,
+      transitions: false
     };
   }
 
@@ -80,19 +80,19 @@ class MySidebar extends Component {
         leftSidebarOpen:
           window.innerWidth > leftSidebar + center
             ? false
-            : state.leftSidebarOpen,
+            : state.leftSidebarOpen
       };
     });
   }
 
   componentDidMount() {
     this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener("resize", this.updateWindowDimensions);
     this.timer = setTimeout(() => this.setState({ transitions: true }), 100);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener("resize", this.updateWindowDimensions);
     window.clearTimeout(this.timer);
   }
 
@@ -111,18 +111,18 @@ class MySidebar extends Component {
     return (
       <div
         style={{
-          padding: mobile ? 0 : '2em',
+          padding: mobile ? 0 : "2em"
         }}
       >
         {mobile && this.renderMobile()}
         <div
           style={{
             marginTop: mobile ? 0 : 10,
-            padding: mobile ? '1.5em' : 0,
-            height: mobile ? 'calc(100% - 45px)' : 'auto',
-            overflowY: mobile ? 'auto' : 'hidden',
-            overflowX: 'hidden',
-            position: 'relative',
+            padding: mobile ? "1.5em" : 0,
+            height: mobile ? "calc(100% - 45px)" : "auto",
+            overflowY: mobile ? "auto" : "hidden",
+            overflowX: "hidden",
+            position: "relative"
           }}
         >
           {this.props.children}
@@ -139,7 +139,7 @@ class MySidebar extends Component {
           sidebar={
             <div
               onClick={() => this.setState({ leftSidebarOpen: false })}
-              style={{ height: 'calc(100% - 30px)' }}
+              style={{ height: "calc(100% - 30px)" }}
             >
               {this.props.leftSidebar}
             </div>
@@ -148,10 +148,10 @@ class MySidebar extends Component {
           docked={this.state.leftSidebarDocked}
           onSetOpen={open => this.setState({ leftSidebarOpen: open })}
           styles={{
-            sidebar: { width: leftSidebar, zIndex: 201, overflowY: 'auto' },
-            root: { width: '100%' },
+            sidebar: { width: leftSidebar, zIndex: 201, overflowY: "auto" },
+            root: { width: "100%" }
           }}
-          sidebarClassName={'Sidebar'}
+          sidebarClassName={"Sidebar"}
           shadow={false}
         >
           <div ref={this.myRef} />

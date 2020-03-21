@@ -1,14 +1,15 @@
 /** @jsx jsx */
 
-import { css, jsx } from '@emotion/core';
-import Description from '../components/Description'
+import { css, jsx } from "@emotion/core";
+import Description from "../components/Description";
 
 const articleStyle = css`
   .Article {
+    margin: 1em;
     max-width: 60em;
   }
   .Article > * {
-    margin-bottom: 1em !important;
+    margin-bottom: 0.5em !important;
   }
 `;
 
@@ -25,13 +26,13 @@ const Article = props => {
             alt={header}
             src={image}
             style={{
-              width: '100%',
-              objectFit: 'cover',
+              width: "100%",
+              objectFit: "cover",
               marginBottom: 0,
               minWidth: 125,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center"
             }}
           />
         )}

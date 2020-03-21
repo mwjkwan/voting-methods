@@ -1,13 +1,15 @@
-import React from 'react';
-import Sidebar from './components/Sidebar';
-import Navigation from './components/Navigation';
-import NavigationBar from './pages/NavigationBar';
-import PageAbout from './pages/PageAbout';
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'styles/styles.scss';
+import React from "react";
+import NavigationBar from "./pages/NavigationBar";
+import PageAbout from "./pages/PageAbout";
+import PageHome from "./pages/PageHome";
+import PageMethods from "./pages/PageMethods";
+import PageOverview from "./pages/PageOverview";
+import PageSimulate from "./pages/PageSimulate";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../src/styles/styles.scss";
 
-import { Route, Switch } from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const mql = window.matchMedia(`(min-width: 800px)`);
 
@@ -16,7 +18,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       sidebarDocked: mql.matches,
-      sidebarOpen: false,
+      sidebarOpen: false
     };
 
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
@@ -40,17 +42,17 @@ class App extends React.Component {
   }
 
   render() {
-    const prefix = '';
-
     return (
       <Router>
         <div className="Page">
           <NavigationBar />
-          {/* <Sidebar leftSidebar={<NavigationBar />}>
-            <Switch>
-              <Route exact path={`/`} render={() => <PageAbout />} />
-            </Switch>
-          </Sidebar> */}
+          <Switch>
+            <Route exact path={`/`} render={() => <PageHome />} />
+            <Route exact path={`/overview`} render={() => <PageOverview />} />
+            <Route exact path={`/simulate`} render={() => <PageSimulate />} />
+            <Route exact path={`/methods`} render={() => <PageMethods />} />
+            <Route exact path={`/about`} render={() => <PageAbout />} />
+          </Switch>
         </div>
       </Router>
     );
