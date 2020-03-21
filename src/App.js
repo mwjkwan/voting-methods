@@ -45,7 +45,7 @@ class App extends React.Component {
     return (
       <Router>
         <div className="Page">
-          <Navigation />
+          <NavigationBar />
           {/* <Sidebar leftSidebar={<NavigationBar />}>
             <Switch>
               <Route exact path={`/`} render={() => <PageAbout />} />
