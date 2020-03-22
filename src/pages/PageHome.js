@@ -5,6 +5,7 @@ import { css, jsx } from "@emotion/core";
 
 import Description from "../components/Description";
 import Article from "../components/Article";
+import Landing from "../viz/Landing";
 
 const story = <div>The voting tour of the world!</div>;
 
@@ -24,6 +25,7 @@ export default class PageHome extends Component {
       <Article {...content}>
         <div css={style}>
           <Description>{story}</Description>
+          <Landing />
         </div>
       </Article>
     );
