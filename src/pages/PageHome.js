@@ -22,12 +22,15 @@ const style = css`
 export default class PageHome extends Component {
   render() {
     return (
-      <Article {...content}>
-        <div css={style}>
-          <Description>{story}</Description>
-          <Landing />
-        </div>
-      </Article>
+      <div>
+        <Article {...content}>
+          <div css={style}>
+            <Description>{story}</Description>
+
+          </div>
+        </Article>
+        <Landing />
+      </div>
     );
   }
 }

@@ -1,4 +1,7 @@
+/** @jsx jsx */
 import React, { Component } from 'react';
+import { css, jsx } from '@emotion/core';
+import { Scrollama, Step } from 'react-scrollama';
 import { select, selectAll, mouse } from 'd3-selection';
 import { csv } from 'd3-fetch';
 import { path } from 'd3-path';
@@ -7,7 +10,7 @@ import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import { geoPath } from 'd3-geo';
 import { geoRobinson } from 'd3-geo-projection';
-//import d3Tip from 'd3-tip';
+import d3Tip from 'd3-tip';
 import * as topojson from 'topojson-client';
 
 import topoData from '../assets/data/countries.json';
@@ -15,7 +18,50 @@ import topoData from '../assets/data/countries.json';
 const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, transition, nest,
   geoRobinson, geoPath };
 
+const landingStyle = css`
+  .main {
+    padding: 2em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .graphic {
+    flex-basis: 80%;
+    position: sticky;
+    top: 60px;
+    width: 100%;
+    align-self: flex-start;
+  }
+
+  .scroller {
+    flex-basis: 15%;
+  }
+
+  .step {
+    padding-top: 200px;
+    padding-bottom: 200px;
+    '&:last-child': {
+      margin-bottom: 0;
+    }
+  }
+`;
+
 export default class Landing extends Component {
+
+  state = {
+    data: 0,
+    steps: [10, 20, 30],
+    progress: 0,
+  }
+
+  onStepEnter = ({ element, data }) => {
+    this.setState( { data });
+  }
+
+  onStepProgress = ({ element, progress }) => {
+    this.setState({ progress });
+  }
+
   componentDidMount() {
     d3.csv(`${process.env.PUBLIC_URL}/data/voting-methods-country.csv`).then(res => {
       this.initialize(topoData, res);
@@ -24,10 +70,15 @@ export default class Landing extends Component {
 
   initialize(topoData, voteData) {
 
+  var parentWidth = d3
+    .select('.graphic')
+    .node()
+    .getBoundingClientRect().width;
+
 
    const margin = { top: 20, right: 40, bottom: 40, left: 40 };
 
-  const width = 1200 - margin.left - margin.right;
+  const width = parentWidth - margin.left - margin.right;
   const height = 800 - margin.top - margin.bottom;
 
   var svg = d3
@@ -89,12 +140,13 @@ export default class Landing extends Component {
              .key((d) => d.Country )
              .object(filteredVoteData);
      } else {
-         filteredVoteData = voteData;
-         entries = [];
+         entries = d3.nest()
+             .key((d) => d.Country )
+             .object(voteData);
      }
 
 
-     //console.log(entries);
+     console.log(entries);
 
     // var countries = entries.map((d) => d.key );
      //console.log(countries);
@@ -105,6 +157,20 @@ export default class Landing extends Component {
     //var unmatchedCountries = countries.filter((c) => !topoCountries.includes(c));
     //console.log(unmatchedCountries);
     var mapBase = svg.select('.map-base');
+
+    var tooltip = mapBase.append("div")
+      .attr("class", "tooltip")
+      .style('background', '#a4a7ab')
+      .style('color', '#fff')
+      .style('line-height', 1)
+      .style('font-size', '0.8em')
+      .style('padding', '8px')
+      .style('border-radius', '4px')
+      .style('position', 'absolute')
+      .style('pointer-events', 'none')
+      .style('display', 'hidden');
+
+
 
      var mapSelect = mapBase
         .selectAll('path')
@@ -121,15 +187,26 @@ export default class Landing extends Component {
 
       map.attr('fill', function(d) {
             if (entries[convertCountry(d.properties.name)]) {
-                return color(system);
+               return color(entries[convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
             } else {
-                return '#eeedf0';
+              return '#eeedf0';
             }
         })
         .attr('stroke', '#dcdfe3')
         .attr('stroke-width', 1)
         .style('opacity', function(d) {
           return 1;
+        })
+        .on('mousemove', function(d) {
+          var mouse = d3.mouse(svg.node()).map( (d) => parseInt(d) );
+
+          // CANNOT FIND THIS RIP
+          tooltip.style('display', 'block')
+            .attr('style', 'left:' + (mouse[0]) + 'px;top:' + mouse[1] +'px')
+            .html('<b>' + d.properties.name + ':</b> ' + entries[convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
+        })
+        .on('mouseout', function(d) {
+          tooltip.style('display', 'hidden');
         });
 
   }
@@ -189,9 +266,36 @@ export default class Landing extends Component {
 
 
   render() {
-    return (
-        <div id="viz"></div>
+    const { data, steps, progress } = this.state;
 
+
+    return (
+      <div css={landingStyle}>
+      <div className='main'>
+        <div className='graphic'>
+          <div id="viz"></div>
+        </div>
+        <div className='scroller'>
+          <Scrollama
+            onStepEnter={this.onStepEnter}
+            onStepExit={this.onStepExit}
+            progress
+            onStepProgress={this.onStepProgress}
+            offset={0.33}
+            debug
+          >
+            {steps.map ( value => (
+              <Step data={value} key={value}>
+                <div className='step'>
+                  <p>step value: {value}</p>
+                  <p>{value === data && progress}</p>
+                </div>
+              </Step>
+            ))}
+          </Scrollama>
+         </div>
+      </div>
+      </div>
       )
   }
 }
