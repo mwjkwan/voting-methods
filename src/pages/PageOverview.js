@@ -5,6 +5,7 @@ import { css, jsx } from "@emotion/core";
 
 import Description from "../components/Description";
 import Article from "../components/Article";
+import Narrative from "../components/Narrative";
 
 const story = (
   <div>This page shows the narrative of the different voting methods.</div>
@@ -23,11 +24,14 @@ const style = css`
 export default class PageOverview extends Component {
   render() {
     return (
-      <Article {...content}>
-        <div css={style}>
-          <Description>{story}</Description>
-        </div>
-      </Article>
+      <div>
+        <Article {...content}>
+          <div css={style}>
+            <Description>{story}</Description>
+          </div>
+        </Article>
+        <Narrative />
+      </div>
     );
   }
 }
