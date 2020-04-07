@@ -117,16 +117,11 @@ export default class Narrative extends Component {
       .getBoundingClientRect().width;
 
 
-    const margin = { top: 20, right: 40, bottom: 40, left: 40 };
+    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 
     const width = parentWidth - margin.left - margin.right;
     const height = 800 - margin.top - margin.bottom;
 
-    // var svg = d3
-    //     .select('#viz')
-    //     .append('svg')
-    //     .attr('width', width)
-    //     .attr('height', height);
 
     // const points = []
     // let point = [];
@@ -145,63 +140,20 @@ export default class Narrative extends Component {
     // point5.push({x: 90, y: 90})
     // points.push(point5);
 
-    var svg = d3.select("#viz").append('svg');
+    var svg = d3.select("#viz")
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
 
     svg.selectAll("circle")
-    .data([32, 57, 112, 293])
+    .data([[32, 50], [87, 30], [112, 91], [150, 50]])
     .enter().append("circle")
-    .attr("cy", 60)
-    .attr("cx", function(d, i) { return i * 100 + 30; })
-    .attr("r", function(d) { return Math.sqrt(d); })
+    .attr("cy", function(d) {return d[0]})
+    .attr("cx", function(d, i) { return d[1] })
+    .attr("r", function(d) { return Math.sqrt(d[0]); })
     .style("fill", "purple");
 
 
-
-    // d3.select("#viz")
-    //   .append("svg")
-    //   .attr("width", 100)
-    //   .attr("height", 100)
-    //   .append("circle")
-    //   .attr("cx", 25)
-    //   .attr("cy", 25)
-    //   .attr("r", 25)
-    //   .style("fill", "purple");;
-    //
-    //
-    // d3.select("#viz").append("svg").attr("width", 50).attr("height", 50).append("circle").attr("cx", 25).attr("cy", 25).attr("r", 25).style("fill", "purple");
-
-
-    // const ctx = svg.node().getContext('2d');
-    // ctx.globalAlpha = 0.8;
-    // const points = []
-    // let point = [];
-    // point.push({x: 50, y: 50})
-    // points.push(point);
-    // let point2 = [];
-    // point2.push({x: 60, y: 60})
-    // points.push(point2);
-    // let point3 = [];
-    // point3.push({x: 70, y: 70})
-    // points.push(point3);
-    // let point4 = [];
-    // point4.push({x: 80, y: 80})
-    // points.push(point4);
-    // let point5 = [];
-    // point5.push({x: 90, y: 90})
-    // points.push(point5);
-    //
-    // ctx.save();
-    // for (let i = 0; i < points.length; ++i) {
-    //   const point = points[i];
-    //   const radius = 2;
-    //   ctx.beginPath();
-    //   ctx.arc (point.x, point.y, radius, 0, 2*Math.PI, false);
-    //   ctx.closePath();
-    //   ctx.fillStyle = "#cccccc";
-    //   ctx.fill()
-    // }
-    //
-    // ctx.restore();
 
 
 
