@@ -31,7 +31,6 @@ class NavigationBar extends Component {
     ];
 
     const { location } = this.props;
-
     return <Navigation links={links} pathname={location.pathname} />;
   }
 }
