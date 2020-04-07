@@ -65,6 +65,7 @@ export default class Narrative extends Component {
     const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
     this.state = {
       data: 0,
+      svg: null,
       stories: stories,
       steps: [...stories.keys()], // ... is array destructuring operator
       progress: 0,
@@ -75,6 +76,7 @@ export default class Narrative extends Component {
   onStepEnter = ({ element, data }) => {
     element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState( { data });
+    this.update();
   }
 
   onStepExit= ({ element }) => {
@@ -91,19 +93,23 @@ export default class Narrative extends Component {
     this.initialize();
   }
 
-  draw(points, ctx) {
-    ctx.save();
-    for (let i = 0; i < points.length; ++i) {
-      const point = points[i];
-      const radius = 2;
-      ctx.beginPath();
-      ctx.arc (point.x, point.y, radius, 0, 2*Math.PI, false);
-      ctx.closePath();
-      ctx.fillStyle = "#cccccc";
-      ctx.fill()
-    }
+  update() {
+    console.log('updating');
 
-    ctx.restore();
+    var svg = this.state.svg;
+
+    var circle = svg.selectAll("circle")
+    .data([[Math.floor(Math.random() * 300), 100],
+           [Math.floor(Math.random() * 300), 200],
+           [Math.floor(Math.random() * 300), 300],
+           [Math.floor(Math.random() * 300), 400]])
+
+    circle.transition()
+          .duration(500)
+          .attr("cy", function(d) {return d[0]})
+          .attr("cx", function(d, i) { return d[1] })
+          .attr("r", function(d) { return Math.sqrt(d[0]); })
+          .style("fill", "purple");
 
   }
 
@@ -153,11 +159,7 @@ export default class Narrative extends Component {
     .attr("r", function(d) { return Math.sqrt(d[0]); })
     .style("fill", "purple");
 
-
-
-
-
-    this.setState({initialized: true});
+    this.setState({initialized: true, svg: svg});
 
 
 
