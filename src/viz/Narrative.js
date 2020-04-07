@@ -129,23 +129,6 @@ export default class Narrative extends Component {
     const height = 800 - margin.top - margin.bottom;
 
 
-    // const points = []
-    // let point = [];
-    // point.push({x: 50, y: 50})
-    // points.push(point);
-    // let point2 = [];
-    // point2.push({x: 60, y: 60})
-    // points.push(point2);
-    // let point3 = [];
-    // point3.push({x: 70, y: 70})
-    // points.push(point3);
-    // let point4 = [];
-    // point4.push({x: 80, y: 80})
-    // points.push(point4);
-    // let point5 = [];
-    // point5.push({x: 90, y: 90})
-    // points.push(point5);
-
     var svg = d3.select("#viz")
                 .append('svg')
                 .attr('width', width)
@@ -160,8 +143,6 @@ export default class Narrative extends Component {
     .style("fill", "purple");
 
     this.setState({initialized: true, svg: svg});
-
-
 
 }
 
