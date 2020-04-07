@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import React, { Component } from 'react';
 import { css, jsx } from '@emotion/core';
+import { Typography, Link } from '@material-ui/core'
 import { Scrollama, Step } from 'react-scrollama';
 import { select, selectAll, mouse } from 'd3-selection';
 import { csv } from 'd3-fetch';
@@ -18,7 +19,47 @@ import topoData from '../assets/data/countries.json';
 const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, transition, nest,
   geoRobinson, geoPath };
 
+const longNames = {
+  'Overall': '',
+  'FPTP': 'First Past The Post',
+  'BV': 'Block Vote',
+  'FPTP PBV': 'Party Block Vote',
+  'AV': 'Alternative Vote',
+  'TRS': 'Two-Round System',
+  'List PR': 'List Proportional Representation',
+  'STV': 'Single Transferable Vote',
+  'SNTV': 'Single Non-Transferable Vote',
+  'MMP': 'Mixed Member Proportional System',
+  'Parallel': 'Parallel Systems',
+  'LV': 'Limited Vote',
+  'Modified BC': 'Modified Borda Count',
+  'In transition': 'In transition',
+  'No direct elections': 'No direct elections',
+}
+
+const defns = {
+  'Overall': 'There are lots of voting systems used around the world!',
+  'FPTP': 'First Past The Post is the simplest form of plurality/majority electoral system. The winning candidate is the one who gains more votes than any other candidate, even if this is not an absolute majority of valid votes. The system uses single-member districts and the voters vote for candidates rather than political parties.',
+  'BV': 'Block Vote is a plurality/majority system used in multi-member districts. Electors have as many votes as there are candidates to be elected. The candidates with the highest vote totals win the seats. Usually voters vote for candidates rather than parties and in most systems may use as many, or as few, of their votes as they wish.',
+  'FPTP PBV': 'Party Block Vote (PBV) is a plurality/majority system using multi-member districts in which voters cast a single party-centred vote for a party of choice, and do not choose between candidates. The party with most votes will win every seat in the electoral district.',
+  'AV': 'The Alternative Vote is a preferential plurality/majority system used in single-member districts. Voters use numbers to mark their preferences on the ballot paper. A candidate who receives an absolute majority (50 per cent plus 1) of valid first preference votes is declared elected. If no candidate achieves an absolute majority of first preferences, the least successful candidates are eliminated and their votes reallocated according to their second preferences until one candidate has an absolute majority. Voters vote for candidates rather than political parties.',
+  'TRS': 'The Two-Round System is a plurality/majority system in which a second election is held if no candidate or party achieves a given level of votes, most commonly an absolute majority (50 per cent plus one), in the first election round. A Two-Round System may take a majority-plurality form–more than two candidates contest the second round and the one wins the highest number of votes in the second round is elected, regardless of whether they have won an absolute majority–or a majority run-off form–only the top two candidates in the first round contest the second round',
+  'List PR': 'Under a List Proportional Representation (List PR) system each party or grouping presents a list of candidates for a multi-member electoral district, the voters vote for a party, and parties receive seats in proportion to their overall share of the vote. In some (closed list) systems the winning candidates are taken from the lists in order of their position on the lists. If the lists are ‘open’ or ‘free’ the voters can influence the order of the candidates by marking individual preferences.',
+  'STV': 'The Single Transferable Vote is a preferential system in which the voter has one vote in a multi-member district and the candidates that surpass a specified quota of first preference votes are immediately elected. In successive counts, votes are redistributed from least successful candidates, who are eliminated, and votes surplus to the quota are redistributed from successful candidates, until sufficient candidates are declared elected. Voters normally vote for candidates rather than political parties, although a party-list option is possible.',
+  'SNTV': 'Under the Single Non-Transferable Vote system voters cast a single vote in a multi-member district. The candidates with the highest vote totals are declared elected. Voters vote for candidates rather than political parties.',
+  'MMP': 'Mixed Member Proportional is a mixed system in which the choices expressed by the voters are used to elect representatives through two different systems–one List PR system and (usually) one plurality/majority system–where the List PR system compensates for the disproportionality in the results from the plurality/majority system.',
+  'Parallel': 'A Parallel System is a mixed system in which the choices expressed by the voters are used to elect representatives through two different systems–one List PR system and (usually) one plurality/majority system–but where no account is taken of the seats allocated under the first system in calculating the results in the second system.',
+  'LV': 'Limited Vote is a candidate-centred electoral system used in multi-member districts in which electors have more than one vote, but fewer votes than there are candidates to be elected. The candidates with the highest vote totals win the seats.',
+  'Modified BC': 'A modified version of Borda Count (BC) – A candidate-centred preferential system used in either single- or multimember districts in which voters use numbers to mark their preferences on the ballot paper and each preference marked is then assigned a value using equal steps. These are summed and the candidate(s) with the highest total(s) is/are declared elected.',
+  'In transition': 'In transition for electoral systems.',
+  'No direct elections': 'No provisions for direct elections.'
+}
+
 const landingStyle = css`
+  .header {
+    padding: 2em;
+  }
+
   .main {
     padding: 2em;
     display: flex;
@@ -47,171 +88,30 @@ const landingStyle = css`
 `;
 
 export default class Landing extends Component {
-
-  state = {
+  constructor(props) {
+    super(props);
+    const systems = ['Overall', 'FPTP', 'SNTV', 'List PR', 'MMP', 'Parallel', 'TRS', 'AV', 'BV', 'FPTP PBV', 'LV', 'STV', 'Modified BC', 'In transition', 'No direct elections'];
+    this.state = {
+    topoData: topoData,
+    voteData: [],
+    colorScale: null,
+    svg: null,
+    initialized: false,
     data: 0,
-    steps: [10, 20, 30],
+    systems: systems,
+    steps: [...systems.keys()],
     progress: 0,
-  }
-
-  onStepEnter = ({ element, data }) => {
-    this.setState( { data });
-  }
-
-  onStepProgress = ({ element, progress }) => {
-    this.setState({ progress });
+    }
   }
 
   componentDidMount() {
     d3.csv(`${process.env.PUBLIC_URL}/data/voting-methods-country.csv`).then(res => {
-      this.initialize(topoData, res);
+      this.setState({ voteData: res });
+      this.initialize();
     });
   }
 
-  initialize(topoData, voteData) {
-
-  var parentWidth = d3
-    .select('.graphic')
-    .node()
-    .getBoundingClientRect().width;
-
-
-   const margin = { top: 20, right: 40, bottom: 40, left: 40 };
-
-  const width = parentWidth - margin.left - margin.right;
-  const height = 800 - margin.top - margin.bottom;
-
-  var svg = d3
-      .select('#viz')
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height);
-
-    var systems = d3.nest()
-        .key((d) => d["Electoral system for national legislature"])
-        .entries(voteData)
-        .map((d) => d.key);
-    console.log(systems);
-
-
-    const color = d3
-        .scaleOrdinal()
-        .domain(systems)
-        .range(["#48A36D", "#64B98C", "#80CEAA", "#7FC9BD", "#7EC4CF", "#7FB1CF", "#809ECE", "#8F90CD", "#9E81CC", "#B681BE", "#CE80B0", "#D76D8F", "#E05A6D", "#E26962", "#E37756", "#E39158", "#E2AA59", "#DFB95C", "#DBC75F", "#EAD67C"]);
-
-  svg.append('g')
-      .attr('class', 'methods')
-      .selectAll('text')
-      .data(systems)
-      .enter()
-      .append('text')
-      .text((d) => d)
-      .style('fill', (d) => color(d))
-      .attr('transform', (d, i) => 'translate(1000,' + (100+ 40*i) + ')')
-      .on('mouseover', function(d) {
-          svg.select('.methods').style('cursor', 'pointer');
-        update(svg, d);
-      }).on('mouseout', function(d) {
-      svg.select('.methods').style('cursor', 'default');
-      update(svg, null);
-  });
-
-  svg.append('g')
-      .attr('class', 'map-base')
-
-  update(svg, null);
-
-  function update(svg, system) {
-      // console.log(topoData);
-      // console.log(voteData);
-      //console.log(system);
-
-     var projection = d3
-        .geoRobinson()
-        .scale(160)
-        .translate([svg.attr('width') / 2 - 100, svg.attr('height') / 2]);
-
-     const path = d3.geoPath().projection(projection);
-      var filteredVoteData;
-      var entries;
-     if (system) {
-         filteredVoteData = voteData.filter((d) => d["Electoral system for national legislature"] === system);
-         entries = d3.nest()
-             .key((d) => d.Country )
-             .object(filteredVoteData);
-     } else {
-         entries = d3.nest()
-             .key((d) => d.Country )
-             .object(voteData);
-     }
-
-
-     console.log(entries);
-
-    // var countries = entries.map((d) => d.key );
-     //console.log(countries);
-
-     const world = topojson.feature(topoData, topoData.objects.countries).features;
-    // var topoCountries = world.map((d) => d.properties.name);
-
-    //var unmatchedCountries = countries.filter((c) => !topoCountries.includes(c));
-    //console.log(unmatchedCountries);
-    var mapBase = svg.select('.map-base');
-
-    var tooltip = mapBase.append("div")
-      .attr("class", "tooltip")
-      .style('background', '#a4a7ab')
-      .style('color', '#fff')
-      .style('line-height', 1)
-      .style('font-size', '0.8em')
-      .style('padding', '8px')
-      .style('border-radius', '4px')
-      .style('position', 'absolute')
-      .style('pointer-events', 'none')
-      .style('display', 'hidden');
-
-
-
-     var mapSelect = mapBase
-        .selectAll('path')
-        .data(world);
-
-     mapSelect.exit().remove();
-
-      var map = mapSelect.enter()
-        .append('path')
-        .merge(mapSelect)
-        .attr('d', path);
-
-      map.transition();
-
-      map.attr('fill', function(d) {
-            if (entries[convertCountry(d.properties.name)]) {
-               return color(entries[convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
-            } else {
-              return '#eeedf0';
-            }
-        })
-        .attr('stroke', '#dcdfe3')
-        .attr('stroke-width', 1)
-        .style('opacity', function(d) {
-          return 1;
-        })
-        .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map( (d) => parseInt(d) );
-
-          // CANNOT FIND THIS RIP
-          tooltip.style('display', 'block')
-            .attr('style', 'left:' + (mouse[0]) + 'px;top:' + mouse[1] +'px')
-            .html('<b>' + d.properties.name + ':</b> ' + entries[convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
-        })
-        .on('mouseout', function(d) {
-          tooltip.style('display', 'hidden');
-        });
-
-  }
-
-  function convertCountry(country){
+  convertCountry(country) {
   // LOL
     const conversions = {
       "Antigua and Barb.": "Antigua and Barbuda",
@@ -259,7 +159,170 @@ export default class Landing extends Component {
     }
 }
 
-}
+  initialize() {
+    console.log('init');
+
+    var parentWidth = d3
+      .select('.graphic')
+      .node()
+      .getBoundingClientRect().width;
+
+
+     const margin = { top: 20, right: 40, bottom: 40, left: 40 };
+
+    const width = parentWidth - margin.left - margin.right;
+    const height = 800 - margin.top - margin.bottom;
+
+    var svg = d3
+        .select('#viz')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+      var systems = d3.nest()
+          .key((d) => d["Electoral system for national legislature"])
+          .entries(this.state.voteData)
+          .map((d) => d.key);
+      console.log(systems);
+
+
+      const color = d3
+          .scaleOrdinal()
+          .domain(systems)
+          .range(["#48A36D", "#64B98C", "#80CEAA", "#7FC9BD", "#7EC4CF", "#7FB1CF", "#809ECE", "#8F90CD", "#9E81CC", "#B681BE", "#CE80B0", "#D76D8F", "#E05A6D", "#E26962", "#E37756", "#E39158", "#E2AA59", "#DFB95C", "#DBC75F", "#EAD67C"]);
+      this.setState({ colorScale: color });
+    svg.append('g')
+        .attr('class', 'methods')
+        .selectAll('text')
+        .data(systems)
+        .enter()
+        .append('text')
+        .text((d) => d)
+        .style('fill', (d) => color(d))
+        .attr('transform', (d, i) => 'translate(1000,' + (100+ 40*i) + ')')
+        .on('mouseover', function(d) {
+            svg.select('.methods').style('cursor', 'pointer');
+          this.update(svg, d);
+        }).on('mouseout', function(d) {
+        svg.select('.methods').style('cursor', 'default');
+        this.update(svg, null);
+    });
+
+    svg.append('g')
+        .attr('class', 'map-base')
+
+    this.setState({ svg: svg, initialized: true });
+    this.update(null);
+  }
+
+  update(system) {
+    if (!this.state.initialized) {
+      return;
+    }
+    console.log('update');
+    const viz = this;
+      // console.log(this.state.topoData);
+      // console.log(this.state.voteData);
+      //console.log(system);
+
+     var projection = d3
+        .geoRobinson()
+        .scale(160)
+        .translate([viz.state.svg.attr('width') / 2 - 100, viz.state.svg.attr('height') / 2]);
+
+     const path = d3.geoPath().projection(projection);
+      var filteredVoteData;
+      var entries;
+     if (system) {
+         filteredVoteData = this.state.voteData.filter((d) => d["Electoral system for national legislature"] === system);
+         entries = d3.nest()
+             .key((d) => d.Country )
+             .object(filteredVoteData);
+     } else {
+         entries = d3.nest()
+             .key((d) => d.Country )
+             .object(this.state.voteData);
+     }
+
+
+     console.log(entries);
+
+    // var countries = entries.map((d) => d.key );
+     //console.log(countries);
+
+     const world = topojson.feature(this.state.topoData, this.state.topoData.objects.countries).features;
+    // var topoCountries = world.map((d) => d.properties.name);
+
+    //var unmatchedCountries = countries.filter((c) => !topoCountries.includes(c));
+    //console.log(unmatchedCountries);
+    var mapBase = this.state.svg.select('.map-base');
+
+    var tooltip = mapBase.append("div")
+      .attr("class", "tooltip")
+      .style('background', '#a4a7ab')
+      .style('color', '#fff')
+      .style('line-height', 1)
+      .style('font-size', '0.8em')
+      .style('padding', '8px')
+      .style('border-radius', '4px')
+      .style('position', 'absolute')
+      .style('pointer-events', 'none')
+      .style('display', 'hidden');
+
+
+
+     var mapSelect = mapBase
+        .selectAll('path')
+        .data(world);
+
+     mapSelect.exit().remove();
+
+      var map = mapSelect.enter()
+        .append('path')
+        .merge(mapSelect)
+        .attr('d', path);
+
+      map.transition();
+
+      map.attr('fill', function(d) {
+            if (entries[viz.convertCountry(d.properties.name)]) {
+               return viz.state.colorScale(entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
+            } else {
+              return '#eeedf0';
+            }
+        })
+        .attr('stroke', '#dcdfe3')
+        .attr('stroke-width', 1)
+        .style('opacity', function(d) {
+          return 1;
+        })
+        .on('mousemove', function(d) {
+          var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
+
+          // TODO: CANNOT FIND THIS RIP
+          tooltip.style('display', 'block')
+            .attr('style', 'left:' + (mouse[0]) + 'px;top:' + mouse[1] +'px')
+            .html('<b>' + d.properties.name + ':</b> ' + entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
+        })
+        .on('mouseout', function(d) {
+          tooltip.style('display', 'hidden');
+        });
+
+  }
+
+
+  onStepEnter = ({ element, data }) => {
+    console.log(data);
+    this.setState( { data });
+    if (data > 0) {
+      this.update(this.state.systems[data]);
+    }
+  }
+
+  onStepProgress = ({ element, progress }) => {
+    this.setState({ progress });
+  }
+
 
 
 
@@ -271,30 +334,43 @@ export default class Landing extends Component {
 
     return (
       <div css={landingStyle}>
-      <div className='main'>
-        <div className='graphic'>
-          <div id="viz"></div>
+        <div className='header'>
+          <Typography>
+            <Link href="https://www.idea.int/data-tools/data/electoral-system-design">
+            Data from IDEA
+            </Link>
+          </Typography>
         </div>
-        <div className='scroller'>
-          <Scrollama
-            onStepEnter={this.onStepEnter}
-            onStepExit={this.onStepExit}
-            progress
-            onStepProgress={this.onStepProgress}
-            offset={0.33}
-            debug
-          >
-            {steps.map ( value => (
-              <Step data={value} key={value}>
-                <div className='step'>
-                  <p>step value: {value}</p>
-                  <p>{value === data && progress}</p>
-                </div>
-              </Step>
-            ))}
-          </Scrollama>
-         </div>
-      </div>
+        <div className='main'>
+          <div className='graphic'>
+            <div id="viz"></div>
+          </div>
+          <div className='scroller'>
+            <Scrollama
+              onStepEnter={this.onStepEnter}
+              onStepExit={this.onStepExit}
+              progress
+              onStepProgress={this.onStepProgress}
+              offset={0.2}
+              debug
+            >
+              {steps.map ( value => (
+                <Step data={value} key={value}>
+                  <div className='step'>
+                    <Typography component="h2">
+                      {longNames[this.state.systems[value]]}
+                    </Typography>
+                    <Typography component="p">
+                      {defns[this.state.systems[value]]}
+                    </Typography>
+                    <p>step value: {value}</p>
+                    <p>{value === data && progress}</p>
+                  </div>
+                </Step>
+              ))}
+            </Scrollama>
+           </div>
+        </div>
       </div>
       )
   }
