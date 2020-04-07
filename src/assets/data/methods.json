@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Approval1",
+    "type": "First Past the Post (FPTP)",
+    "img": "empty.png",
+    "locations": ["A", "B", "C"],
+    "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
+    "description": "Voters are incentivized to give the most support to their preferred candidate.",
+    "pros": "Less strategic voting compared to exaggeration from RCV, more favorable to third-party candidates, removes spoiler problem by preventing vote splitting.",
+    "cons": "Violates the “later-no-harm criterion,” which states that you shouldn’t be penalized for adding more candidates later. It can devolve into plurality if voters strategically approve of only their first-choice candidate.",
+    "source": "https://www.electionscience.org/library/approval-voting-versus-irv/"
+  },
+  {
+    "name": "Approval2",
+    "type": "First Past the Post (FPTP)",
+    "img": "empty.png",
+    "locations": ["A", "B", "C"],
+    "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
+    "description": "Voters are incentivized to give the most support to their preferred candidate.",
+    "pros": "Less strategic voting compared to exaggeration from RCV, more favorable to third-party candidates, removes spoiler problem by preventing vote splitting.",
+    "cons": "Violates the “later-no-harm criterion,” which states that you shouldn’t be penalized for adding more candidates later. It can devolve into plurality if voters strategically approve of only their first-choice candidate.",
+    "source": "https://www.electionscience.org/library/approval-voting-versus-irv/"
+  },
+  {
+    "name": "Approval3",
+    "type": "First Past the Post (FPTP)",
+    "img": "empty.png",
+    "locations": ["A", "B", "C"],
+    "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
+    "description": "Voters are incentivized to give the most support to their preferred candidate.",
+    "pros": "Less strategic voting compared to exaggeration from RCV, more favorable to third-party candidates, removes spoiler problem by preventing vote splitting.",
+    "cons": "Violates the “later-no-harm criterion,” which states that you shouldn’t be penalized for adding more candidates later. It can devolve into plurality if voters strategically approve of only their first-choice candidate.",
+    "source": "https://www.electionscience.org/library/approval-voting-versus-irv/"
+  },
+  {
+    "name": "Approval4",
+    "type": "First Past the Post (FPTP)",
+    "img": "empty.png",
+    "locations": ["A", "B", "C"],
+    "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
+    "description": "Voters are incentivized to give the most support to their preferred candidate.",
+    "pros": "Less strategic voting compared to exaggeration from RCV, more favorable to third-party candidates, removes spoiler problem by preventing vote splitting.",
+    "cons": "Violates the “later-no-harm criterion,” which states that you shouldn’t be penalized for adding more candidates later. It can devolve into plurality if voters strategically approve of only their first-choice candidate.",
+    "source": "https://www.electionscience.org/library/approval-voting-versus-irv/"
+  },
+  {
+    "name": "Approval5",
+    "type": "First Past the Post (FPTP)",
+    "img": "empty.png",
+    "locations": ["A", "B", "C"],
+    "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
+    "description": "Voters are incentivized to give the most support to their preferred candidate.",
+    "pros": "Less strategic voting compared to exaggeration from RCV, more favorable to third-party candidates, removes spoiler problem by preventing vote splitting.",
+    "cons": "Violates the “later-no-harm criterion,” which states that you shouldn’t be penalized for adding more candidates later. It can devolve into plurality if voters strategically approve of only their first-choice candidate.",
+    "source": "https://www.electionscience.org/library/approval-voting-versus-irv/"
+  }
+]
