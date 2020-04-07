@@ -109,6 +109,8 @@ export default class Landing extends Component {
       this.setState({ voteData: res });
       this.initialize();
     });
+
+    // TODO: start out on the first step
   }
 
   convertCountry(country) {
@@ -300,9 +302,11 @@ export default class Landing extends Component {
           var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
 
           // TODO: CANNOT FIND THIS RIP
-          tooltip.style('display', 'block')
-            .attr('style', 'left:' + (mouse[0]) + 'px;top:' + mouse[1] +'px')
-            .html('<b>' + d.properties.name + ':</b> ' + entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
+          // tooltip.style('display', 'block')
+          //   .attr('style', 'left:' + (mouse[0]) + 'px;top:' + mouse[1] +'px')
+          //   .html('<b>' + d.properties.name + ':</b> ' + entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
+
+          // TODO: also go to that step when clicked on
         })
         .on('mouseout', function(d) {
           tooltip.style('display', 'hidden');
