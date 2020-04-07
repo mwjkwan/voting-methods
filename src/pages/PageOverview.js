@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/core";
 
 import Description from "../components/Description";
 import Article from "../components/Article";
-import Narrative from "../components/Narrative";
+import Narrative from "../viz/Narrative";
 
 const story = (
   <div>This page shows the narrative of the different voting methods.</div>
