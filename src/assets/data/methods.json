@@ -2,7 +2,7 @@
   {
     "name": "Approval1",
     "type": "First Past the Post (FPTP)",
-    "img": "empty.png",
+    "img": "assets/img/empty.png",
     "locations": ["A", "B", "C"],
     "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
     "description": "Voters are incentivized to give the most support to their preferred candidate.",
