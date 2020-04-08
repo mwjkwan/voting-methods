@@ -43,7 +43,7 @@ class Navigation extends Component {
 
     return (
       <div>
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" fixed="top" expand="lg">
           <Navbar.Brand href="/">Voting Methods</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

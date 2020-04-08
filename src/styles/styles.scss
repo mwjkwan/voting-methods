@@ -45,6 +45,15 @@ body,
   }
 }
 
+.AuthLinks {
+  text-align: center;
+  padding: 20px;
+  a {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+  }
+}
+
 div,
 p,
 h1,
@@ -129,6 +138,16 @@ textarea {
   background: none;
   width: 100%;
   resize: none;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.card-text {
+  font-weight: 400;
+  font-size: 14px;
 }
 
 select {

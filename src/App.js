@@ -25,13 +25,13 @@ class App extends React.Component {
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
   }
 
-  componentWillMount() {
-    mql.addListener(this.mediaQueryChanged);
-  }
+  // componentWillMount() {
+  //   mql.addListener(this.mediaQueryChanged);
+  // }
 
-  componentWillUnmount() {
-    this.state.mql.removeListener(this.mediaQueryChanged);
-  }
+  // componentWillUnmount() {
+  //   this.state.mql.removeListener(this.mediaQueryChanged);
+  // }
 
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
