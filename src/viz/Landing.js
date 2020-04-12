@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { css, jsx } from '@emotion/core';
 import { Typography, Link } from '@material-ui/core'
 import { Scrollama, Step } from 'react-scrollama';
-import { select, selectAll, mouse } from 'd3-selection';
+import { select, selectAll, mouse, event } from 'd3-selection';
 import { csv } from 'd3-fetch';
 import { path } from 'd3-path';
 import { scaleOrdinal } from 'd3-scale';
@@ -38,7 +38,7 @@ const longNames = {
 }
 
 const defns = {
-  'Overall': 'There are lots of voting systems used around the world!',
+  'Overall': 'There are a variety of voting systems used around the world. Here are the systems used to elect each country\'s national legislature.',
   'FPTP': 'First Past The Post is the simplest form of plurality/majority electoral system. The winning candidate is the one who gains more votes than any other candidate, even if this is not an absolute majority of valid votes. The system uses single-member districts and the voters vote for candidates rather than political parties.',
   'BV': 'Block Vote is a plurality/majority system used in multi-member districts. Electors have as many votes as there are candidates to be elected. The candidates with the highest vote totals win the seats. Usually voters vote for candidates rather than parties and in most systems may use as many, or as few, of their votes as they wish.',
   'FPTP PBV': 'Party Block Vote (PBV) is a plurality/majority system using multi-member districts in which voters cast a single party-centred vote for a party of choice, and do not choose between candidates. The party with most votes will win every seat in the electoral district.',
@@ -75,7 +75,7 @@ const landingStyle = css`
   }
 
   .scroller {
-    flex-basis: 15%;
+    flex-basis: 18%;
   }
 
   .step {
@@ -97,9 +97,8 @@ export default class Landing extends Component {
     colorScale: null,
     svg: null,
     initialized: false,
-    data: 0,
-    systems: systems,
-    steps: [...systems.keys()],
+    data: 'Overall',
+    steps: systems,
     progress: 0,
     }
   }
@@ -110,7 +109,7 @@ export default class Landing extends Component {
       this.initialize();
     });
 
-    // TODO: start out on the first step
+    // TODO: start out on the first
   }
 
   convertCountry(country) {
@@ -162,8 +161,6 @@ export default class Landing extends Component {
 }
 
   initialize() {
-    console.log('init');
-
     var parentWidth = d3
       .select('.graphic')
       .node()
@@ -185,8 +182,6 @@ export default class Landing extends Component {
           .key((d) => d["Electoral system for national legislature"])
           .entries(this.state.voteData)
           .map((d) => d.key);
-      console.log(systems);
-
 
       const color = d3
           .scaleOrdinal()
@@ -221,21 +216,18 @@ export default class Landing extends Component {
     if (!this.state.initialized) {
       return;
     }
-    console.log('update');
+
     const viz = this;
-      // console.log(this.state.topoData);
-      // console.log(this.state.voteData);
-      //console.log(system);
 
      var projection = d3
         .geoRobinson()
         .scale(160)
-        .translate([viz.state.svg.attr('width') / 2 - 100, viz.state.svg.attr('height') / 2]);
+        .translate([viz.state.svg.attr('width') / 2 - 50, viz.state.svg.attr('height') / 2]);
 
      const path = d3.geoPath().projection(projection);
       var filteredVoteData;
       var entries;
-     if (system) {
+     if (system && system !== 'Overall') {
          filteredVoteData = this.state.voteData.filter((d) => d["Electoral system for national legislature"] === system);
          entries = d3.nest()
              .key((d) => d.Country )
@@ -247,20 +239,20 @@ export default class Landing extends Component {
      }
 
 
-     console.log(entries);
-
-    // var countries = entries.map((d) => d.key );
-     //console.log(countries);
 
      const world = topojson.feature(this.state.topoData, this.state.topoData.objects.countries).features;
-    // var topoCountries = world.map((d) => d.properties.name);
 
-    //var unmatchedCountries = countries.filter((c) => !topoCountries.includes(c));
-    //console.log(unmatchedCountries);
     var mapBase = this.state.svg.select('.map-base');
 
-    var tooltip = mapBase.append("div")
-      .attr("class", "tooltip")
+    var tooltip = d3Tip()
+      .html(function(d) {
+        if (entries[viz.convertCountry(d.properties.name)]) {
+          return '<b>' + d.properties.name + ':</b> ' + entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"];
+        } else {
+          return '';
+        }
+      })
+      .style('pointer-events', 'none')
       .style('background', '#a4a7ab')
       .style('color', '#fff')
       .style('line-height', 1)
@@ -268,8 +260,22 @@ export default class Landing extends Component {
       .style('padding', '8px')
       .style('border-radius', '4px')
       .style('position', 'absolute')
-      .style('pointer-events', 'none')
-      .style('display', 'hidden');
+      .style('z-index', 100);
+
+    mapBase.call(tooltip);
+
+
+    // var tooltip = mapBase.append("div")
+    //   .attr("class", "tooltip")
+    //   .style('background', '#a4a7ab')
+    //   .style('color', '#fff')
+    //   .style('line-height', 1)
+    //   .style('font-size', '0.8em')
+    //   .style('padding', '8px')
+    //   .style('border-radius', '4px')
+    //   .style('position', 'absolute')
+    //   .style('pointer-events', 'none')
+    //   .style('display', 'hidden');
 
 
 
@@ -282,8 +288,11 @@ export default class Landing extends Component {
       var map = mapSelect.enter()
         .append('path')
         .merge(mapSelect)
-        .attr('d', path);
+        .attr('d', path)
+        .attr('id', (d, i) => 'path' + i );
 
+
+      // TODO: better transitions
       map.transition();
 
       map.attr('fill', function(d) {
@@ -298,28 +307,27 @@ export default class Landing extends Component {
         .style('opacity', function(d) {
           return 1;
         })
-        .on('mousemove', function(d) {
-          var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
-
-          // TODO: CANNOT FIND THIS RIP
-          // tooltip.style('display', 'block')
-          //   .attr('style', 'left:' + (mouse[0]) + 'px;top:' + mouse[1] +'px')
-          //   .html('<b>' + d.properties.name + ':</b> ' + entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"]);
-
-          // TODO: also go to that step when clicked on
+        .on('mouseenter', function(d, i) {
+          //var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
+          var x = event.pageX,
+              y = event.pageY;
+          tooltip.show(d, this);
+          tooltip.style('top', y + 'px');
+          tooltip.style('left', x + 'px');
+          d3.select('#path' + i).style('cursor', 'pointer');
         })
-        .on('mouseout', function(d) {
-          tooltip.style('display', 'hidden');
+        .on('mouseleave', function(d, i) {
+          tooltip.hide(d, this) ;
+          d3.select('#path' + i).style('cursor', 'default');
         });
 
   }
 
 
   onStepEnter = ({ element, data }) => {
-    console.log(data);
     this.setState( { data });
-    if (data > 0) {
-      this.update(this.state.systems[data]);
+    if (data) {
+      this.update(data);
     }
   }
 
@@ -328,23 +336,12 @@ export default class Landing extends Component {
   }
 
 
-
-
-
-
   render() {
     const { data, steps, progress } = this.state;
 
 
     return (
       <div css={landingStyle}>
-        <div className='header'>
-          <Typography>
-            <Link href="https://www.idea.int/data-tools/data/electoral-system-design">
-            Data from IDEA
-            </Link>
-          </Typography>
-        </div>
         <div className='main'>
           <div className='graphic'>
             <div id="viz"></div>
@@ -356,25 +353,27 @@ export default class Landing extends Component {
               progress
               onStepProgress={this.onStepProgress}
               offset={0.2}
-              debug
             >
               {steps.map ( value => (
                 <Step data={value} key={value}>
                   <div className='step'>
                     <Typography component="h2">
-                      {longNames[this.state.systems[value]]}
+                      {longNames[value]}
                     </Typography>
                     <Typography component="p">
-                      {defns[this.state.systems[value]]}
+                      {defns[value]}
                     </Typography>
-                    <p>step value: {value}</p>
-                    <p>{value === data && progress}</p>
                   </div>
                 </Step>
               ))}
             </Scrollama>
            </div>
         </div>
+         <Typography>
+            <Link href="https://www.idea.int/data-tools/data/electoral-system-design">
+            Data from IDEA
+            </Link>
+          </Typography>
       </div>
       )
   }
