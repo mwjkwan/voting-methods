@@ -1,26 +1,24 @@
 [
   {
     "key": "0",
-    "description": "This is the first step's description."
+    "description": "First past the post (FPTP) is the voting system used by most of the U.S."
   },
   {
     "key": "1",
-    "description": "This is the second step's description."
+    "description": "Every voter selects one candidate."
   },
   {
     "key": "2",
-    "description": "This is the HELLO third step's description."
+    "description": "And the candidate with the most votes wins."
   },
   {
     "key": "3",
-    "description": "This is the fourth step's description."
+    "description":
+    "This voting system encourages a two-party system, polarized candidates, and vote-splitting, and disincentives convincing voters outside your party to vote for you."
   },
   {
     "key": "4",
-    "description": "This is the fifth step's description."
-  },
-  {
-    "key": "5",
-    "description": "This is the sixth step's description."
+    "description":
+    "Let's take a closer look at how FPTP encourages a polarized, two-party system."
   }
 ]

@@ -28,7 +28,7 @@ const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, transition,
 
 const narrativeStyle = css`
   .main {
-    padding: 60vh 2vw;
+    padding: 10vh 2vw;
     display: flex;
     justify-content: space-between;
   }
@@ -52,12 +52,31 @@ const narrativeStyle = css`
     flex-basis: 30%;
   }
 
+  .jumplinks {
+    position: sticky;
+    top: 160px;
+    width: 200px;
+    align-self: flex-start;
+
+  }
+
   .step {
+    margin-right: 50px;
     padding-top: 200px;
     padding-bottom: 200px;
     '&:last-child': {
       margin-bottom: 0;
     }
+  }
+
+  #desc {
+    margin-left:20px;
+    margin-right:20px
+
+  }
+
+  #side-nav {
+    color: #575757;
   }
 `;
 
@@ -155,7 +174,15 @@ export default class Narrative extends Component {
 
     return (
       <div css={narrativeStyle}>
+
       <div className='main'>
+        <div className='jumplinks'>
+          <button type="button" id="side-nav" class="btn btn-link">FPTP Explanation</button>
+          <button type="button" id="side-nav" class="btn btn-link">RCV Explanation</button>
+          <button type="button" id="side-nav" class="btn btn-link">Polarization</button>
+          <button type="button" id="side-nav" class="btn btn-link">Representativeness</button>
+          <button type="button" id="side-nav" class="btn btn-link">Strategic Voting</button>
+        </div>
         <div className='graphic'>
           <div id="viz"></div>
         </div>
@@ -171,7 +198,7 @@ export default class Narrative extends Component {
             {descriptions.map ( desc => (
               <Step data={desc.description} key={desc.key}>
                 <div className='step'>
-                  <p>{desc.description}</p>
+                  <p id="desc">{desc.description}</p>
                 </div>
               </Step>
             ))}

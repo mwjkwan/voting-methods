@@ -1,26 +1,32 @@
 [
   {
     "key": "0",
-    "description": "This is the first step's description."
+    "x": "10",
+    "y": "10"
   },
   {
     "key": "1",
-    "description": "This is the second step's description."
+    "x": "10",
+    "y": "30"
   },
   {
     "key": "2",
-    "description": "This is the HELLO third step's description."
+    "x": "10",
+    "y": "50"
   },
   {
     "key": "3",
-    "description": "This is the fourth step's description."
+    "x": "10",
+    "y": "70"
   },
   {
     "key": "4",
-    "description": "This is the fifth step's description."
+    "x": "10",
+    "y": "90"
   },
   {
     "key": "5",
-    "description": "This is the sixth step's description."
+    "x": "10",
+    "y": "110"
   }
 ]
