@@ -56,14 +56,14 @@ export default class PageMethods extends Component {
       <div css={style}>
         <Article {...content}>
             <Description>{story}</Description>
-            <Button variant="primary" onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
-            <Button variant="success" onClick={this.toggleFPTP}>First Past the Post (FPTP)</Button>{' '}
+            <Button variant={rcv ? "primary" : "secondary"} onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
+            <Button variant={fptp ? "success" : "secondary"} onClick={this.toggleFPTP}>First Past the Post (FPTP)</Button>{' '}
         </Article>
         <CardColumns>
           {methods.map(method => {
-            if (rcv && method.type === 'Ranked Choice (RCV)' 
+            if (rcv && method.type === 'Ranked Choice (RCV)'
             || fptp && method.type === 'First Past the Post (FPTP)') {
-              return < MethodCard info={method}/> 
+              return < MethodCard info={method}/>
             }
             return
           })}

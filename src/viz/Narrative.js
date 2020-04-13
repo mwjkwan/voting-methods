@@ -9,19 +9,21 @@ import { scaleOrdinal } from 'd3-scale';
 import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import d3Tip from 'd3-tip';
+const descriptions = require("../assets/data/narrative.json");
+const locations = require("../assets/data/narrative-locs.json");
 
 const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, transition,
          nest };
 
 
-const descriptions = {
-  'Motivation': 'this is the first description',
-  'FPTP': 'this is the second description',
-  'con 1': 'this is the third description',
-  'example 1': 'this is the fourth description',
-  'con 2': 'this is the fifth description',
-  'example 2': 'this is the sixth description'
-}
+// const descriptions = {
+//   'Motivation': 'this is the first description',
+//   'FPTP': 'this is the second description',
+//   'con 1': 'this is the third description',
+//   'example 1': 'this is the fourth description',
+//   'con 2': 'this is the fifth description',
+//   'example 2': 'this is the sixth description'
+// }
 
 
 const narrativeStyle = css`
@@ -62,12 +64,13 @@ const narrativeStyle = css`
 export default class Narrative extends Component {
   constructor(props) {
     super(props);
-    const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
+    //const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
     this.state = {
-      data: 0,
+      data: "",
       svg: null,
-      stories: stories,
-      steps: [...stories.keys()], // ... is array destructuring operator
+      //value: 0,
+      //stories: stories,
+      //steps: [...stories.keys()], // ... is array destructuring operator
       progress: 0,
       initialized: false,
     }
@@ -114,8 +117,6 @@ export default class Narrative extends Component {
   }
 
   initialize() {
-    console.log('hello got here')
-
     // thanks xisabao
     var parentWidth = d3
       .select('.graphic')
@@ -149,7 +150,7 @@ export default class Narrative extends Component {
 
 
   render() {
-    const { data, steps, progress } = this.state;
+    const { data, value } = this.state;
 
 
     return (
@@ -167,10 +168,10 @@ export default class Narrative extends Component {
             offset={0.33}
             debug
           >
-            {steps.map ( value => (
-              <Step data={value} key={value}>
+            {descriptions.map ( desc => (
+              <Step data={desc.description} key={desc.key}>
                 <div className='step'>
-                  <p>{descriptions[this.state.stories[value]]}</p>
+                  <p>{desc.description}</p>
                 </div>
               </Step>
             ))}
