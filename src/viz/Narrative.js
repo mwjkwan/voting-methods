@@ -36,11 +36,10 @@ const narrativeStyle = css`
   .graphic {
     flex-basis: 50%;
     position: sticky;
-    top: 160px;
+    top: 15vh;
     width: 100%;
-    height: 300px;
+    height: 75vh;
     align-self: flex-start;
-    background-color: #F0FFFF;
   }
 
   .data {
@@ -69,13 +68,13 @@ const narrativeStyle = css`
     }
   }
 
-  #desc {
+  .desc {
     margin-left:20px;
-    margin-right:20px
+    margin-right:20px;
 
   }
 
-  #side-nav {
+  .btn {
     color: #575757;
   }
 `;
@@ -87,6 +86,7 @@ export default class Narrative extends Component {
     this.state = {
       data: "",
       svg: null,
+      state: 0,
       //value: 0,
       //stories: stories,
       //steps: [...stories.keys()], // ... is array destructuring operator
@@ -98,11 +98,11 @@ export default class Narrative extends Component {
   onStepEnter = ({ element, data }) => {
     element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState( { data });
-    this.update();
   }
 
   onStepExit= ({ element }) => {
     element.style.backgroundColor = '#fff';
+    this.update();
   }
 
 
@@ -117,22 +117,22 @@ export default class Narrative extends Component {
 
   update() {
     console.log('updating');
+    console.log(this.state.progress)
 
     var svg = this.state.svg;
 
-    var circle = svg.selectAll("circle")
-    .data([[Math.floor(Math.random() * 300), 100],
-           [Math.floor(Math.random() * 300), 200],
-           [Math.floor(Math.random() * 300), 300],
-           [Math.floor(Math.random() * 300), 400]])
+    // if (this.state.progress == 1) {
+    //   console.log("removing")
+    //   svg.select("rect").remove()
+    //   svg.select("text").remove()
+    //   svg.select("cand").remove()
+    //   svg.select("boxes").remove()
+    // }
 
-    circle.transition()
-          .duration(500)
-          .attr("cy", function(d) {return d[0]})
-          .attr("cx", function(d, i) { return d[1] })
-          .attr("r", function(d) { return Math.sqrt(d[0]); })
-          .style("fill", "purple");
+  }
 
+  sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
   initialize() {
@@ -148,23 +148,95 @@ export default class Narrative extends Component {
     const width = parentWidth - margin.left - margin.right;
     const height = 800 - margin.top - margin.bottom;
 
-
+    // initalize FPTP explanation
     var svg = d3.select("#viz")
                 .append('svg')
                 .attr('width', width)
                 .attr('height', height);
+    // svg.append("circle").attr("cx",width/2).attr("cy",height/10).attr("r",6).style("fill", "steelblue" );
+    // svg.append("circle").attr("cx",width/2).attr("cy",height/10+15).attr("r",6).style("fill", "steelblue" );
+    // svg.append("circle").attr("cx",width/2).attr("cy",height/10+30).attr("r",6).style("fill", "red" );
+    var data = [...Array(5).keys()]
+    var myColor = d3.scaleOrdinal().domain(data).range(["#ED4F3A", "#34495D", "#34495D", "#ED4F3A", "#ED4F3A"])
+    svg.selectAll("votes").data(data).enter().append("circle")
+       .attr("cx", 3*width/4).attr("cy", function(d,i){return 30 + i*15})
+       .attr("r", 6).attr("fill", function(d){return myColor(d) })
 
-    svg.selectAll("circle")
-    .data([[32, 50], [87, 30], [112, 91], [150, 50]])
-    .enter().append("circle")
-    .attr("cy", function(d) {return d[0]})
-    .attr("cx", function(d, i) { return d[1] })
-    .attr("r", function(d) { return Math.sqrt(d[0]); })
-    .style("fill", "purple");
+    svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
+    var text = svg.append("text")
+                  .attr("x", 10.3*width/32)
+                  .attr("y", width/4 + 30)
+                  .text("Ballot")
+                  .attr("font-family", "akkurat")
+                  .attr("font-size", "24px")
+                  .attr("fill", "black");
+    var box = [...Array(3).keys()]
+    svg.selectAll("boxes").data(box).enter().append("circle")
+       .attr("cx", width/4 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+       .attr("r", width/80).attr("fill", "#C4C4C4")
+   var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+   svg.selectAll("cand").data(cand).enter().append("text")
+                 .attr("x", width/4 + width/14)
+                 .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ i*width/20})
+                 .text(function(d, i){return d})
+                 .attr("font-family", "akkurat")
+                 .attr("font-size", "16px")
+                 .attr("fill", "black");
+
+    var text = svg.append("text")
+                  .attr("x", 10.3*width/32)
+                  .attr("y", width/4 + 30)
+                  .text("Ballot")
+                  .attr("font-family", "akkurat")
+                  .attr("font-size", "24px")
+                  .attr("fill", "black");
+
+    // ballot to dot transformation
+    var vote = svg.append("circle")
+                  .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + width/20)
+                  .attr("r", width/80).attr("fill", "#2994D2")
+
+    vote.transition()
+        .duration(2000)
+        .attr("cx", 3*width/4)
+        .attr("cy", 30 + 5*15)
+        .attr("r", 6)
+
+    this.sleep(2000).then(() => {
+      var vote = svg.append("circle")
+                    .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + 2*width/20)
+                    .attr("r", width/80).attr("fill", "#34495D")
+
+      vote.transition()
+          .duration(2000)
+          .attr("cx", 3*width/4)
+          .attr("cy", 30 + 6*15)
+          .attr("r", 6)
+
+    })
+
+    //
+
+    // svg.selectAll("circle")
+    // .data([[32, 50], [87, 30], [112, 91], [150, 50]])
+    // .enter().append("circle")
+    // .attr("cy", function(d) {return d[0]})
+    // .attr("cx", function(d, i) { return d[1] })
+    // .attr("r", function(d) { return Math.sqrt(d[0]); })
+    // .style("fill", ["purple", "blue", "red", "green"]);
 
     this.setState({initialized: true, svg: svg});
+    console.log("initialized")
 
-}
+  }
+
+
+  jumpLink(index) {
+    console.log('okthere')
+    this.setState({data: descriptions[3].description})
+    // should call update wtih the appropriate paramters
+    // so that we display the locations of "index"
+  }
 
 
 
@@ -177,11 +249,12 @@ export default class Narrative extends Component {
 
       <div className='main'>
         <div className='jumplinks'>
-          <button type="button" id="side-nav" class="btn btn-link">FPTP Explanation</button>
-          <button type="button" id="side-nav" class="btn btn-link">RCV Explanation</button>
-          <button type="button" id="side-nav" class="btn btn-link">Polarization</button>
-          <button type="button" id="side-nav" class="btn btn-link">Representativeness</button>
-          <button type="button" id="side-nav" class="btn btn-link">Strategic Voting</button>
+          Jump to:
+          <button type="button" href="#desc1" class="btn btn-link">FPTP Explanation</button>
+          <a href="#desc1" onClick={this.jumpLink.bind(this, 2)} class="btn btn-link">RCV Explanation</a>
+          <button type="button" href="#desc4"  class="btn btn-link">Polarization</button>
+          <button type="button" href="#desc5"  class="btn btn-link">Representativeness</button>
+          <button type="button" href="#desc2"  class="btn btn-link">Strategic Voting</button>
         </div>
         <div className='graphic'>
           <div id="viz"></div>
@@ -193,12 +266,11 @@ export default class Narrative extends Component {
             progress
             onStepProgress={this.onStepProgress}
             offset={0.33}
-            debug
           >
             {descriptions.map ( desc => (
-              <Step data={desc.description} key={desc.key}>
-                <div className='step'>
-                  <p id="desc">{desc.description}</p>
+              <Step data={desc.key} key={desc.key}>
+                <div className="step" >
+                  <p className = "desc" id={"desc" + desc.key}>{desc.description}</p>
                 </div>
               </Step>
             ))}
