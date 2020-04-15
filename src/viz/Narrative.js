@@ -86,7 +86,7 @@ export default class Narrative extends Component {
     this.state = {
       data: "",
       svg: null,
-      state: 0,
+      step: 0,
       //value: 0,
       //stories: stories,
       //steps: [...stories.keys()], // ... is array destructuring operator
@@ -135,6 +135,41 @@ export default class Narrative extends Component {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
+  ballotToDot = (index, width, svg) => {
+    //var svg = this.state.svg;
+    var rng = Math.floor(Math.random()*12)
+    var color = ""
+    var cand = 0
+    if (rng < 2) {
+      color = "#2994D2"
+      cand = 1
+    } else if (rng < 7) {
+      color = "#34495D"
+      cand = 2
+    } else {
+      color = "#ED4F3A"
+      cand = 0
+    }
+    var vote = svg.append("circle")
+                 .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand*width/20)
+                 .attr("r", width/80).attr("fill", color)
+
+    vote.transition()
+        .duration(1000)
+        .attr("cx", 3*width/4)
+        .attr("cy", 30 + index*15)
+        .attr("r", 6)
+
+    this.setState({svg: svg});
+    if (index < 25 && this.state.progress < 1) {
+      this.sleep(1000).then(() => {
+        console.log(index, this.state.progress)
+        this.ballotToDot(index+1, width, svg)
+      })
+    }
+
+  }
+
   initialize() {
     // thanks xisabao
     var parentWidth = d3
@@ -148,20 +183,19 @@ export default class Narrative extends Component {
     const width = parentWidth - margin.left - margin.right;
     const height = 800 - margin.top - margin.bottom;
 
-    // initalize FPTP explanation
+    // Get a handle on the SVG
     var svg = d3.select("#viz")
                 .append('svg')
                 .attr('width', width)
                 .attr('height', height);
-    // svg.append("circle").attr("cx",width/2).attr("cy",height/10).attr("r",6).style("fill", "steelblue" );
-    // svg.append("circle").attr("cx",width/2).attr("cy",height/10+15).attr("r",6).style("fill", "steelblue" );
-    // svg.append("circle").attr("cx",width/2).attr("cy",height/10+30).attr("r",6).style("fill", "red" );
-    var data = [...Array(5).keys()]
-    var myColor = d3.scaleOrdinal().domain(data).range(["#ED4F3A", "#34495D", "#34495D", "#ED4F3A", "#ED4F3A"])
-    svg.selectAll("votes").data(data).enter().append("circle")
-       .attr("cx", 3*width/4).attr("cy", function(d,i){return 30 + i*15})
-       .attr("r", 6).attr("fill", function(d){return myColor(d) })
 
+    //var data = [...Array(5).keys()]
+    // var myColor = d3.scaleOrdinal().domain(data).range(["#ED4F3A", "#34495D", "#34495D", "#ED4F3A", "#ED4F3A"])
+    // svg.selectAll("votes").data(data).enter().append("circle")
+    //    .attr("cx", 3*width/4).attr("cy", function(d,i){return 30 + i*15})
+    //    .attr("r", 6).attr("fill", function(d){return myColor(d) })
+
+    // Initialize the ballot SVG
     svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
     var text = svg.append("text")
                   .attr("x", 10.3*width/32)
@@ -174,46 +208,55 @@ export default class Narrative extends Component {
     svg.selectAll("boxes").data(box).enter().append("circle")
        .attr("cx", width/4 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
        .attr("r", width/80).attr("fill", "#C4C4C4")
-   var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
-   svg.selectAll("cand").data(cand).enter().append("text")
-                 .attr("x", width/4 + width/14)
-                 .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ i*width/20})
-                 .text(function(d, i){return d})
-                 .attr("font-family", "akkurat")
-                 .attr("font-size", "16px")
-                 .attr("fill", "black");
-
-    var text = svg.append("text")
-                  .attr("x", 10.3*width/32)
-                  .attr("y", width/4 + 30)
-                  .text("Ballot")
+    var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+    svg.selectAll("cand").data(cand).enter().append("text")
+                  .attr("x", width/4 + width/14)
+                  .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ i*width/20})
+                  .text(function(d, i){return d})
                   .attr("font-family", "akkurat")
-                  .attr("font-size", "24px")
+                  .attr("font-size", "16px")
                   .attr("fill", "black");
 
+    var text = svg.append("text")
+                 .attr("x", 10.3*width/32)
+                 .attr("y", width/4 + 30)
+                 .text("Ballot")
+                 .attr("font-family", "akkurat")
+                 .attr("font-size", "24px")
+                 .attr("fill", "black");
+
     // ballot to dot transformation
-    var vote = svg.append("circle")
-                  .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + width/20)
-                  .attr("r", width/80).attr("fill", "#2994D2")
+    this.setState({initialized: true, svg: svg});
 
-    vote.transition()
-        .duration(2000)
-        .attr("cx", 3*width/4)
-        .attr("cy", 30 + 5*15)
-        .attr("r", 6)
+    if (this.state.progress < 1) {
+      this.ballotToDot(0, width, svg);
+    }
+    // var votecount = 0;
+    // while (this.state.progress == 0 && votecount < 75) {
+    //   var vote = svg.append("circle")
+    //                 .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + width/20)
+    //                 .attr("r", width/80).attr("fill", "#2994D2")
+    //
+    //   vote.transition()
+    //       .duration(2000)
+    //       .attr("cx", 3*width/4)
+    //       .attr("cy", 30 + 5*15)
+    //       .attr("r", 6)
+    //
+    //   this.sleep(2000).then(() => {
+    //     var vote = svg.append("circle")
+    //                   .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + 2*width/20)
+    //                   .attr("r", width/80).attr("fill", "#34495D")
+    //
+    //     vote.transition()
+    //         .duration(2000)
+    //         .attr("cx", 3*width/4)
+    //         .attr("cy", 30 + 6*15)
+    //         .attr("r", 6)
+    //
+    //   })
 
-    this.sleep(2000).then(() => {
-      var vote = svg.append("circle")
-                    .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + 2*width/20)
-                    .attr("r", width/80).attr("fill", "#34495D")
-
-      vote.transition()
-          .duration(2000)
-          .attr("cx", 3*width/4)
-          .attr("cy", 30 + 6*15)
-          .attr("r", 6)
-
-    })
+    //}
 
     //
 
@@ -225,7 +268,7 @@ export default class Narrative extends Component {
     // .attr("r", function(d) { return Math.sqrt(d[0]); })
     // .style("fill", ["purple", "blue", "red", "green"]);
 
-    this.setState({initialized: true, svg: svg});
+
     console.log("initialized")
 
   }
