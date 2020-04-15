@@ -135,7 +135,7 @@ export default class Narrative extends Component {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
-  ballotToDot = (index, width, svg) => {
+  ballotToDot = (index, width, svg, wait, speed) => {
     //var svg = this.state.svg;
     var rng = Math.floor(Math.random()*12)
     var color = ""
@@ -155,18 +155,29 @@ export default class Narrative extends Component {
                  .attr("r", width/80).attr("fill", color)
 
     vote.transition()
-        .duration(1000)
+        .duration(speed)
         .attr("cx", 3*width/4)
         .attr("cy", 30 + index*15)
         .attr("r", 6)
 
     this.setState({svg: svg});
     if (index < 25 && this.state.progress < 1) {
-      this.sleep(1000).then(() => {
+      if (wait != 0) {
+        this.sleep(speed).then(() => {
+          if (index == 2) {
+            wait = 0
+          }
+          console.log(index, this.state.progress)
+          this.ballotToDot(index+1, width, svg, wait, speed)
+        })
+
+      } else {
         console.log(index, this.state.progress)
-        this.ballotToDot(index+1, width, svg)
-      })
+        this.ballotToDot(index+1, width, svg, wait, speed)
+
+      }
     }
+    this.setState({svg: svg});
 
   }
 
@@ -229,7 +240,7 @@ export default class Narrative extends Component {
     this.setState({initialized: true, svg: svg});
 
     if (this.state.progress < 1) {
-      this.ballotToDot(0, width, svg);
+      this.ballotToDot(0, width, svg, 1500, 1500);
     }
     // var votecount = 0;
     // while (this.state.progress == 0 && votecount < 75) {
@@ -270,6 +281,7 @@ export default class Narrative extends Component {
 
 
     console.log("initialized")
+    this.setState({svg: svg});
 
   }
 
