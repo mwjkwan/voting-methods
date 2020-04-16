@@ -123,14 +123,13 @@ export default class Narrative extends Component {
 
 
     var svg = this.state.svg;
+    var width = this.state.width
 
     if (this.state.data == "1") {
        svg.select("rect").remove()
        svg.select("#ballot").remove()
        svg.selectAll("#cand").remove()
        svg.selectAll("#boxes").remove()
-
-       var width = this.state.width
 
        svg.selectAll("circle")
           .transition()
@@ -148,21 +147,57 @@ export default class Narrative extends Component {
                        .attr("stroke-width", 1.5)
                        .attr("stroke", "black")
 
-                       var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
-                       svg.selectAll("cand").data(cand).enter().append("text")
-                                     .attr("x", 3*width/4 + 10)
-                                     .attr("y", function(d,i){return 200 + 30*i})
-                                     .text(function(d, i){return d})
-                                     .attr("font-family", "akkurat")
-                                     .attr("font-size", "16px")
-                                     .attr("fill", "black")
-                                     .attr("id", function(d, i) {return "cand"});
+         var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+         svg.selectAll("cand").data(cand).enter().append("text")
+                       .attr("x", 3*width/4 + 10)
+                       .attr("y", function(d,i){return 200 + 30*i})
+                       .text(function(d, i){return d})
+                       .attr("font-family", "akkurat")
+                       .attr("font-size", "16px")
+                       .attr("fill", "black")
+                       .attr("id", function(d, i) {return "cand".concat(i.toString())});
 
        })
 
      }
 
      if (this.state.data == "2") {
+       var red = svg.selectAll("#red");
+       var blue = svg.selectAll("#blue");
+       var grey = svg.selectAll("#grey");
+       red.transition()
+          .duration(2000)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 195)
+          .attr("r", 6)
+
+       blue.transition()
+           .duration(2000)
+           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+           .attr("cy", 225)
+           .attr("r", 6)
+
+       grey.transition()
+           .duration(2000)
+           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+           .attr("cy", 255)
+           .attr("r", 6)
+
+      var max = Math.max(red.size(), blue.size(), grey.size());
+      var bold = "";
+      if (red.size() == max) {
+        bold = "#cand0";
+      } else if (blue.size() == max) {
+        bold = "#cand1";
+      } else {
+        bold = "#cand2";
+      }
+      this.sleep(2200).then(() => {
+        svg.select(bold)
+           .transition(2000)
+           .attr("font-weight", 900)
+      })
+
 
      }
 
@@ -182,7 +217,7 @@ export default class Narrative extends Component {
       color = "#2994D2"
       cand = 1
       cand_id = "blue"
-    } else if (rng < 7) {
+    } else if (rng < 8) {
       color = "#34495D"
       cand = 2
       cand_id = "grey"
@@ -202,7 +237,7 @@ export default class Narrative extends Component {
         .attr("r", 6)
 
     this.setState({svg: svg});
-    if (index < 25 && this.state.progress < 1) {
+    if (index < 24 && this.state.progress < 1) {
       if (wait != 0) {
         this.sleep(speed).then(() => {
           if (index == 2) {
