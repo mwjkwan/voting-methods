@@ -247,6 +247,54 @@ export default class Narrative extends Component {
       this.setState({svg: svg});
     }
 
+    if (this.state.data == "23") {
+      svg.select("rect").remove()
+      svg.select("#ballot").remove()
+      svg.selectAll("#cand").remove()
+      svg.selectAll("#boxes").remove()
+
+      svg.selectAll(".v1")
+        .transition()
+        .duration(1500)
+        .attr("cx", width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v2")
+        .transition()
+        .duration(1500)
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v3")
+        .transition()
+        .duration(1500)
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      this.sleep(1500).then(() => {
+        var axis = svg.append("line")
+                      .attr("x1", 3*width/4)
+                      .attr("y1", 50)
+                      .attr("x2", 3*width/4)
+                      .attr("y2", 50 + 25*15)
+                      .attr("stroke-width", 1.5)
+                      .attr("stroke", "black")
+
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+        svg.selectAll("cand").data(cand).enter().append("text")
+                      .attr("x", 3*width/4 + 10)
+                      .attr("y", function(d,i){return 200 + 30*i})
+                      .text(function(d, i){return d})
+                      .attr("font-family", "akkurat")
+                      .attr("font-size", "16px")
+                      .attr("fill", "black")
+                      .attr("id", function(d, i) {return "cand".concat(i.toString())});
+
+       })
+
+     }
+
   }
 
   sleep = (milliseconds) => {
@@ -356,15 +404,15 @@ export default class Narrative extends Component {
 
     var vote = svg.append("circle")
                  .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand*width/20)
-                 .attr("r", width/80).attr("fill", color).attr("id", cand_id)
+                 .attr("r", width/80).attr("fill", color).attr("id", cand_id).attr("class", "v1")
 
     var vote2 = svg.append("circle")
                  .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cn2*width/20)
-                 .attr("r", width/80).attr("fill", c2).attr("id", cid2)
+                 .attr("r", width/80).attr("fill", c2).attr("id", cid2).attr("class", "v2")
 
     var vote3 = svg.append("circle")
                  .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cn3*width/20)
-                 .attr("r", width/80).attr("fill", c3).attr("id", cid3)
+                 .attr("r", width/80).attr("fill", c3).attr("id", cid3).attr("class", "v3")
 
     this.sleep(speed*3);
 
