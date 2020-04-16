@@ -198,13 +198,15 @@ export default class Narrative extends Component {
            .attr("font-weight", 900)
       })
     }
-    
+
     if (this.state.data == "22") {
       var width = this.state.width
 
       // remove stuff
       svg.selectAll("circle").remove();
-      svg.selectAll("#cand").remove();
+      svg.select("#cand0").remove();
+      svg.select("#cand1").remove();
+      svg.select("#cand2").remove();
       svg.select("line").remove();
       svg.selectAll("#boxes").remove()
 
