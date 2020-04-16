@@ -20,5 +20,20 @@
     "key": "4",
     "description":
     "Let's take a closer look at how FPTP encourages a polarized, two-party system."
+  },
+  {
+    "key": "22",
+    "description":
+    "Ranked Choice Voting (RCV) is an alternative voting method used in Australia, ..., as well as in the US in California, Maine, etc."
+  },
+  {
+    "key": "23",
+    "description":
+    "Every voter ranks their preferences for candidates."
+  },
+  {
+    "key": "24",
+    "description":
+    "Under instant runoff RCV, Gracey Grey will win, despite the fact that Rodrigo Red has the most 1st round votes. Let’s take a closer look."
   }
 ]
