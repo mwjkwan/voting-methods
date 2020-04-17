@@ -253,7 +253,7 @@ export default class Narrative extends Component {
       svg.selectAll("#cand").remove()
       svg.selectAll("#boxes").remove()
 
-      svg.selectAll(".v1")
+      svg.selectAll(".v3")
         .transition()
         .duration(1500)
         .attr("cx", width/25)
@@ -265,7 +265,7 @@ export default class Narrative extends Component {
         .attr("cx", 2*width/25)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
-      svg.selectAll(".v3")
+      svg.selectAll(".v1")
         .transition()
         .duration(1500)
         .attr("cx", 3*width/25)
@@ -291,9 +291,48 @@ export default class Narrative extends Component {
                       .attr("fill", "black")
                       .attr("id", function(d, i) {return "cand".concat(i.toString())});
 
-       })
+      })
 
-     }
+    }
+
+    if (this.state.data == "24") {
+      // var v1s = svg.selectAll(".v1");
+      var red = svg.selectAll("#red.v1");
+      var blue = svg.selectAll("#blue.v1");
+      var grey = svg.selectAll("#grey.v1");
+      red.transition()
+        .duration(2000)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 195)
+        .attr("r", 6)
+
+      blue.transition()
+          .duration(2000)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 225)
+          .attr("r", 6)
+
+      grey.transition()
+          .duration(2000)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 255)
+          .attr("r", 6)
+
+      var max = Math.max(red.size(), blue.size(), grey.size());
+      var bold = "";
+      if (red.size() == max) {
+        bold = "#cand0";
+      } else if (blue.size() == max) {
+        bold = "#cand1";
+      } else {
+        bold = "#cand2";
+      }
+      this.sleep(2200).then(() => {
+        svg.select(bold)
+           .transition(2000)
+           .attr("font-weight", 900)
+      })
+    }
 
   }
 
@@ -402,21 +441,21 @@ export default class Narrative extends Component {
       cid3 = "blue"
     }
 
-    var vote = svg.append("circle")
+    var vote3 = svg.append("circle")
                  .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand*width/20)
-                 .attr("r", width/80).attr("fill", color).attr("id", cand_id).attr("class", "v1")
+                 .attr("r", width/80).attr("fill", color).attr("id", cand_id).attr("class", "v3")
 
     var vote2 = svg.append("circle")
                  .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cn2*width/20)
                  .attr("r", width/80).attr("fill", c2).attr("id", cid2).attr("class", "v2")
 
-    var vote3 = svg.append("circle")
+    var vote1 = svg.append("circle")
                  .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cn3*width/20)
-                 .attr("r", width/80).attr("fill", c3).attr("id", cid3).attr("class", "v3")
+                 .attr("r", width/80).attr("fill", c3).attr("id", cid3).attr("class", "v1")
 
     this.sleep(speed*3);
 
-    vote.transition()
+    vote3.transition()
         .duration(speed)
         .attr("cx", 3*width/4)
         .attr("cy", 30 + index*15)
@@ -426,7 +465,7 @@ export default class Narrative extends Component {
          .attr("cx", 3*width/4+ width/25)
          .attr("cy", 30 + index*15)
          .attr("r", 6)
-    vote3.transition()
+    vote1.transition()
          .duration(speed)
          .attr("cx", 3*width/4+2*width/25)
          .attr("cy", 30 + index*15)
