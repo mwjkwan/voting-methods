@@ -5,6 +5,8 @@ import { css, jsx } from "@emotion/core";
 
 import Description from "../components/Description";
 import Article from "../components/Article";
+import Distribution from "../viz/Distribution";
+import DistributionSlider from "../viz/DistributionSlider";
 
 const aboutProject = (
   <div>
@@ -29,6 +31,8 @@ export default class PageSimulate extends Component {
         <div css={aboutStyle}>
           <Description>{aboutProject}</Description>
         </div>
+        <Distribution />
+        <DistributionSlider />
       </Article>
     );
   }
