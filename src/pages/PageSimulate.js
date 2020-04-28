@@ -8,7 +8,7 @@ import Article from "../components/Article";
 
 import SimMap from "../viz/SimMap";
 import SimLine from "../viz/SimLine";
-
+import SimBar from "../viz/SimBar";
 
 const aboutProject = (
   <div>
@@ -35,6 +35,7 @@ export default class PageSimulate extends Component {
         </div>
         <SimMap/>
         <SimLine/>
+        <SimBar/>
       </Article>
     );
   }
