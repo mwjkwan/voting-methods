@@ -6,6 +6,10 @@ import { css, jsx } from "@emotion/core";
 import Description from "../components/Description";
 import Article from "../components/Article";
 
+import SimMap from "../viz/SimMap";
+import SimLine from "../viz/SimLine";
+
+
 const aboutProject = (
   <div>
     Here, we simulate the outcomes of RCV elections as if they were FPTP.
@@ -29,6 +33,8 @@ export default class PageSimulate extends Component {
         <div css={aboutStyle}>
           <Description>{aboutProject}</Description>
         </div>
+        <SimMap/>
+        <SimLine/>
       </Article>
     );
   }

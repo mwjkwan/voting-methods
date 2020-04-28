@@ -51,5 +51,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.9.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-stage-3": "^6.24.1"
+  },
+  "babel": {
+    "presets": [
+      "stage-3",
+      "es2017",
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
   }
 }
