@@ -38,6 +38,11 @@
   {
     "key": "8",
     "description":
-    "Under instant runoff RCV, Gracey Grey will win, despite the fact that Rodrigo Red has the most 1st round votes. Let’s take a closer look."
+    "Specifically, in RCV, we eliminate the candidate with the fewest votes after this round."
+  },
+  {
+    "key": "9",
+    "description":
+    "The voters who chose the now-eliminated candidate have their second-choice votes counted instead."
   }
 ]

@@ -304,6 +304,12 @@ export default class Narrative extends Component {
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
 
+      svg.selectAll(".v1shadow")
+        .transition()
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
       this.sleep(1500).then(() => {
         var ax = [...Array(1).keys()]
         svg.selectAll("#axis").data(ax).enter().append("line")
@@ -335,6 +341,11 @@ export default class Narrative extends Component {
       var red = svg.selectAll("#red.v1");
       var blue = svg.selectAll("#blue.v1");
       var grey = svg.selectAll("#grey.v1");
+
+      svg.selectAll(".v1shadow")
+         .transition(function(d, i) {return 50 + i*15})
+
+
       red.transition()
         .duration(2000)
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
@@ -353,6 +364,11 @@ export default class Narrative extends Component {
           .attr("cy", 255)
           .attr("r", 6)
 
+      svg.selectAll(".v1shadow")
+         .attr("opacity", 1)
+
+
+
       var max = Math.max(red.size(), blue.size(), grey.size());
       var bold = "";
       if (red.size() === max) {
@@ -367,6 +383,14 @@ export default class Narrative extends Component {
            .transition(2000)
            .attr("font-weight", 900)
       })
+    }
+
+    if (this.state.data === "8") {
+      svg.selectAll("#blue.v1").remove()
+    }
+
+    if (this.state.data === "9") {
+      svg.selectAll("#blue.v1").remove()
     }
 
   }
@@ -435,9 +459,24 @@ export default class Narrative extends Component {
                  .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
                  .attr("r", width/80).attr("fill", color[1]).attr("id", cand_id[1]).attr("class", "v2")
 
+    svg.append("circle")
+       .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[0]).attr("class", "v1shadow")
+       .attr("opacity", 0)
+
     var vote1 = svg.append("circle")
                  .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
                  .attr("r", width/80).attr("fill", color[0]).attr("id", cand_id[0]).attr("class", "v1")
+
+    // svg.append("circle")
+    //    .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[2]*width/20)
+    //    .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[2]).attr("class", "v3shadow")
+    //
+    // svg.append("circle")
+    //    .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
+    //    .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[1]).attr("class", "v2shadow")
+
+
 
     this.sleep(speed*3);
 
