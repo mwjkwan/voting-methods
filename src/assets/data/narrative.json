@@ -44,5 +44,10 @@
     "key": "9",
     "description":
     "The voters who chose the now-eliminated candidate have their second-choice votes counted instead."
+  },
+  {
+    "key": "10",
+    "description":
+    "Rodrigo Red now wins with a majority of votes, even though Gracey Grey had more votes after the first round and won using FPTP."
   }
 ]

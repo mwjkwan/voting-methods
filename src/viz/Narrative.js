@@ -13,17 +13,6 @@ const descriptions = require("../assets/data/narrative.json");
 const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, transition,
          nest };
 
-
-// const descriptions = {
-//   'Motivation': 'this is the first description',
-//   'FPTP': 'this is the second description',
-//   'con 1': 'this is the third description',
-//   'example 1': 'this is the fourth description',
-//   'con 2': 'this is the fifth description',
-//   'example 2': 'this is the sixth description'
-// }
-
-
 const narrativeStyle = css`
   .main {
     padding: 10vh 2vw;
@@ -87,6 +76,9 @@ export default class Narrative extends Component {
       step: 0,
       width: 0,
       height: 0,
+      redSize: 0,
+      blueSize: 0,
+      greySize: 0,
       //value: 0,
       //stories: stories,
       //steps: [...stories.keys()], // ... is array destructuring operator
@@ -124,9 +116,9 @@ export default class Narrative extends Component {
     var width = this.state.width
 
     if (this.state.data === "1") {
-      var ballots = [0, 1, 2, 2, 2, 0, 1, 0, 2,
+      var ballots = [0, 1, 2, 2, 2, 0, 1, 1, 2,
                      2, 0, 2, 2, 0, 0, 0, 1, 0,
-                     2, 2, 2, 2, 0, 0, 1, 0, 1]
+                     2, 2, 2, 1, 0, 0, 1]
       this.ballotToDot(0, width, svg, 1500, 1500, ballots);
 
       console.log("initialized")
@@ -270,10 +262,10 @@ export default class Narrative extends Component {
                     .attr("class", "cand")
 
 
-      var ballots = [[0, 2, 1], [1, 2, 0], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
-                     [1, 2, 0], [0, 1, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
+      var ballots = [[0, 2, 1], [1, 0, 2], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
+                     [1, 2, 0], [1, 0, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
                      [2, 0, 1], [0, 2, 1], [0, 2, 1], [0, 2, 1], [1, 0, 2], [0, 2, 1],
-                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [2, 0, 1], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
+                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [1, 0, 2], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
       this.rcvballotToDot(0, width, svg, 1500, 1500, ballots);
       this.setState({svg: svg});
     }
@@ -307,6 +299,12 @@ export default class Narrative extends Component {
       svg.selectAll(".v1shadow")
         .transition()
         .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v2shadow")
+        .transition()
+        .attr("cx", 2*width/25)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
 
@@ -383,6 +381,8 @@ export default class Narrative extends Component {
            .transition(2000)
            .attr("font-weight", 900)
       })
+      this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size()});
+
     }
 
     if (this.state.data === "8") {
@@ -390,7 +390,43 @@ export default class Narrative extends Component {
     }
 
     if (this.state.data === "9") {
-      svg.selectAll("#blue.v1").remove()
+
+      svg.selectAll(".v2shadow")
+         .attr("opacity", 1)
+
+      svg.selectAll("[firstvote=v1blue]")
+         .transition()
+         .duration(1000)
+         .attr("cx",  3*width/25)
+         .attr("r", 6)
+    }
+    if (this.state.data === "10") {
+      var redSize = this.state.redSize
+      var greySize = this.state.greySize
+      svg.selectAll("#red[firstvote=v1blue]")
+         .transition()
+         .duration(2000)
+         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
+         .attr("cy", 195)
+         .attr("r", 6)
+
+      svg.selectAll("#grey[firstvote=v1blue]")
+         .transition()
+         .duration(2000)
+         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+         .attr("cy", 255)
+         .attr("r", 6)
+
+
+      this.sleep(2300).then(() => {
+        svg.select("#cand2")
+           .transition()
+           .attr("font-weight", 100)
+        svg.select("#cand0")
+           .transition(100)
+           .attr("font-weight", 900)
+      })
+
     }
 
   }
@@ -452,31 +488,30 @@ export default class Narrative extends Component {
     var color = [cols[cand[0]], cols[cand[1]], cols[cand[2]]]
 
     var vote3 = svg.append("circle")
-                 .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[2]*width/20)
-                 .attr("r", width/80).attr("fill", color[2]).attr("id", cand_id[2]).attr("class", "v3")
-
-    var vote2 = svg.append("circle")
-                 .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
-                 .attr("r", width/80).attr("fill", color[1]).attr("id", cand_id[1]).attr("class", "v2")
-
+                   .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[2]*width/20)
+                   .attr("r", width/80).attr("fill", color[2]).attr("id", cand_id[2]).attr("class", "v3")
+    // v1 shadows
     svg.append("circle")
        .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[0]).attr("class", "v1shadow")
        .attr("opacity", 0)
 
     var vote1 = svg.append("circle")
-                 .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
-                 .attr("r", width/80).attr("fill", color[0]).attr("id", cand_id[0]).attr("class", "v1")
+                   .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+                   .attr("r", width/80).attr("fill", color[0]).attr("id", cand_id[0]).attr("class", "v1")
 
-    // svg.append("circle")
-    //    .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[2]*width/20)
-    //    .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[2]).attr("class", "v3shadow")
-    //
-    // svg.append("circle")
-    //    .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
-    //    .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[1]).attr("class", "v2shadow")
+    // v2 shadows
+    svg.append("circle")
+       .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[1]).attr("class", "v2shadow")
+       .attr("opacity", 0)
 
-
+    var vote2 = svg.append("circle")
+                   .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
+                   .attr("r", width/80).attr("fill", color[1])
+                   .attr("id", cand_id[1])
+                   .attr("class", "v2")
+                   .attr("firstvote", function(d,i) { return "v1" + cand_id[0]})
 
     this.sleep(speed*3);
 
