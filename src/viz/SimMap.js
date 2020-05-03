@@ -63,13 +63,11 @@ export default class SimMap extends Component {
     var coords = d3.nest()
       .key((d) => d.Place)
       .map(this.state.locationData);
-    console.log(coords);
     var elections = d3.nest()
       .key((d) => d.place)
       .key((d) => d.contest)
       .entries(this.state.electionData);
 
-    console.log(elections);
 
     var bubbleScale = d3.scaleLinear()
       .domain(d3.extent(elections, (d) => d['values'].length ))
