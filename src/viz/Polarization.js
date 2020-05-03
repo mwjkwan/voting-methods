@@ -8,7 +8,6 @@ import { path } from 'd3-path';
 import { scaleOrdinal } from 'd3-scale';
 import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
-import Polarization from "../viz/Polarization"
 const descriptions = require("../assets/data/narrative.json");
 
 
@@ -22,7 +21,7 @@ const narrativeStyle = css`
     justify-content: space-between;
   }
 
-  .graphic {
+  .graphic2 {
     flex-basis: 50%;
     position: sticky;
     top: 15vh;
@@ -113,7 +112,7 @@ const rcvblurb = (
   </div>
 );
 
-export default class Narrative extends Component {
+export default class Polarization extends Component {
   constructor(props) {
     super(props);
     //const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
@@ -602,7 +601,7 @@ export default class Narrative extends Component {
   initialize() {
     // thanks xisabao
     var parentWidth = d3
-      .select('.graphic')
+      .select('.graphic2')
       .node()
       .getBoundingClientRect().width;
 
@@ -614,7 +613,7 @@ export default class Narrative extends Component {
     this.setState({width, height})
 
     // Get a handle on the SVG
-    var svg = d3.select("#viz")
+    var svg = d3.select("#viz2")
                 .append('svg')
                 .attr('width', width)
                 .attr('height', height);
@@ -672,8 +671,8 @@ export default class Narrative extends Component {
           <button type="button" href="#desc5"  class="btn btn-link">Representativeness</button>
           <button type="button" href="#desc2"  class="btn btn-link">Strategic Voting</button>
         </div>
-        <div className='graphic'>
-          <div id="viz"></div>
+        <div className='graphic2'>
+          <div id="viz2"></div>
         </div>
         <div className='scroller'>
           <Scrollama
@@ -692,13 +691,6 @@ export default class Narrative extends Component {
             ))}
           </Scrollama>
          </div>
-      </div>
-      <div className="blurb">
-        {polarizeblurb}
-      </div>
-      <Polarization/>
-      <div className="blurb">
-        {rcvblurb}
       </div>
       </div>
       )
