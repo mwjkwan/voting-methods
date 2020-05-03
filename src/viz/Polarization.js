@@ -10,7 +10,6 @@ import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 const descriptions = require("../assets/data/narrative.json");
 
-
 const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, transition,
          nest };
 
@@ -67,7 +66,7 @@ const narrativeStyle = css`
   }
 `;
 
-export default class Narrative extends Component {
+export default class Polarization extends Component {
   constructor(props) {
     super(props);
     //const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
