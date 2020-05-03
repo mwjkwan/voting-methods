@@ -56,6 +56,12 @@ const narrativeStyle = css`
     }
   }
 
+  .blurb {
+    margin: 20%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
   .desc {
     margin-left:20px;
     margin-right:20px;
@@ -65,7 +71,26 @@ const narrativeStyle = css`
   .btn {
     color: #575757;
   }
-`;
+`
+;
+
+const rcvblurb = (
+  <div>
+    <left>
+    <p>
+    The RCV voting system encourages more moderate candidates, non-polarization and majority support. Additionally, it minimizes strategic voting where voters vote for whoever they dislike least as opposed to whoever they truly prefer.
+    </p>
+    <br></br>
+    <p>
+    One downside is that while this voting system does encourage third party moderate candidates, the winner may not be the first choice of most people.
+    </p>
+    <br></br>
+    <p>
+    Let’s take a closer look, once we add in a fourth candidate Terence Teal.
+    </p>
+    </left>
+  </div>
+);
 
 export default class Narrative extends Component {
   constructor(props) {
@@ -99,14 +124,16 @@ export default class Narrative extends Component {
     element.style.backgroundColor = '#fff';
   }
 
-
-
   onStepProgress = ({ element, progress }) => {
     this.setState({ progress });
   }
 
   componentDidMount() {
     this.initialize();
+  }
+
+  componentWillUnmount() {
+    this.props.removeSelf();
   }
 
   update() {
@@ -608,8 +635,6 @@ export default class Narrative extends Component {
     // so that we display the locations of "index"
   }
 
-
-
   render() {
     const { data, value } = this.state;
 
@@ -646,6 +671,10 @@ export default class Narrative extends Component {
             ))}
           </Scrollama>
          </div>
+      </div>
+
+      <div className="blurb">
+        {rcvblurb}
       </div>
       </div>
       )
