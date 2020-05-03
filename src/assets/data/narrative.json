@@ -49,5 +49,15 @@
     "key": "10",
     "description":
     "Rodrigo Red now wins with a majority of votes, even though Gracey Grey had more votes after the first round and won using FPTP."
+  },
+  {
+    "key": "11",
+    "description":
+    "Strategic voting in RCV can also result in a scenario where the winner may not be the first choice of most people. Let's take a look once we add in a fourth candidate Terence Teal."
+  },
+  {
+    "key": "12",
+    "description":
+    "Now, all voters rank the four candidates in order of preference."
   }
 ]

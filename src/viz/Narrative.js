@@ -77,7 +77,7 @@ const rcvblurb = (
   <div>
     <left>
     <p>
-    The RCV voting system encourages more moderate candidates, non-polarization and majority support. Additionally, it minimizes strategic voting where voters vote for whoever they dislike least as opposed to whoever they truly prefer.
+      The RCV voting system encourages more moderate candidates, non-polarization and majority support. Additionally, it minimizes strategic voting where voters vote for whoever they dislike least as opposed to whoever they truly prefer.
     </p>
     <br></br>
     <p>
@@ -129,10 +129,6 @@ export default class Narrative extends Component {
 
   componentDidMount() {
     this.initialize();
-  }
-
-  componentWillUnmount() {
-    this.props.removeSelf();
   }
 
   update() {
@@ -456,6 +452,70 @@ export default class Narrative extends Component {
 
     }
 
+    if(this.state.data == "11") {
+      svg.selectAll("*").remove();
+    }
+
+    if (this.state.data == "12") {
+      // Initialize the ballot SVG
+      svg.append("rect").attr("x", width/4 - width/12).attr("y", width/4-2*width/100).attr("width", width/3+ width/12).attr("height", 12*width/40).style("fill", "#F4F4F4");
+       svg.append("text")
+          .attr("x", 10.3*width/32)
+          .attr("y", width/4+20)
+          .text("Ballot")
+          .attr("font-family", "akkurat")
+          .attr("font-size", "24px")
+          .attr("fill", "black")
+          .attr("id", "ballot")
+
+      var boxlabels = ["4", "3", "2", "1"]
+      svg.selectAll(".boxlabels").data(boxlabels).enter().append("text")
+                    .attr("x", function(d,i){return width/4 - width/24 + i*width/25 - width/128})
+                    .attr("y", width/4 + 9*width/128)
+                    .text(function(d, i){return d})
+                    .attr("font-family", "akkurat")
+                    .attr("font-size", "14px")
+                    .attr("fill", "black")
+                    .attr("id", function(d, it) {return "boxlabel"})
+                    .attr("class", "boxlabels")
+
+      // make three columns of circles, from middle, left, right
+      var box = [...Array(4).keys()]
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4 - width/24 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4 - width/24).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4 - width/24 + 2*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4 - width/24 + 3*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+
+      var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terence Teal"]
+      svg.selectAll(".cand").data(cand).enter().append("text")
+                    .attr("x", width/4 + width/9)
+                    .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ (i)*width/20})
+                    .text(function(d, i){return d})
+                    .attr("font-family", "akkurat")
+                    .attr("font-size", "16px")
+                    .attr("fill", "black")
+                    .attr("id", function(d, it) {return "cand"})
+                    .attr("class", "cand")
+
+
+      var ballots = [[1,3,2,0], [1,2,3,0], [1,2,3,0], [0,2,3,1], 
+                    [0,2,3,1], [0,1,2,3],[1,3,2,0],[1,3,2,0],[0,1,3,2],
+                    [0,2,3,1],[0,3,2,1],[0,1,2,3],[1,3,2,0],[1,2,3,0],
+                    [0,1,3,2],[0,2,3,1],[0,3,2,1],[1,0,2,3],[1,2,3,0],
+                    [1,3,2,0],[1,0,3,2],[0,2,3,1],[1,0,2,3],[1,2,0,3]]
+      this.rcv4ballotToDot(0, width, svg, 1500, 1500, ballots);
+      this.setState({svg: svg});
+
+    }
+
   }
 
   sleep = (milliseconds) => {
@@ -542,6 +602,96 @@ export default class Narrative extends Component {
 
     this.sleep(speed*3);
 
+    vote3.transition()
+        .duration(speed)
+        .attr("cx", 3*width/4)
+        .attr("cy", 30 + index*15)
+        .attr("r", 6)
+    vote2.transition()
+         .duration(speed)
+         .attr("cx", 3*width/4+ width/25)
+         .attr("cy", 30 + index*15)
+         .attr("r", 6)
+    vote1.transition()
+         .duration(speed)
+         .attr("cx", 3*width/4+2*width/25)
+         .attr("cy", 30 + index*15)
+         .attr("r", 6)
+
+    this.setState({svg: svg});
+    if (index < 24) {
+      if (wait !== 0) {
+        this.sleep(speed).then(() => {
+          if (index === 2) {
+            wait = 0
+          }
+          this.rcvballotToDot(index+1, width, svg, wait, speed, ballots)
+        })
+
+      } else {
+        this.rcvballotToDot(index+1, width, svg, wait, speed, ballots)
+
+      }
+    }
+    this.setState({svg: svg});
+
+  }
+
+  rcv4ballotToDot = (index, width, svg, wait, speed, ballots) => {
+    //var svg = this.state.svg;
+    var cols = ["#ED4F3A", "#2994D2", "#34495D", "78BEBE"]
+    var cand_ids = ["red", "blue", "grey", "teal"]
+    var cand = ballots[index]
+    var cand_id = [cand_ids[cand[0]], cand_ids[cand[1]], cand_ids[cand[2]], cand_ids[cand[3]]]
+    var color = [cols[cand[0]], cols[cand[1]], cols[cand[2]], cols[cand[3]]]
+
+    // v1 shadows
+    svg.append("circle")
+       .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[0]).attr("class", "v1shadow")
+       .attr("opacity", 0)
+
+    var vote1 = svg.append("circle")
+                   .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+                   .attr("r", width/80).attr("fill", color[0]).attr("id", cand_id[0]).attr("class", "v1")
+
+    // v2 shadows
+    svg.append("circle")
+       .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[1]).attr("class", "v2shadow")
+       .attr("opacity", 0)
+
+    var vote2 = svg.append("circle")
+                   .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
+                   .attr("r", width/80).attr("fill", color[1])
+                   .attr("id", cand_id[1])
+                   .attr("class", "v2")
+                   .attr("firstvote", function(d,i) { return "v1" + cand_id[0]})
+
+    // v3 shadows
+    svg.append("circle")
+       .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[2]).attr("class", "v3shadow")
+       .attr("opacity", 0)
+
+    var vote3 = svg.append("circle")
+                   .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[2]*width/20)
+                   .attr("r", width/80).attr("fill", color[2]).attr("id", cand_id[2]).attr("class", "v3")
+
+    var vote4 = svg.append("circle")
+                   .attr("cx", width/4 - width/25).attr("cy", width/4 + 3*width/32 + cand[3]*width/20)
+                   .attr("r", width/80).attr("fill", color[3])
+                   .attr("id", cand_id[3])
+                   .attr("class", "v4")
+                   .attr("firstvote", function(d,i) { return "v4" + cand_id[3]})
+
+    this.sleep(speed*3);
+
+    vote4.transition()
+        .duration(speed)
+        .attr("cx", 3*width/4 - width/25)
+        .attr("cy", 30 + index*15)
+        .attr("r", 6)
     vote3.transition()
         .duration(speed)
         .attr("cx", 3*width/4)
