@@ -10,6 +10,7 @@ import SimMap from "../viz/SimMap";
 import SimDots from "../viz/SimDots";
 import SimLine from "../viz/SimLine";
 import SimBar from "../viz/SimBar";
+import SimRace from "../viz/SimRace";
 
 const aboutProject = (
   <div>
@@ -38,6 +39,7 @@ export default class PageSimulate extends Component {
         <SimLine/>
         <SimDots/>
         <SimBar/>
+        <SimRace/>
       </Article>
     );
   }
