@@ -9,8 +9,8 @@ import Article from "../components/Article";
 const aboutProject = (
   <div>
     <p>
-    This project was created by a group of Harvard undergrads created as part
-    of a course on political campaigns and elections:
+    This project was created by a group of Harvard undergrads for
+    a course on campaigns and elections:
     </p>
     <br></br>
     <ul>
@@ -23,17 +23,21 @@ const aboutProject = (
     <br></br>
     <p>
     We'd like to thank the following people for helping us orient ourselves
-    on the voting methods space, providing background research, and advising
-    us on visualizations and the scope and direction of our project:
+    in the voting methods space, providing background information, and advising
+    us on the scope and direction of our project:
     </p>
     <br></br>
     <ul>
-      <li>Russell Mindich, Harvard '20</li>
-      <li>Jeremy Seitz-Brown from FairVote</li>
-      <li>Chris Oates from Voter Choice</li>
-      <li>Larry Buchanan from The New York Times</li>
-      <li>Brandon Martinez and Xavier from Voters Choose</li>
-      <li>Professor Sarah John from University of Virginia</li>
+      <li>Nicco Mele, Harvard Kennedy School</li>
+      <li>Paul Dingus, Bluebonnet Data</li>
+      <li>Russell Mindich, Harvard College '20</li>
+      <li>Jeremy Seitz-Brown, FairVote</li>
+      <li>Chris Oates, Voter Choice</li>
+      <li>Larry Buchanan, The New York Times</li>
+      <li>Brandon Martinez, Voters Choose</li>
+      <li>Xavier Morales, Voters Choose</li>
+      <li>Professor Sarah John, University of Virginia</li>
+      <li>Sebastian Ellefson, Ballot Ready</li>
     </ul>
   </div>
 );

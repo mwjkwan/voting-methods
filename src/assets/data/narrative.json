@@ -1,39 +1,53 @@
 [
   {
     "key": "0",
-    "description": "First past the post (FPTP) is the voting system used by most of the U.S."
+    "description": "We're going to take a look at how the First Past The Post (FPTP) and Ranked Choice Voting (RCV) methods of voting work."
   },
   {
     "key": "1",
-    "description": "Every voter selects one candidate."
+    "description": "First past the post (FPTP) is the voting system used by most of the U.S. Every voter selects one candidate."
   },
   {
     "key": "2",
-    "description": "And the candidate with the most votes wins."
+    "description": "We'll represent votes as these colored dots."
   },
   {
     "key": "3",
-    "description":
-    "This voting system encourages a two-party system, polarized candidates, and vote-splitting, and disincentives convincing voters outside your party to vote for you."
+    "description": "We count the votes. Gracey Grey wins since she has the most votes, even though she didn't have a majority of votes."
   },
   {
     "key": "4",
     "description":
-    "Let's take a closer look at how FPTP encourages a polarized, two-party system."
+    "Now let's take a look at how Ranked Choice Voting (RCV) works."
   },
   {
-    "key": "22",
+    "key": "5",
     "description":
-    "Ranked Choice Voting (RCV) is an alternative voting method used in Australia, ..., as well as in the US in California, Maine, etc."
+    "Ranked Choice Voting (RCV) is an alternative voting method used in Australia, as well in Maine and some Californian cities."
   },
   {
-    "key": "23",
+    "key": "6",
     "description":
-    "Every voter ranks their preferences for candidates."
+    "Every voter ranks each of the candidates."
   },
   {
-    "key": "24",
+    "key": "7",
     "description":
-    "Under instant runoff RCV, Gracey Grey will win, despite the fact that Rodrigo Red has the most 1st round votes. Let’s take a closer look."
+    "We first tally all first-choice votes, as happens in FPTP. If one candidate has a majority, they win. But in other cases, like this one, we now use second-choice votes to determine the outcome. "
+  },
+  {
+    "key": "8",
+    "description":
+    "Specifically, in RCV, we eliminate the candidate with the fewest votes after this round."
+  },
+  {
+    "key": "9",
+    "description":
+    "The voters who chose the now-eliminated candidate have their second-choice votes counted instead."
+  },
+  {
+    "key": "10",
+    "description":
+    "Rodrigo Red now wins with a majority of votes, even though Gracey Grey had more votes after the first round and won using FPTP."
   }
 ]
