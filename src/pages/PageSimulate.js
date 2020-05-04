@@ -7,6 +7,7 @@ import Description from "../components/Description";
 import Article from "../components/Article";
 
 import SimMap from "../viz/SimMap";
+import SimDots from "../viz/SimDots";
 import SimLine from "../viz/SimLine";
 import SimBar from "../viz/SimBar";
 
@@ -35,6 +36,7 @@ export default class PageSimulate extends Component {
         </div>
         <SimMap/>
         <SimLine/>
+        <SimDots/>
         <SimBar/>
       </Article>
     );
