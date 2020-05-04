@@ -188,22 +188,22 @@ export default class Landing extends Component {
           .domain(systems)
           .range(["#48A36D", "#64B98C", "#80CEAA", "#7FC9BD", "#7EC4CF", "#7FB1CF", "#809ECE", "#8F90CD", "#9E81CC", "#B681BE", "#CE80B0", "#D76D8F", "#E05A6D", "#E26962", "#E37756", "#E39158", "#E2AA59", "#DFB95C", "#DBC75F", "#EAD67C"]);
       this.setState({ colorScale: color });
-    svg.append('g')
-        .attr('class', 'methods')
-        .selectAll('text')
-        .data(systems)
-        .enter()
-        .append('text')
-        .text((d) => d)
-        .style('fill', (d) => color(d))
-        .attr('transform', (d, i) => 'translate(1000,' + (100+ 40*i) + ')')
-        .on('mouseover', function(d) {
-            svg.select('.methods').style('cursor', 'pointer');
-          this.update(svg, d);
-        }).on('mouseout', function(d) {
-        svg.select('.methods').style('cursor', 'default');
-        this.update(svg, null);
-    });
+    // svg.append('g')
+    //     .attr('class', 'methods')
+    //     .selectAll('text')
+    //     .data(systems)
+    //     .enter()
+    //     .append('text')
+    //     .text((d) => d)
+    //     .style('fill', (d) => color(d))
+    //     .attr('transform', (d, i) => 'translate(1000,' + (100+ 40*i) + ')')
+    //     .on('mouseover', function(d) {
+    //         svg.select('.methods').style('cursor', 'pointer');
+    //       this.update(svg, d);
+    //     }).on('mouseout', function(d) {
+    //     svg.select('.methods').style('cursor', 'default');
+    //     this.update(svg, null);
+    // });
 
     svg.append('g')
         .attr('class', 'map-base')
