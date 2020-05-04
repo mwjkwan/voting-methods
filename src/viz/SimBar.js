@@ -177,23 +177,25 @@ export default class SimBar extends Component {
     console.log(RCV[10].values[0].values.length);
     console.log(FPTP[10].values[0].values.length);
 
-    d3.selectAll('g.place').remove();
 
     var rcvPlaceSelect = viz.state.svg.select('.bars')
-      .selectAll('g.place')
+      .selectAll('g.rcv-place')
       .data(RCV);
 
     var rcvPlace = rcvPlaceSelect.enter()
       .append('g')
         .attr('class', 'rcv-place')
+        .merge(rcvPlaceSelect)
         .attr('transform', (d) => 'translate(' + (viz.state.width/2) + ', ' + viz.state.y(d.key) + ')');
+
+    rcvPlace.transition();
 
     rcvPlaceSelect.exit().remove();
 
     var rcvBarSelect = rcvPlace.selectAll('rect.rcv-bars')
       .data((d) => d.values )
 
-    rcvBarSelect.enter().append('rect')
+    var rcvBar = rcvBarSelect.enter().append('rect')
         .attr('class', 'rcv-bars')
         .merge(rcvBarSelect)
         .attr('x', 50)
@@ -201,6 +203,8 @@ export default class SimBar extends Component {
         .attr('height', (d) => viz.state.ySubgroup.bandwidth())
         .attr('width', (d) => viz.state.RCVx(d.values.length))
         .attr('fill', (d) => viz.state.color(d.key));
+
+    rcvBar.transition();
 
     rcvBarSelect.exit().remove();
 
@@ -217,12 +221,13 @@ export default class SimBar extends Component {
     rcvTextSelect.exit().remove();
 
     var fptpPlaceSelect = viz.state.svg.select('.bars')
-      .selectAll('g.place')
+      .selectAll('g.fptp-place')
       .data(FPTP)
 
     var fptpPlace = fptpPlaceSelect.enter()
       .append('g')
         .attr('class', 'fptp-place')
+        .merge(fptpPlaceSelect)
         .attr('transform', (d) => 'translate(-50, ' + viz.state.y(d.key) + ')');
 
     fptpPlaceSelect.exit().remove();
@@ -230,7 +235,7 @@ export default class SimBar extends Component {
     var fptpBarSelect = fptpPlace.selectAll('rect.fptp-bars')
       .data((d) => d.values )
 
-    fptpBarSelect.enter().append('rect')
+    var fptpBar = fptpBarSelect.enter().append('rect')
         .attr('class', 'fptp-bars')
         .merge(fptpBarSelect)
         .attr('x', (d) =>  viz.state.FPTPx(d.values.length) )
@@ -238,6 +243,8 @@ export default class SimBar extends Component {
         .attr('height', (d) => viz.state.ySubgroup.bandwidth())
         .attr('width', (d) => (viz.state.width/2) - viz.state.FPTPx(d.values.length))
         .attr('fill', (d) => viz.state.color(d.key));
+
+    fptpBar.transition();
 
     fptpBarSelect.exit().remove();
 
