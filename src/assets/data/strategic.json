@@ -1,0 +1,42 @@
+[
+  {
+    "key": "1",
+    "description":
+    "Strategic voting in RCV can also result in a scenario where the winner may not be the first choice of most people and is more moderate. Let's take a look once we add in a fourth candidate Terence Teal."
+  },
+  {
+    "key": "2",
+    "description":
+    "Imagine a scenario where we have two major candidates Rodrigo Red and Belinda Blue, where if a voter supports one of them, they really dislike the other major candidate. Then, supporters of major candidates strategically rank candidates so that the one they favor is first, and the one they dislike is last, where they don't really have a preference for second and third choices."
+  },
+  {
+    "key": "3",
+    "description": 
+    "Like before, we tally up all voters' first choice preferences for Round 1. In this scenario, no one has a majority."
+  },
+  {
+    "key": "4",
+    "description":
+    "Now, we remove the candidate with the least votes, Gracey Grey."
+  },
+  {
+    "key": "5",
+    "description":
+    "And we look at the the next highest preference of those who voted for Gracey Grey."
+  },
+  {
+    "key": "6",
+    "description":
+    "Tallying these, we see that there is still no majority. Thus we remove the next candidate with the least votes, Belinda Blue."
+  },
+  {
+    "key": "7",
+    "description":
+    "Now, we look at the next highest valid preference of those who's previous vote went to Belinda Blue. It is the next highest valid preference as it must be one of the remaining candidates."
+  },
+  {
+    "key": "8",
+    "description":
+    "Tallying these, we see that Terence Teal has a majority and thus wins the election."
+  }
+]
