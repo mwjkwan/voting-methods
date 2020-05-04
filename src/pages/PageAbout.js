@@ -28,14 +28,16 @@ const aboutProject = (
     </p>
     <br></br>
     <ul>
+      <li>Nicco Mele, Harvard Kennedy School</li>
+      <li>Paul Dingus, Bluebonnet Data</li>
       <li>Russell Mindich, Harvard College '20</li>
       <li>Jeremy Seitz-Brown, FairVote</li>
       <li>Chris Oates, Voter Choice</li>
       <li>Larry Buchanan, The New York Times</li>
-      <li>Brandon Martinez and Xavier, Voters Choose</li>
+      <li>Brandon Martinez, Voters Choose</li>
+      <li>Xavier Morales, Voters Choose</li>
       <li>Professor Sarah John, University of Virginia</li>
-      <li>Paul Dingus, Bluebonnet Data</li>
-      <li>Nicco Mele, Harvard Kennedy School</li>
+      <li>Sebastian Ellefson, Ballot Ready</li>
     </ul>
   </div>
 );

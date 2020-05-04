@@ -436,6 +436,7 @@ export default class Narrative extends Component {
 
     if (this.state.data === "8") {
       svg.selectAll("#blue.v1").remove()
+      svg.select("#cand1").remove()
     }
 
     if (this.state.data === "9") {
