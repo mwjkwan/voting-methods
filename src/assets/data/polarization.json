@@ -22,5 +22,25 @@
   {
     "key": "5",
     "description": "We thus end with a much more polarized field than we started with and have reinforced only two parties."
+  },
+  {
+    "key": "6",
+    "description": "Now we'll show the reuslts of an analagous RCV election where we know each voter's preferences and don't have to rely on them switching candidates."
+  },
+  {
+    "key": "7",
+    "description": "Here are our voters' ranked preferences."
+  },
+  {
+    "key": "8",
+    "description": "One interesting trend we can already see is that the two more extreme candidates –– Terrence and Rodrigo –– seem to often occupy the last-choice slot."
+  },
+  {
+    "key": "9",
+    "description": "Let's first set up our vote-counting platform..."
+  },
+  {
+    "key": "10",
+    "description": "...And then count our first-choice votes, which are the same as in the FPTP round."
   }
 ]

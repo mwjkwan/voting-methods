@@ -259,13 +259,255 @@ export default class Polarization extends Component {
 
     if (this.state.data === "5") {
       svg.selectAll("#cand0,#cand3").remove()
+    }
 
+    if (this.state.data === "6") {
+      svg.selectAll("*").remove()
+      // Initialize the ballot SVG
+      svg.append("rect").attr("x", width/4 - width/12).attr("y", width/4-2*width/100).attr("width", width/3+ width/12).attr("height", 12*width/40).style("fill", "#F4F4F4");
+      svg.append("text")
+         .attr("x", 10.3*width/32)
+         .attr("y", width/4+20)
+         .text("Ballot")
+         .attr("font-family", "akkurat")
+         .attr("font-size", "24px")
+         .attr("fill", "black")
+         .attr("id", "ballot")
 
-     }
+      var boxlabels = ["4", "3", "2", "1"]
+      svg.selectAll(".boxlabels").data(boxlabels).enter().append("text")
+                                .attr("x", function(d,i){return width/4 - width/24 + i*width/25 - width/128})
+                                .attr("y", width/4 + 9*width/128)
+                                .text(function(d, i){return d})
+                                .attr("font-family", "akkurat")
+                                .attr("font-size", "14px")
+                                .attr("fill", "black")
+                                .attr("id", function(d, it) {return "boxlabel"})
+                                .attr("class", "boxlabels")
+
+      // make three columns of circles, from middle, left, right
+      var box = [...Array(4).keys()]
+      svg.selectAll("boxes").data(box).enter().append("circle")
+         .attr("cx", width/4 - width/24 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+         .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+         .attr("cx", width/4 - width/24).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+         .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+         .attr("cx", width/4 - width/24 + 2*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+         .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+         .attr("cx", width/4 - width/24 + 3*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+         .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+
+      var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terence Teal"]
+      svg.selectAll(".cand").data(cand).enter().append("text")
+                    .attr("x", width/4 + width/9)
+                    .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ (i)*width/20})
+                    .text(function(d, i){return d})
+                    .attr("font-family", "akkurat")
+                    .attr("font-size", "16px")
+                    .attr("fill", "black")
+                    .attr("id", function(d, it) {return "cand"})
+                    .attr("class", "cand")
+    }
+
+    if (this.state.data === "7") {
+      var v =  [[3, 0, 1], [0, 1, 0], [3, 0, 1], [1, 0, 0], [2, 0, 0], [2, 0, 0],
+                [2, 0, 0], [1, 0, 0], [2, 0, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0],
+                [2, 0, 0], [0, 0, 0], [3, 0, 0], [0, 1, 0], [2, 0, 0], [3, 0, 1],
+                [1, 0, 0], [2, 0, 0], [1, 0, 0], [0, 0, 0], [2, 0, 0], [3, 0, 0], [1, 0, 0]]
+
+      var ballots = [[3, 2, 1, 0], [0, 1, 2, 3], [3, 2, 1, 0], [1, 0, 2, 3], [2, 3, 1, 0],
+                    [2, 3, 1, 0], [2, 3, 0, 1], [1, 0, 3, 2], [2, 3, 1, 0], [0, 1, 3, 2], [1, 0, 2, 3],
+                    [1, 0, 2, 3], [2, 3, 1, 0], [0, 1, 2, 3], [3, 2, 2, 0], [0, 1, 3, 2],
+                    [2, 3, 1, 0], [3, 2, 0, 1], [1, 0, 2, 3], [2, 3, 1, 0], [1, 0, 2, 3],
+                    [0, 1, 2, 3], [2, 3, 1, 0], [3, 2, 1, 0], [1, 0, 2, 3], [3, 2, 1, 0]]
+
+      this.rcvballotToDot(0, width, svg, 1500, 1500, ballots);
+    }
+
+    if (this.state.data === "9") {
+        svg.select("rect").remove()
+        svg.select("#ballot").remove()
+        svg.selectAll("#cand").remove()
+        svg.selectAll("#boxes").remove()
+        svg.selectAll(".boxlabels").remove()
+
+        svg.selectAll(".v4")
+          .transition()
+          .duration(1500)
+          .attr("cx", width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+        svg.selectAll(".v3")
+          .transition()
+          .duration(1500)
+          .attr("cx", 2*width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+        svg.selectAll(".v2")
+          .transition()
+          .duration(1500)
+          .attr("cx", 3*width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+        svg.selectAll(".v1")
+          .transition()
+          .duration(1500)
+          .attr("cx", 4*width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+
+        svg.selectAll(".v1shadow")
+          .transition()
+          .attr("cx", 4*width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+
+        svg.selectAll(".v2shadow")
+          .transition()
+          .attr("cx", 3*width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+
+        svg.selectAll(".v3shadow")
+          .transition()
+          .attr("cx", 2*width/25)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6)
+
+        this.sleep(1500).then(() => {
+          var ax = [...Array(1).keys()]
+          svg.selectAll("#axis").data(ax).enter().append("line")
+                        .attr("x1", 3*width/4)
+                        .attr("y1", 50)
+                        .attr("x2", 3*width/4)
+                        .attr("y2", 50 + 25*15)
+                        .attr("stroke-width", 1.5)
+                        .attr("stroke", "black")
+                        .attr("id", "axis")
+
+          var cand = [["Rodrigo Red", "140"], ["Belinda Blue", "180"], ["Gracey Grey", "300"], ["Terrence Teal", "340"]]
+          svg.selectAll(".candName").data(cand).enter().append("text")
+                        .attr("x", 3*width/4 + 10)
+                        .attr("y", function(d, i){return d[1]})
+                        .text(function(d){return d[0]})
+                        .attr("font-family", "akkurat")
+                        .attr("font-size", "16px")
+                        .attr("fill", "black")
+                        .attr("id", function(d, i) {return "cand".concat(i.toString())})
+                        .attr("class", "candName")
+
+        })
+
+    }
   }
 
   sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+  rcvballotToDot = (index, width, svg, wait, speed, ballots) => {
+    //var svg = this.state.svg;
+    var cols = ["#ED4F3A", "#2994D2", "#34495D", "#78BEBE"]
+    var cand_ids = ["red", "blue", "grey", "teal"]
+    var cand = ballots[index]
+    var cand_id = [cand_ids[cand[0]], cand_ids[cand[1]], cand_ids[cand[2]], cand_ids[cand[3]]]
+    var color = [cols[cand[0]], cols[cand[1]], cols[cand[2]], cols[cand[3]]]
+
+    // v1 shadows
+    svg.append("circle")
+       .attr("cx", width/4 + 2*width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[0]).attr("class", "v1shadow")
+       .attr("opacity", 0)
+
+    var vote1 = svg.append("circle")
+                   .attr("cx", width/4 + 2*width/25)
+                   .attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+                   .attr("r", width/80)
+                   .attr("fill", color[0])
+                   .attr("id", cand_id[0])
+                   .attr("class", "v1")
+                   .attr("firstvote", function(d,i) { return "v1" + cand_id[0]})
+
+    // v2 shadows
+    svg.append("circle")
+       .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[1]).attr("class", "v2shadow")
+       .attr("opacity", 0)
+
+    var vote2 = svg.append("circle")
+                   .attr("cx", width/4 + width/25)
+                   .attr("cy", width/4 + 3*width/32 + cand[1]*width/20)
+                   .attr("r", width/80)
+                   .attr("fill", color[1])
+                   .attr("id", cand_id[1])
+                   .attr("class", "v2")
+                   .attr("firstvote", function(d,i) { return "v1" + cand_id[0]})
+
+    // v3 shadows
+    svg.append("circle")
+       .attr("cx", width/4 ).attr("cy", width/4 + 3*width/32 + cand[0]*width/20)
+       .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", cand_id[2]).attr("class", "v3shadow")
+       .attr("opacity", 0)
+
+    var vote3 = svg.append("circle")
+                   .attr("cx", width/4 )
+                   .attr("cy", width/4 + 3*width/32 + cand[2]*width/20)
+                   .attr("r", width/80)
+                   .attr("fill", color[2])
+                   .attr("id", cand_id[2])
+                   .attr("class", "v3")
+                   .attr("firstvote", function(d,i) { return "v3" + cand_id[2]})
+
+    var vote4 = svg.append("circle")
+                   .attr("cx", width/4 - width/25)
+                   .attr("cy", width/4 + 3*width/32 + cand[3]*width/20)
+                   .attr("r", width/80)
+                   .attr("fill", color[3])
+                   .attr("id", cand_id[3])
+                   .attr("class", "v4")
+                   .attr("firstvote", function(d,i) { return "v4" + cand_id[3]})
+
+    this.sleep(speed*3);
+
+    vote4.transition()
+        .duration(speed)
+        .attr("cx", 3*width/4 - width/25)
+        .attr("cy", 30 + index*15)
+        .attr("r", 6)
+    vote3.transition()
+        .duration(speed)
+        .attr("cx", 3*width/4)
+        .attr("cy", 30 + index*15)
+        .attr("r", 6)
+    vote2.transition()
+         .duration(speed)
+         .attr("cx", 3*width/4+ width/25)
+         .attr("cy", 30 + index*15)
+         .attr("r", 6)
+    vote1.transition()
+         .duration(speed)
+         .attr("cx", 3*width/4+2*width/25)
+         .attr("cy", 30 + index*15)
+         .attr("r", 6)
+
+    if (index < 24) {
+      if (wait !== 0) {
+        this.sleep(speed).then(() => {
+          if (index === 2) {
+            wait = 0
+          }
+          this.rcvballotToDot(index+1, width, svg, wait, speed, ballots)
+        })
+
+      } else {
+        this.rcvballotToDot(index+1, width, svg, wait, speed, ballots)
+      }
+    }
+    this.setState({svg: svg});
+
   }
 
   initialize() {
@@ -367,8 +609,7 @@ export default class Polarization extends Component {
           Jump to:
           <button type="button" href="#desc1" class="btn btn-link">FPTP Explanation</button>
           <a href="#desc1" onClick={this.jumpLink.bind(this, 2)} class="btn btn-link">RCV Explanation</a>
-          <button type="button" href="#desc4"  class="btn btn-link">Polarization</button>
-          <button type="button" href="#desc5"  class="btn btn-link">Representativeness</button>
+          <button type="button" href="#desc4"  class="btn btn-link">Polarization/Two-party</button>
           <button type="button" href="#desc2"  class="btn btn-link">Strategic Voting</button>
         </div>
         <div className='graphic2'>

@@ -669,8 +669,7 @@ export default class Narrative extends Component {
           Jump to:
           <button type="button" href="#desc1" class="btn btn-link">FPTP Explanation</button>
           <a href="#desc1" onClick={this.jumpLink.bind(this, 2)} class="btn btn-link">RCV Explanation</a>
-          <button type="button" href="#desc4"  class="btn btn-link">Polarization</button>
-          <button type="button" href="#desc5"  class="btn btn-link">Representativeness</button>
+          <button type="button" href="#desc4"  class="btn btn-link">Polarization/Two-Party</button>
           <button type="button" href="#desc2"  class="btn btn-link">Strategic Voting</button>
         </div>
         <div className='graphic'>
