@@ -1,42 +1,82 @@
 [
   {
     "key": "1",
-    "description":
-    "Strategic voting in RCV can also result in a scenario where the winner may not be the first choice of most people and is more moderate. Let's take a look once we add in a fourth candidate Terence Teal."
+    "description": 
+    "FPTP voting systems encourage strategic voting and two party systems. Here's how."
   },
   {
     "key": "2",
-    "description":
-    "Imagine a scenario where we have two major candidates Rodrigo Red and Belinda Blue, where if a voter supports one of them, they really dislike the other major candidate. Then, supporters of major candidates strategically rank candidates so that the one they favor is first, and the one they dislike is last, where they don't really have a preference for second and third choices."
+    "description": 
+    "Imagine if we have three candidates, one of which is more right-leaning, and the other two are more left-leaning. And supporters of Rodrigo Red and Gracey Grey have a slight preference towards their preferred candidate, but overall agree with both."
   },
   {
     "key": "3",
     "description": 
-    "Like before, we tally up all voters' first choice preferences for Round 1. In this scenario, no one has a majority."
+    "Now, if everyone votes for their favorite candidate, then, despite the left-leaning base being larger than the right-wing base, the left-wing candidates split the vote and thus resulted in the right-wing candidate Belinda Blue having a plurality."
   },
   {
     "key": "4",
+    "description": 
+    "Thus, voters begin to vote strategically to maximize the chances of any left-wing candidate winning. Therefore, some of the Grey supporters will switch to Red (who appears to have more support than Grey)."
+  },
+  {
+    "key": "5",
+    "description": 
+    "Now, with only two major candidates left, Rodrigo Red wins the election. With strategic voting, voters are then able to elect a candidate closer to them ideologically, but are not able to show their true preferences."
+  },
+  {
+    "key": "6",
+    "description": 
+    "This is how FPTP voting systems can encourage strategic voting and result in what the U.S. has today: a two party system."
+  },
+  {
+    "key": "10",
+    "description": 
+    "Now, let's take a look at a similar situation in an RCV voting system, except with an additional candidate Terence Teal."
+  },
+  {
+    "key": "11",
+    "description":
+    "With RCV, people can show their true preferences without worrying about splitting the vote as if their first choice doesn't make it past a round, their vote will go to their next favorite candidate. Let's see this in practice."
+  },
+  {
+    "key": "12",
+    "description":
+    "Imagine a scenario where we have two major candidates Rodrigo Red and Belinda Blue on differing ends of the ideological spectrum. A supporter of one dislikes the other, and would prefer either of the moderate candidates Terence Teal or Gracey Grey, in the event their favorite candidate loses."
+  },
+  {
+    "key": "13",
+    "description": 
+    "Like before, we tally up all voters' first choice preferences for Round 1. In this scenario, no one has a majority."
+  },
+  {
+    "key": "14",
     "description":
     "Now, we remove the candidate with the least votes, Gracey Grey."
   },
   {
-    "key": "5",
+    "key": "15",
     "description":
     "And we look at the the next highest preference of those who voted for Gracey Grey."
   },
   {
-    "key": "6",
+    "key": "16",
     "description":
     "Tallying these, we see that there is still no majority. Thus we remove the next candidate with the least votes, Belinda Blue."
   },
   {
-    "key": "7",
+    "key": "17",
     "description":
     "Now, we look at the next highest valid preference of those who's previous vote went to Belinda Blue. It is the next highest valid preference as it must be one of the remaining candidates."
   },
   {
-    "key": "8",
+    "key": "18",
     "description":
     "Tallying these, we see that Terence Teal has a majority and thus wins the election."
+  },
+  {
+    "key": "19",
+    "description":
+    "Here, we see how RCV dissuades the strategic voting as seen in FPTP. Supporters of non-major candidates can still voice their true preferences without being afraid of causing someone they dislike to win."
   }
 ]
