@@ -2,8 +2,7 @@
   {
     "name": "Approval",
     "type": "First Past the Post (FPTP)",
-    "img": "assets/img/empty.png",
-    "locations": ["A", "B", "C"],
+    "img": "approval.png",
     "summary": "Voters simply vote “yes” for all the candidates they like. The candidate with the most “yes” votes wins.",
     "description": "Voters are incentivized to give the most support to their preferred candidate.",
     "pros": "Less strategic voting compared to exaggeration from RCV, more favorable to third-party candidates, removes spoiler problem by preventing vote splitting.",
@@ -13,18 +12,16 @@
   {
     "name": "Plurality (with runoff)",
     "type": "First Past the Post (FPTP)",
-    "img": "empty.png",
-    "locations": ["A"],
-    "summary": "",
-    "description": "",
-    "pros": "",
-    "cons": "",
-    "source": "https://www.electionscience.org/library/approval-voting-versus-irv/"
+    "img": "plurality.png",
+    "summary": "Voters rank the candidates in order of preference. The field is narrowed to the two candidates with the most first-place votes. For each voter, tally whether they ranked the first or the second candidate more highly. The candidate who is preferred more in the head-to-head comparisonn wins.",
+    "pros": "It ensures that the winner got either the first or second-most first-place votes.",
+    "cons": "The system weights preferences on a binary scale, meaning that ranking the first candidate second and the second candidate fifth is tallied in the same way as ranking the first candidate third and the second candidate fourth.",
+    "source": "http://web.math.princeton.edu/math_alive/6/Lab1/PluralityRO.html"
   },
   {
     "name": "Two-round",
     "type": "First Past the Post (FPTP)",
-    "img": "empty.png",
+    "img": "tworound.png",
     "locations": ["Many countries! At least 40 countries use it to elect their president."],
     "summary": "Voter marks for their favorite candidate. If after the first round, no candidate has an absolute majority of votes (more than half), then the top two candidates (or some subset) are included in the second round and the voters choose one of them.",
     "pros": "Less need to vote tactically in first round, but still have to have a certain amount of tactical voting because you want your candidate to reach the second round.",
@@ -34,8 +31,7 @@
   {
     "name": "Pairwise & Condorcet",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
-    "locations": ["A", "B", "C"],
+    "img": "pairwise.png",
     "summary": "Each voter ranks candidates in order of preference; for each pairing of candidates, count how many voters rank each candidate over the other candidate; break cycle if necessary using different methods.",
     "pros": "Takes all rankings into account simultaneously, picks Condorcet winner.",
     "cons": "Condorcet paradox may occur, “later-no-harm” and “later-no-help” (ie. indicating a second choice might cause your first choice to lose), susceptible to tactical voting.",
@@ -44,8 +40,7 @@
   {
     "name": "Single Transferable Vote (STV)",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
-    "locations": ["A", "B", "C"],
+    "img": "singletransferablevote.png",
     "summary": "Rather than one person representing everyone in a small area, bigger areas elect a small team of representatives. These representatives reflect the diversity of opinions in the area. On election day, voters number a list of candidates. Their favourite as number one, their second favourite number two, and so on. Voters can put numbers next to as many or as few candidates as they like. Parties will often stand more than one candidate in each area. The numbers tell the people counting to move your vote if your favourite candidate has enough votes already or stands no chance of winning.",
     "description": "To get elected, a candidate needs a set amount of votes, known as the quota. The people counting the votes work out the quota based on the number of vacancies and the number of votes cast. Each voter has one vote. Once the counting has finished, any candidate who has more number ones than the quota is elected. But, rather than ignore extra votes a candidate received after the amount they need to win, these votes move to each voter’s second favourite candidate. If no one reaches the quota, then the people counting the vote remove the least popular candidate. People who voted for them have their votes moved to their second favourite candidate. This process continues until every vacancy is filled.",
     "pros": "Voters don't have to worry about 'vote splitting' or tactical voting with STV – they just put the candidates in order.",
@@ -54,7 +49,7 @@
   {
     "name": "Borda Count",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
+    "img": "borda.png",
     "locations": ["Nauru", "Kiribati", "Eurovision"],
     "summary": "Voters rank candidates, and each ballot gives candidates an amount of points corresponding to the number of candidates ranked lower. The candidate with the most points wins.",
     "pros": "Elects candidates broadly accepted by voters, and is more consensus as opposed to majority driven.",
@@ -63,15 +58,15 @@
   {
     "name": "Bucklin",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
-    "locations": ["A", "B", "C"],
+    "img": "bucklin.png",
     "summary": "Voters are allowed to rank the candidates in order of preference (first, second, third, etc.). First choice votes are first counted. If one candidate has an absolute majority, that candidate wins. Otherwise the second choices are added to the first choices. Again, if a candidate with an absolute majority vote is found, the winner is the candidate with the most votes accumulated. The subsequent tier of preferences are added until either a candidate has an absolute majority, or the rankings are exhausted.",
+    "pros": "This system is less susceptible to both constructive control and destructive control.",
     "cons": "The average voter nullifies the system by not exercising his/her second or other choices."
   },
   {
     "name": "Instant Runoff",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
+    "img": "instantrunoff.png",
     "locations": ["Australian Parliament"],
     "summary": "Rank candidates in order of preference, rank as many as you want. If single office: the candidate who receives more than half of the first choices wins. If there is no winner after that round, instant runoff: candidate with fewest vote is eliminated and voters who ranked that candidate as #1 have their votes given to their second choice. Repeat until someone has a majority –– then they win. Mult-winner: this is Single Transferable Vote.",
     "pros": "Instant Runoff ncentivizes people to rank multiple candidates without hurting their favorite candidate.",
@@ -80,19 +75,18 @@
   {
     "name": "Multiple Non-Transferable Vote (MNTV)/Block voting",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
-    "locations": [""],
+    "img": "blockvoting.png",
+    "locations": ["Brazil, Canada, United States"],
     "summary": "Elects multiple people; non-proportional. Essentially there are m positions to fill, so each voter can cast a vote for up to m people on their ballot. The m people with the most votes become the m winners. It's similar to FPTP, except you vote for multiple people at the same time",
-    "pros": "",
+    "pros": "This allows voters to express preferences for multiple candidates.",
     "cons": "This voting system can produce landslide victories for whichever party has larger base and more loyalty (even though people can vote across party lines)."
   },
   {
     "name": "Proportional representation",
     "type": "Ranked Choice (RCV)",
-    "img": "empty.png",
-    "locations": [""],
-    "summary": "",
-    "pros": "",
-    "cons": ""
+    "img": "proportional.png",
+    "summary": "The number of seats each party gains is proportional to the number of votes they receive in the election. Instead of declaring several winners among smaller districts, proportional representation declares multiple winners in larger districts.",
+    "pros": "It avoids the pitfalls of winner-take-all systems by allowing candidates that represent a sizable proportion of the electorate to win. In addition, it eliminates gerrymandering and leads to higher representations of women.",
+    "cons": "It enables extremist parties to gain seats. In addition, once the body is elected, it can be fractured by competing interests."
   }
 ]
