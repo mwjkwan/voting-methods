@@ -13,7 +13,6 @@
     "name": "Plurality (with runoff)",
     "type": "First Past the Post (FPTP)",
     "img": "plurality.png",
-    "locations": ["A"],
     "summary": "Voters rank the candidates in order of preference. The field is narrowed to the two candidates with the most first-place votes. For each voter, tally whether they ranked the first or the second candidate more highly. The candidate who is preferred more in the head-to-head comparisonn wins.",
     "pros": "It ensures that the winner got either the first or second-most first-place votes.",
     "cons": "The system weights preferences on a binary scale, meaning that ranking the first candidate second and the second candidate fifth is tallied in the same way as ranking the first candidate third and the second candidate fourth.",
@@ -61,6 +60,7 @@
     "type": "Ranked Choice (RCV)",
     "img": "bucklin.png",
     "summary": "Voters are allowed to rank the candidates in order of preference (first, second, third, etc.). First choice votes are first counted. If one candidate has an absolute majority, that candidate wins. Otherwise the second choices are added to the first choices. Again, if a candidate with an absolute majority vote is found, the winner is the candidate with the most votes accumulated. The subsequent tier of preferences are added until either a candidate has an absolute majority, or the rankings are exhausted.",
+    "pros": "This system is less susceptible to both constructive control and destructive control.",
     "cons": "The average voter nullifies the system by not exercising his/her second or other choices."
   },
   {

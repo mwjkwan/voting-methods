@@ -140,6 +140,12 @@ textarea {
   resize: none;
 }
 
+.card {
+  border: none;
+  box-shadow: 0 5px 10px 0 
+  rgba(0,0,0, .25);
+}
+
 .card-title {
   font-weight: 600;
   font-size: 30px;
@@ -148,6 +154,7 @@ textarea {
 .card-text {
   font-weight: 400;
   font-size: 14px;
+  line-height: 19px;
 }
 
 select {
