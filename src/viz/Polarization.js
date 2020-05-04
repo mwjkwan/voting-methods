@@ -89,6 +89,7 @@ export default class Polarization extends Component {
       redSize: 0,
       blueSize: 0,
       greySize: 0,
+      tealSize: 0,
       //value: 0,
       //stories: stories,
       //steps: [...stories.keys()], // ... is array destructuring operator
@@ -130,114 +131,137 @@ export default class Polarization extends Component {
     if (this.state.data === "1") {
 
 
+      var blue = svg.selectAll("#blue")
+      blue.transition()
+        .duration(2000)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 175)
+        .attr("r", 6)
+      this.setState({blueSize: blue.size()})
+
       var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
-      var redSize = red.size()
       red.transition()
         .duration(2000)
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-        .attr("cy", 295)
+        .attr("cy", 135)
         .attr("r", 6)
-
-      red = svg.selectAll("#red[blue-detractor=false][grey-detractor=true]")
-      console.log(red)
-      red.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
-        .attr("cy", 295)
-        .attr("r", 6)
-      redSize = redSize + red.size()
+      this.setState({redSize: red.size()})
 
       red = svg.selectAll("#red[blue-detractor=true][grey-detractor=false]")
+      var redSize = this.state.redSize
       red.transition()
         .duration(2000)
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
-        .attr("cy", 295)
+        .attr("cy", 135)
         .attr("r", 6)
+      this.setState({redSize: redSize + red.size()})
 
       var grey = svg.selectAll("#grey")
       grey.transition()
         .duration(2000)
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-        .attr("cy", 325)
+        .attr("cy", 295)
         .attr("r", 6)
-
       this.setState({greySize: grey.size()})
 
+      var teal = svg.selectAll("#teal[grey-detractor=false][blue-detractor=false]")
+      teal.transition()
+        .duration(2000)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 335)
+        .attr("r", 6)
+      this.setState({tealSize: teal.size()})
+
+      teal = svg.selectAll("#teal[grey-detractor=true][blue-detractor=false]")
+      var tealSize = this.state.tealSize
+      teal.transition()
+        .duration(2000)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*tealSize})
+        .attr("cy", 335)
+        .attr("r", 6)
+      this.setState({tealSize: tealSize + teal.size()})
+
       this.sleep(2250).then(() => {
-        svg.select("#cand1").attr("font-weight", 900)
+        svg.select("#cand2").attr("font-weight", 900)
       })
     }
 
     if (this.state.data === "2") {
-      var duds = [0, 0, 0, 0, 0, 0, 0, 0]
-      svg.selectAll("duds").data(duds).enter().append("circle")
-         .attr("cx", width/16).attr("cy", function(d,i){return 3*width/32 + i*15 - 15})
-         .attr("r", 6).attr("fill", "#2994D2").attr("id", "blue")
-
-      var dummy = ["Not voting yet"]
-      svg.selectAll("#voterlabel1").data(dummy).enter().append("text")
-                   .text("Not yet voting")
-                   .attr("font-family", "akkurat")
-                   .attr("font-size", "16px")
-                   .attr("fill", "black")
-                   .attr("id", "voterlabel1")
-                   .attr("class", "voterlabel")
-                   .attr("transform", "translate(25,145)rotate(-90)")
+      var red = svg.selectAll("#red[blue-detractor=true][grey-detractor=false]")
+      var blueSize = this.state.blueSize
+      red.transition()
+        .duration(2000)
+        .attr("fill", "#2994D2")
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+        .attr("cy", 175)
+        .attr("r", 6)
+      this.setState({blueSize: red.size() + blueSize})
     }
 
     if (this.state.data === "3") {
-      var dummy = ["Belina Blue"]
-      svg.selectAll("#cand2").data(dummy).enter().append("text")
-         .attr("x", 3*width/4 + 10)
-         .attr("y", 150)
-         .text("Belinda Blue")
-         .attr("font-family", "akkurat")
-         .attr("font-size", "16px")
-         .attr("fill", "black")
-         .attr("id", "cand2")
-         .attr("class", "candName")
-
-      this.sleep(500).then(() => {
-        svg.selectAll("#blue").transition()
-          .duration(2000)
-          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-          .attr("cy", 145)
-          .attr("r", 6)
-
-      })
-
-      var blue = svg.selectAll("#blue")
-      this.setState({blueSize: blue.size()})
+      var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true]")
+      var greySize = this.state.greySize
+      teal.transition()
+        .duration(2000)
+        .attr("fill", "#34495D")
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+        .attr("cy", 295)
+        .attr("r", 6)
+      this.setState({greySize: teal.size() + greySize})
     }
 
     if (this.state.data === "4") {
-      var blueSize = this.state.blueSize
-      svg.selectAll("#red[blue-detractor=true][grey-detractor=false]").transition()
-         .duration(2000)
-         .attr("fill", "#2994D2")
-         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
-         .attr("cy", 145)
-         .attr("r", 6)
+      var blue = svg.selectAll("#red[blue-detractor=true][grey-detractor=false],#blue")
+      //greySize = this.state.greySize
+      blue.transition()
+        .duration(2000)
+        .attr("cy", 155)
+        .attr("r", 6)
+
+      svg.selectAll("#cand1").transition().duration(2000).attr("y", 160)
+
+      var grey = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true],#grey")
+      //greySize = this.state.greySize
+      grey.transition()
+        .duration(2000)
+        .attr("cy", 315)
+        .attr("r", 6)
+
+      svg.selectAll("#cand2").transition().duration(2000).attr("y", 320)
+
+
+      this.sleep(2250).then(() => {
+        var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=false]")
+        var greySize = this.state.greySize
+        teal.transition()
+          .duration(2000)
+          .attr("fill", "#34495D")
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+          .attr("cy", 315)
+          .attr("r", 6)
+        this.setState({greySize: teal.size() + greySize})
+
+        var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
+        var blueSize = this.state.blueSize
+        red.transition()
+          .duration(2000)
+          .attr("fill", "#2994D2")
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+          .attr("cy", 155)
+          .attr("r", 6)
+        this.setState({blueSize: red.size() + blueSize})
+
+      })
+
+
+
     }
 
     if (this.state.data === "5") {
-      var greySize = this.state.greySize
-      console.log(svg.selectAll("#red[blue-detractor=false][grey-detractor=true]"))
-      svg.selectAll("#red[blue-detractor=false][grey-detractor=true]").transition()
-         .duration(2000)
-         .attr("fill", "#34495D")
-         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
-         .attr("cy", 325)
-         .attr("r", 6)
-      svg.select("#cand1").transition().attr("font-weight", 100)
-      svg.select("#cand2").transition(100).attr("font-weight", 900)
-    }
+      svg.selectAll("#cand0,#cand3").remove()
 
-    if (this.state.data === "6") {
-      svg.selectAll("#red[blue-detractor=false][grey-detractor=false]").remove()
-      svg.select("#cand0").remove()
-    }
 
+     }
   }
 
   sleep = (milliseconds) => {
@@ -273,12 +297,12 @@ export default class Polarization extends Component {
                   .attr("stroke-width", 1.5)
                   .attr("stroke", "black")
                   .attr("id", "axis")
-
-    var cand = ["Rodrigo Red", "Gracey Grey"]
+    svg.selectAll(".candName").remove()
+    var cand = [["Rodrigo Red", "140"], ["Belinda Blue", "180"], ["Gracey Grey", "300"], ["Terrence Teal", "340"]]
     svg.selectAll(".candName").data(cand).enter().append("text")
                   .attr("x", 3*width/4 + 10)
-                  .attr("y", function(d,i){return 300 + 30*i})
-                  .text(function(d, i){return d})
+                  .attr("y", function(d, i){return d[1]})
+                  .text(function(d){return d[0]})
                   .attr("font-family", "akkurat")
                   .attr("font-size", "16px")
                   .attr("fill", "black")
@@ -296,22 +320,25 @@ export default class Polarization extends Component {
                   .attr("id", function(d, i) {return "axlabels".concat(i.toString())})
                   .attr("class", "axlabel")
 
-    svg.append("text")
-                  .text("Voting")
-                  .attr("font-family", "akkurat")
-                  .attr("font-size", "16px")
-                  .attr("fill", "black")
-                  .attr("id", "voterlabel2")
-                  .attr("class", "voterlabel")
-                  .attr("transform", "translate(25,300)rotate(-90)")
+    // svg.append("text")
+    //               .text("Voting")
+    //               .attr("font-family", "akkurat")
+    //               .attr("font-size", "16px")
+    //               .attr("fill", "black")
+    //               .attr("id", "voterlabel2")
+    //               .attr("class", "voterlabel")
+    //               .attr("transform", "translate(25,300)rotate(-90)")
 
-    var v =  [[1, 1, 0], [2, 0, 0], [1, 0, 0], [2, 0, 0], [2, 0, 0], [1, 0, 1],
-              [2, 0, 0], [2, 0, 0], [1, 1, 0], [2, 0, 0], [2, 0, 0], [1, 0, 0],
-              [1, 0, 0], [2, 0, 0], [1, 1, 0], [1, 1, 0], [2, 0, 0], [2, 0, 0]]
+    var v =  [[3, 0, 1], [0, 1, 0], [3, 0, 1], [1, 0, 0], [2, 0, 0], [2, 0, 0],
+              [2, 0, 0], [1, 0, 0], [2, 0, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0],
+              [2, 0, 0], [0, 0, 0], [3, 0, 0], [0, 1, 0], [2, 0, 0], [3, 0, 1],
+              [1, 0, 0], [2, 0, 0], [1, 0, 0], [0, 0, 0], [2, 0, 0], [3, 0, 0], [1, 0, 0]]
+    var colors = ["red", "blue", "grey", "teal"]
+    var rgbs = ["#ED4F3A", "#2994D2", "#34495D", "#C9E4E4"]
     svg.selectAll("votes").data(v).enter().append("circle")
-       .attr("cx", width/16).attr("cy", function(d,i){return 105 + 3*width/32 + i*15 - 15})
-       .attr("r", 6).attr("fill", function(d){return (d[0] === 1 ? "#ED4F3A" : "#34495D")})
-       .attr("id", function(d) {return (d[0] === 1 ? 'red' : 'grey')})
+       .attr("cx", width/16).attr("cy", function(d,i){return 3*width/32 + i*15 - 15})
+       .attr("r", 6).attr("fill", function(d, i){return (rgbs[d[0]])})
+       .attr("id", function(d) {return (colors[d[0]])})
        .attr("blue-detractor", function(d) {return (d[1] === 1 ? "true" : "false")})
        .attr("grey-detractor", function(d) {return (d[2] === 1 ? "true" : "false")})
 
