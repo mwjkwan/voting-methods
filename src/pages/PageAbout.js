@@ -5,6 +5,7 @@ import { css, jsx } from "@emotion/core";
 
 import Description from "../components/Description";
 import Article from "../components/Article";
+import Distribution from "../viz/Distribution";
 
 const aboutProject = (
   <div>
@@ -57,6 +58,7 @@ export default class PageAbout extends Component {
     return (
       <Article {...content}>
         <div css={aboutStyle}>
+          <Distribution />
           <Description>{aboutProject}</Description>
         </div>
       </Article>
