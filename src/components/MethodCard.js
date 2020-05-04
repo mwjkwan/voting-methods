@@ -8,7 +8,7 @@ const MethodCard = props => {
   const method = props.info;
   return (
       <Card>
-        <Card.Img variant="top" src="https://sightline-wpengine.netdna-ssl.com/wp-content/uploads/2017/11/Screenshot-of-alternative-voting-systems-in-the-US-map.-Graphic-by-Sightline-Institute..png"/>
+        <Card.Img variant="top" src={require('../assets/methods/' + method.img)}/>
         <Card.Body>
           <Card.Text>
             {method.type.toUpperCase()}
@@ -18,7 +18,7 @@ const MethodCard = props => {
           <Card.Text>{method.description}</Card.Text>
           <Card.Text><b>Pros: </b>{method.pros}</Card.Text>
           <Card.Text><b>Cons: </b>{method.cons}</Card.Text>
-          <Card.Text><b>Used in: </b>{method.locations.join(", ")}</Card.Text>
+          {method.locations && <Card.Text><b>Used in: </b>{method.locations.join(", ")}</Card.Text>}
         </Card.Body>
       </Card>
   );
