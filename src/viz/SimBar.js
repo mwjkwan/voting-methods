@@ -57,7 +57,7 @@ export default class SimBar extends Component {
     const viz = this;
 
     var parentWidth = d3
-      .select('.simLine-graphic')
+      .select('.simBar-graphic')
       .node()
       .getBoundingClientRect().width;
 
@@ -177,6 +177,8 @@ export default class SimBar extends Component {
     console.log(RCV[10].values[0].values.length);
     console.log(FPTP[10].values[0].values.length);
 
+    d3.selectAll('g.place').remove();
+
     var rcvPlaceSelect = viz.state.svg.select('.bars')
       .selectAll('g.place')
       .data(RCV);
@@ -188,12 +190,12 @@ export default class SimBar extends Component {
 
     rcvPlaceSelect.exit().remove();
 
-    var rcvBarSelect = rcvPlace.selectAll('rect')
+    var rcvBarSelect = rcvPlace.selectAll('rect.rcv-bars')
       .data((d) => d.values )
 
     rcvBarSelect.enter().append('rect')
-        .merge(rcvBarSelect)
         .attr('class', 'rcv-bars')
+        .merge(rcvBarSelect)
         .attr('x', 50)
         .attr('y', (d) =>  viz.state.ySubgroup(d.key)  )
         .attr('height', (d) => viz.state.ySubgroup.bandwidth())
@@ -202,12 +204,12 @@ export default class SimBar extends Component {
 
     rcvBarSelect.exit().remove();
 
-    var rcvTextSelect = rcvPlace.selectAll('text')
+    var rcvTextSelect = rcvPlace.selectAll('text.rcv-labels')
       .data((d) => d.values )
 
     rcvTextSelect.enter().append('text')
-      .merge(rcvTextSelect)
       .attr('class', 'rcv-labels')
+      .merge(rcvTextSelect)
       .attr('x', (d) => viz.state.RCVx(d.values.length) + 60)
       .attr('y', (d) => viz.state.ySubgroup(d.key) + viz.state.ySubgroup.bandwidth()/2 + 6)
       .text((d) => d.values.length);
@@ -225,12 +227,12 @@ export default class SimBar extends Component {
 
     fptpPlaceSelect.exit().remove();
 
-    var fptpBarSelect = fptpPlace.selectAll('rect')
+    var fptpBarSelect = fptpPlace.selectAll('rect.fptp-bars')
       .data((d) => d.values )
 
     fptpBarSelect.enter().append('rect')
-        .merge(fptpBarSelect)
         .attr('class', 'fptp-bars')
+        .merge(fptpBarSelect)
         .attr('x', (d) =>  viz.state.FPTPx(d.values.length) )
         .attr('y', (d) => viz.state.ySubgroup(d.key)  )
         .attr('height', (d) => viz.state.ySubgroup.bandwidth())
@@ -240,11 +242,12 @@ export default class SimBar extends Component {
     fptpBarSelect.exit().remove();
 
     var fptpTextSelect = fptpPlace
-        .selectAll('text')
+        .selectAll('text.fptp-labels')
         .data((d) => d.values )
 
     fptpTextSelect.enter().append('text')
           .attr('class', 'fptp-labels')
+          .merge(fptpTextSelect)
           .attr('x', (d) => viz.state.FPTPx(d.values.length) - 25)
           .attr('y', (d) => viz.state.ySubgroup(d.key) + viz.state.ySubgroup.bandwidth()/2 + 6)
           .text((d) => d.values.length);
