@@ -9,6 +9,7 @@ import { scaleOrdinal } from 'd3-scale';
 import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import Polarization from "../viz/Polarization"
+import Strategic from "../viz/Strategic"
 const descriptions = require("../assets/data/narrative.json");
 
 
@@ -62,7 +63,7 @@ const narrativeStyle = css`
     margin-top: 10%;
     margin-bottom: 10%;
     text-align: center;
-    font-size: 25px;
+    font-size: 15px;
   }
 
   .desc {
@@ -95,19 +96,19 @@ const polarizeblurb = (
   </div>
 );
 
-const rcvblurb = (
+const strategicblurb = (
   <div>
     <left>
     <p>
-    The RCV voting system encourages more moderate candidates, non-polarization and majority support. Additionally, it minimizes strategic voting where voters vote for whoever they dislike least as opposed to whoever they truly prefer.
+      FPTP voting systems can encourage strategic voting as supporters of less popular candidates shift their vote to their more preferred of the most popular candidates, as opposed to their true first preference.
     </p>
     <br></br>
     <p>
-    One downside is that while this voting system does encourage third party moderate candidates, the winner may not be the first choice of most people.
+      Strategic voting in RCV voting systems generally can occur as well when voters rank their least favorite candidate last. However, this may also lead to a scenario where more moderate, or less popular candidates win.
     </p>
     <br></br>
     <p>
-    Let’s take a closer look, once we add in a fourth candidate Terence Teal.
+    Let’s take a closer look at both scenarios.
     </p>
     </left>
   </div>
@@ -152,10 +153,6 @@ export default class Narrative extends Component {
   componentDidMount() {
     this.initialize();
   }
-
-  // componentWillUnmount() {
-  //   this.props.removeSelf();
-  // }
 
   update() {
     console.log('updating');
@@ -478,7 +475,6 @@ export default class Narrative extends Component {
       })
 
     }
-
   }
 
   sleep = (milliseconds) => {
@@ -699,8 +695,9 @@ export default class Narrative extends Component {
       </div>
       <Polarization/>
       <div className="blurb">
-        {rcvblurb}
+        {strategicblurb}
       </div>
+      <Strategic/>
       </div>
       )
   }
