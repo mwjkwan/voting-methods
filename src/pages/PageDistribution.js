@@ -40,6 +40,13 @@ const aboutStyle = css`
     padding-left: 1em;
     padding-top: 1em;
   }
+  .big {
+    margin-bottom: 1em;
+    font-size: 2em !important;
+    font-weight: 700;
+    color: black;
+    line-height: 1;
+  }
 `;
 
 export default class PageDistribution extends Component {
@@ -67,7 +74,7 @@ export default class PageDistribution extends Component {
       <div css={aboutStyle}>
         <Article {...content}>
           <div className="subheading">
-            <h2>Ideological Spectrum Simulation</h2>
+            <div className="big">Ideological Spectrum Simulation</div>
             {aboutProject}
           </div>
           <Description>

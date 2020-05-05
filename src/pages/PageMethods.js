@@ -34,6 +34,14 @@ const style = css`
     font-size: 18px;
     padding-bottom: 2%;
   }
+  .big {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 2em !important;
+    font-weight: 700;
+    color: black;
+    line-height: 1;
+  }
 `;
 
 export default class PageMethods extends Component {
@@ -62,6 +70,7 @@ export default class PageMethods extends Component {
     return (
       <div css={style}>
         <Article {...content}>
+            <div className="big">Reference</div>
             <Description>{story}</Description>
             <Button variant={rcv ? "primary" : "secondary"} onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
             <Button variant={fptp ? "success" : "secondary"} onClick={this.toggleFPTP}>First Past the Post (FPTP)</Button>{' '}

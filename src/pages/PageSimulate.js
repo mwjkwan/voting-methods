@@ -67,6 +67,14 @@ const aboutStyle = css`
     padding-left: 1em;
     padding-top: 1em;
   }
+  .big {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 2em !important;
+    font-weight: 700;
+    color: black;
+    line-height: 1;
+  }
 `;
 
 export default class PageSimulate extends Component {
@@ -74,6 +82,7 @@ export default class PageSimulate extends Component {
     return (
       <div  css={aboutStyle} >
         <Article{...content}>
+          <div className="big">Alternative Outcomes: Case Studies with US Elections</div>
           <div className="subheading">
             <h2>Election Simulation & Data Analysis</h2>
           </div>
