@@ -73,6 +73,10 @@ const narrativeStyle = css`
   .btn {
     color: #575757;
   }
+
+  #toc {
+    font-size: 25px;
+  }
 `
 ;
 
@@ -688,11 +692,12 @@ export default class Polarization extends Component {
       <div css={narrativeStyle}>
       <div id="methods"></div>
       <div className='main'>
-        <div className='jumplinks'>
-          Jump to:
-          <a href="#methods" class="btn btn-link">FPTP/RCV Explanations</a>
-          <a href="#polarize"  class="btn btn-link">Polarization/Two-Party</a>
-          <a href="#strategic"  class="btn btn-link">Strategic Voting</a>
+        <div className='jumplinks' id="tocl">
+          <b id="toc">Table of Contents</b>
+          <br></br>
+          <a href="#methods" style={{padding: "0%"}} class="btn btn-link">FPTP/RCV Explanations</a>
+          <a href="#polarize" style={{padding: "0%"}} class="btn btn-link">Polarization/Two-Party</a>
+          <a href="#strategic" style={{padding: "0%"}} class="btn btn-link">Strategic Voting</a>
         </div>
         <div className='graphic2'>
           <div id="viz2"></div>
