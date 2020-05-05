@@ -17,6 +17,9 @@ const story = (
   </p>
   <br></br>
   <p>The Voting Methods Project seeks to inform voters, activists, and politicians of different electoral methods through visualization, narrative explanations, interactive experiments, and simulations of real life elections.</p>
+  <br></br>
+  <br></br>
+  <hr></hr>
   </div>
   );
 
@@ -53,7 +56,6 @@ export default class PageHome extends Component {
           <div css={style}>
             <Description>
               {story}
-              <hr></hr>
             </Description>
           </div>
         <Landing />
