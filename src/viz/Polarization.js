@@ -313,10 +313,6 @@ export default class Polarization extends Component {
     }
 
     if (this.state.data === "7") {
-      var v =  [[3, 0, 1], [0, 1, 0], [3, 0, 1], [1, 0, 0], [2, 0, 0], [2, 0, 0],
-                [2, 0, 0], [1, 0, 0], [2, 0, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0],
-                [2, 0, 0], [0, 0, 0], [3, 0, 0], [0, 1, 0], [2, 0, 0], [3, 0, 1],
-                [1, 0, 0], [2, 0, 0], [1, 0, 0], [0, 0, 0], [2, 0, 0], [3, 0, 0], [1, 0, 0]]
 
       var ballots = [[3, 2, 1, 0], [0, 1, 2, 3], [3, 2, 1, 0], [1, 0, 2, 3], [2, 3, 1, 0],
                     [2, 3, 1, 0], [2, 3, 0, 1], [1, 0, 3, 2], [2, 3, 1, 0], [0, 1, 3, 2], [1, 0, 2, 3],
@@ -400,6 +396,98 @@ export default class Polarization extends Component {
                         .attr("class", "candName")
 
         })
+
+    }
+    if (this.state.data == "10") {
+      var red = svg.selectAll("#red.v1");
+      var blue = svg.selectAll("#blue.v1");
+      var grey = svg.selectAll("#grey.v1");
+      var teal = svg.selectAll("#teal.v1");
+
+      svg.selectAll(".v1shadow")
+         .transition(function(d, i) {return 50 + i*15})
+
+
+      red.transition()
+        .duration(2000)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 135)
+        .attr("r", 6)
+
+      blue.transition()
+          .duration(2000)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 175)
+          .attr("r", 6)
+
+      grey.transition()
+          .duration(2000)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 295)
+          .attr("r", 6)
+
+      teal.transition()
+          .duration(2000)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 335)
+          .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+         .attr("opacity", 1)
+
+
+
+
+      // var max = Math.max(red.size(), blue.size(), grey.size(), teal.size());
+      // var bold = "";
+      // if (red.size() === max) {
+      //   bold = "#cand0";
+      // } else if (blue.size() === max) {
+      //   bold = "#cand1";
+      // } else if (grey.size() === max){
+      //   bold = "#cand2";
+      // } else {
+      //   bold = "#cand3"
+      // }
+      // this.sleep(2200).then(() => {
+      //   svg.select(bold)
+      //      .transition(2000)
+      //      .attr("font-weight", 900)
+      // })
+      this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size(), tealSize: teal.size()});
+    }
+
+    if (this.state.data === "11") {
+      svg.selectAll("#red.v1,#teal.v1").remove()
+    }
+
+    if (this.state.data === "12") {
+      svg.selectAll(".v2shadow")
+         .attr("opacity", 1)
+      svg.selectAll("[firstvote=v1red],[firstvote=v1teal]")
+         .transition().duration(1000)
+         .attr("cx",  4*width/25)
+      this.sleep(2250).then(() => {
+        var blueSize = this.state.blueSize
+        var greySize = this.state.greySize
+        svg.selectAll("#grey[firstvote=v1teal]")
+           .transition()
+           .duration(2000)
+           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+           .attr("cy", 295)
+           .attr("r", 6)
+
+        svg.selectAll("#blue[firstvote=v1red]")
+           .transition()
+           .duration(2000)
+           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+           .attr("cy", 175)
+           .attr("r", 6)
+
+      })
+    }
+
+    if (this.state.data === "13") {
 
     }
   }

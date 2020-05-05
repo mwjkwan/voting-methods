@@ -42,5 +42,17 @@
   {
     "key": "10",
     "description": "...And then count our first-choice votes, which are the same as in the FPTP round."
+  },
+  {
+    "key": "11",
+    "description": "Since there's a tie for last-place, we'll remove both Rodrigo and Terrence."
+  },
+  {
+    "key": "12",
+    "description": "Now we'll count the second-choice candidates of voters' whose first choice was removed."
+  },
+  {
+    "key": "13",
+    "description": "Notice we have a more moderate result than before and that all voters could express their true preferences without any candidate re-positioning or strategic voting."
   }
 ]
