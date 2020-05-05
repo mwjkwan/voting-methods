@@ -70,6 +70,49 @@ const sampleData = [
   { id: 'Group-3', value: 89 }
 ]
 
+function groupData (data, total) {
+  // use scale to get percent values
+  const percent = d3.scaleLinear()
+    .domain([0, total])
+    .range([0, 100])
+  // filter out data that has zero values
+  // also get mapping for next placement
+  // (save having to format data for d3 stack)
+  let cumulative = 0
+  const _data = data.map(d => {
+    cumulative += d.value
+    return {
+      value: d.value,
+      // want the cumulative to prior value (start of rect)
+      cumulative: cumulative - d.value,
+      label: d.id,
+      percent: percent(d.value)
+    }
+  }).filter(d => d.value > 0)
+  return _data
+}
+
+function integrate (f, start, end) {
+  const step_size = 0.01;
+  let total = 0;
+  for (let x = start; x < end; x += step_size) {
+    total += step_size*f(x);
+  }
+  return total;
+}
+
+function midpoints (data) {
+  // midpoints including rightmost endpoint
+  const midpts = data.map(({xpos}, i) => {
+    if (i + 1 < data.length) {
+      return (xpos + data[i+1].xpos)/2.0
+    } else {
+      return 10.0;
+    }
+  })
+  return [-10.0, ...midpts]
+}
+
 
 export default class Distribution extends Component {
   constructor(props) {
@@ -79,9 +122,9 @@ export default class Distribution extends Component {
       svg: null,
       initialized: false,
       candidates: [
-        {id: "A", xpos: -3, color: "#ed4f3a", value: 5},
-        {id: "B", xpos: 0, color: "#2994d2", value: 6},
-        {id: "C", xpos: 5, color: "#34495d", value: 7},
+        {id: "Candidate A", xpos: -3, color: "#ed4f3a", value: 5},
+        {id: "Candidate B", xpos: 0, color: "#2994d2", value: 6},
+        {id: "Candidate C", xpos: 5, color: "#34495d", value: 7},
       ]
       }
     }
@@ -116,7 +159,7 @@ export default class Distribution extends Component {
   initialize() {
     Promise.all([
       this.scaffoldDistribution(),
-      this.scaffoldBarCharts('.barchart', sampleData),
+      this.scaffoldBarCharts('.fptpBarchart', this.state.candidates),
     ]).then(() => {
         this.make_rules();
         this.chart_line();
@@ -171,7 +214,7 @@ export default class Distribution extends Component {
       width: parentWidth,
       height: 200,
       barHeight: 100,
-      colors: ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'],
+      colors: ["#ed4f3a", "#2994d2", "#34495d", '#984ea3', '#ff7f00', '#ffff33'],
     }
     const { f, margin, width, height, barHeight, colors } = config
     const w = width - margin.left - margin.right
@@ -179,7 +222,7 @@ export default class Distribution extends Component {
     const halfBarHeight = barHeight / 2
   
     const total = d3.sum(data, d => d.value)
-    const _data = this.groupData(data, total)
+    const _data = groupData(data, total)
   
     // set up scales for horizontal placement
     const xScale = d3.scaleLinear()
@@ -226,67 +269,8 @@ export default class Distribution extends Component {
       .attr('y', (h / 2) - (halfBarHeight * 1.1))
       .style('fill', (d, i) => colors[i])
       .text(d => d.label)
-      
   }
-
-  groupData (data, total) {
-    // use scale to get percent values
-    const percent = d3.scaleLinear()
-      .domain([0, total])
-      .range([0, 100])
-    // filter out data that has zero values
-    // also get mapping for next placement
-    // (save having to format data for d3 stack)
-    let cumulative = 0
-    const _data = data.map(d => {
-      cumulative += d.value
-      return {
-        value: d.value,
-        // want the cumulative to prior value (start of rect)
-        cumulative: cumulative - d.value,
-        label: d.id,
-        percent: percent(d.value)
-      }
-    }).filter(d => d.value > 0)
-    return _data
-  }
-
-  updateBarChart(bind, data) {
-    var parentWidth = d3
-      .select('.distribution')
-      .node()
-      .getBoundingClientRect().width;
-    const selection = d3.select(bind);
-    const config = {
-      f: d3.format('.1f'),
-      margin: {top: 20, right: 10, bottom: 20, left: 10},
-      width: parentWidth,
-      height: 200,
-      barHeight: 100,
-      colors: ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'],
-    }
-    const { f, margin, width, height, barHeight, colors } = config
-    const w = width - margin.left - margin.right
-    const h = height - margin.top - margin.bottom
-    const halfBarHeight = barHeight / 2
-    const total = d3.sum(data, d => d.value);
-    const _data = this.groupData(data, total);
-    const xScale = d3.scaleLinear()
-      .domain([0, total])
-      .range([0, w])
-
-    // stack rect for each data value
-    selection.selectAll('rect')
-      .data(_data)
-      .enter().append('rect')
-      .attr('class', 'rect-stacked')
-      .attr('x', d => xScale(d.cumulative))
-      .attr('y', h / 2 - halfBarHeight)
-      .attr('height', barHeight)
-      .attr('width', d => xScale(d.value))
-      .style('fill', (d, i) => colors[i])
-  }
-
+  
   renderCandidates () {
     const { vis, candidates, continuous, x, y } = this.state;
     const points = candidates.map(({id, xpos, color}) => {
@@ -306,6 +290,80 @@ export default class Distribution extends Component {
                 .on('start', dragstarted)
                 .on('drag', dragged)
                 .on('end', dragended);
+
+    function updateClass () {
+      d3.select(this).classed('active', false);
+      console.log(d3.select(this).attr("id"));
+    }
+
+    function updateBarChart (bind, data) {
+      var parentWidth = d3
+          .select('.distribution')
+          .node()
+          .getBoundingClientRect().width;
+
+      const config = {
+        f: d3.format('.1f'),
+        margin: {top: 20, right: 10, bottom: 20, left: 10},
+        width: parentWidth,
+        height: 200,
+        barHeight: 100,
+        colors: ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'],
+      }
+      const { f, margin, width, height, barHeight, colors } = config
+      const w = width - margin.left - margin.right
+      const h = height - margin.top - margin.bottom
+      const halfBarHeight = barHeight / 2
+    
+      const total = d3.sum(data, d => d.value)
+      const _data = groupData(data, total)
+    
+      // set up scales for horizontal placement
+      const xScale = d3.scaleLinear()
+        .domain([0, total])
+        .range([0, w])
+        d3.select(bind).selectAll("*").remove();
+        const selection = d3.select(bind)
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
+      // stack rect for each data value
+      selection.selectAll('rect')
+        .data(_data)
+        .enter().append('rect')
+        .attr('class', 'rect-stacked')
+        .attr('x', d => xScale(d.cumulative))
+        .attr('y', h / 2 - halfBarHeight)
+        .attr('height', barHeight)
+        .attr('width', d => xScale(d.value))
+        .style('fill', (d, i) => data[i].color)
+        
+
+      // add some labels for percentages
+      selection.selectAll('.text-value')
+        .data(_data)
+        .enter().append('text')
+        .attr('class', 'text-value')
+        .attr('text-anchor', 'middle')
+        .attr('x', d => xScale(d.cumulative) + (xScale(d.value) / 2))
+        .attr('y', (h / 2) + 5)
+        .text(d => f(d.percent) + ' %')
+
+      
+      // add the labels
+      selection.selectAll('.text-percent')
+        .data(_data)
+        .enter().append('text')
+        .attr('class', 'text-percent')
+        .attr('text-anchor', 'middle')
+        .attr('x', d => xScale(d.cumulative) + (xScale(d.value) / 2))
+        .attr('y', (h / 2) - (halfBarHeight * 1.1))
+        .style('fill', (d, i) => data[i].color)
+        .text(d => d.label)
+    }
     
     function dragstarted() {
       d3.select(this).raise().classed('active', true);
@@ -327,52 +385,25 @@ export default class Distribution extends Component {
       const xpos = x.invert(d3.select(this).attr("cx"));
       const color = d3.select(this).attr("color");
       
-      let data = [];
+      let positions = [];
       d3.selectAll("circle").each(function(d, i) {
         let id = d3.select(this).attr("id");
         let xpos = x.invert(d3.select(this).attr("cx"));
         let color = d3.select(this).attr("color");
-        data = [...data, {id, xpos, color, value: xpos+100}];
+        positions = [...positions, {id, xpos, color}];
       })
+      positions = positions.sort((a, b) => a.xpos - b.xpos);
+      const midpts = midpoints(positions);
+      const data = positions.map(({id, xpos, color}, i) => {
+        return ({id, xpos, color, value: integrate(continuous, midpts[i], midpts[i+1])})
+      });
 
       // this.updateBarChart('.barchart', candidateInfo);
       // THIS IS JANK
       // Updating the other bar chart 
-      var parentWidth = d3
-        .select('.distribution')
-        .node()
-        .getBoundingClientRect().width;
-      const selection = d3.select('.barchart');
-      const config = {
-        f: d3.format('.1f'),
-        margin: {top: 20, right: 10, bottom: 20, left: 10},
-        width: parentWidth,
-        height: 200,
-        barHeight: 100,
-        colors: ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'],
-      }
-      const { f, margin, width, height, barHeight, colors } = config
-      const w = width - margin.left - margin.right
-      const h = height - margin.top - margin.bottom
-      const halfBarHeight = barHeight / 2
-      const total = d3.sum(data, d => d.value);
-      const _data = data;
-      console.log(data);
-      const xScale = d3.scaleLinear()
-        .domain([0, total])
-        .range([0, w])
-
-      // stack rect for each data value
-      selection.selectAll('rect')
-        .data(_data)
-        .enter().append('rect')
-        .attr('class', 'rect-stacked')
-        .attr('x', d => xScale(d.cumulative))
-        .attr('y', h / 2 - halfBarHeight)
-        .attr('height', barHeight)
-        .attr('width', d => xScale(d.value))
-        .style('fill', (d, i) => colors[i])
-      }
+      // create svg in passed in div
+      updateBarChart('.fptpBarchart', data)
+    }
 
     d3.selectAll("circle")
       .call(drag);
@@ -452,7 +483,9 @@ export default class Distribution extends Component {
         <div className='main'>
           <div className='distribution'>
           </div>
-          <div className='barchart'>
+          <div className='fptpBarchart'>
+          </div>
+          <div className='rcvBarchart'>
           </div>
         </div>
       </div>
