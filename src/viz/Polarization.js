@@ -73,6 +73,10 @@ const narrativeStyle = css`
   .btn {
     color: #575757;
   }
+
+  #toc {
+    font-size: 25px;
+  }
 `
 ;
 
@@ -99,7 +103,7 @@ export default class Polarization extends Component {
   }
 
   onStepEnter = ({ element, data }) => {
-    element.style.backgroundColor = 'lightgoldenrodyellow';
+    //element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState( { data });
     console.log(data)
     this.update();
@@ -686,8 +690,15 @@ export default class Polarization extends Component {
 
     return (
       <div css={narrativeStyle}>
-
+      <div id="methods"></div>
       <div className='main'>
+        <div className='jumplinks' id="tocl">
+          <b id="toc">Table of Contents</b>
+          <br></br>
+          <a href="#methods" style={{padding: "0%"}} class="btn btn-link">FPTP/RCV Explanations</a>
+          <a href="#polarize" style={{padding: "0%"}} class="btn btn-link">Polarization/Two-Party</a>
+          <a href="#strategic" style={{padding: "0%"}} class="btn btn-link">Strategic Voting</a>
+        </div>
         <div className='graphic2'>
           <div id="viz2"></div>
         </div>
@@ -708,7 +719,9 @@ export default class Polarization extends Component {
             ))}
           </Scrollama>
          </div>
+         
       </div>
+      <div id="strategic"></div>
       </div>
       )
   }
