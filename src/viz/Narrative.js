@@ -56,6 +56,7 @@ const narrativeStyle = css`
     '&:last-child': {
       margin-bottom: 0;
     }
+    font-size: 20px;
   }
 
   .blurb {
@@ -165,7 +166,7 @@ export default class Narrative extends Component {
   }
 
   onStepEnter = ({ element, data }) => {
-    element.style.backgroundColor = 'lightgoldenrodyellow';
+    //element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState( { data });
     console.log(data)
     this.update();
