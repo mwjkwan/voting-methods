@@ -98,6 +98,7 @@ export default class SimDots extends Component {
 
     var nestedData = d3.nest()
       .key((d) => d.place).sortKeys(d3.descending)
+      .key((d) => d.contest)
       .entries(this.state.electionData.filter((d) => d.different === "TRUE"));
 
     // var y = d3.scaleLinear()
@@ -111,7 +112,7 @@ export default class SimDots extends Component {
       .attr('class', 'd3-tip')
       .offset([-10, 0])
       .html(function(d) {
-        return '<b>' + d.value.contest + "</b>: " + d.value.candidates;
+        return '<b>' + d.value.key + "</b>";
 
       })
       .style('color', '#fff')

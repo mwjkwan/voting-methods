@@ -20,13 +20,13 @@ const part1 = (
 
 const part2 = (
   <div className='desc'>
-    We looked at elections across the years 2001 to 2019. For each election, we used our complete ballot data to calculate the First Past The Post (FPTP) winner (calculated from the rank 1 votes for each candidate). Then, we noted the elections that saw a <b>different</b> outcome using FPTP than using RCV. We found that <b>39 elections</b> would have turned out differently had the voting system been FPTP rather than RCV. We wanted to see if there were any trends in different outcomes by year, and found that there were no significant patterns here.
+    We looked at elections across the years 2001 to 2019. For each election, we used our complete ballot data to calculate the First Past The Post (FPTP) winner (calculated from the rank 1 votes for each candidate). Then, we noted the elections that saw a <b>different</b> outcome using FPTP than using RCV. We found that <b>24 elections</b> would have turned out differently had the voting system been FPTP rather than RCV. We wanted to see if there were any trends in different outcomes by year, and found that there were no significant patterns here.
   </div>
 );
 
 const part3 = (
   <div className='desc'>
-    Then, we looked to see if any locales saw a particularly high number of elections that would have turned out differently. We found that Cambridge, Oakland, and San Francisco saw the highest number of elections that would have differed. However, these locales were also some of those that had the most RCV elections out of the locales we looked at. The exception is Minneapolis, which had the 2nd most RCV elections but only had 4 differing election results.
+    Then, we looked to see if any locales saw a particularly high number of elections that would have turned out differently. We found that Cambridge, Oakland, San Leandro, and San Francisco saw the highest number of elections that would have differed. However, these locales were also some of those that had the most RCV elections out of the locales we looked at. The exception is Minneapolis, which had the 2nd most RCV elections but only had 2 differing election results.
   </div>
 );
 
