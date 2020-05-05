@@ -5,6 +5,7 @@ import { css, jsx } from "@emotion/core";
 
 import Description from "../components/Description";
 import Article from "../components/Article";
+import Distribution from "../viz/Distribution";
 
 const aboutProject = (
   <div>
@@ -79,12 +80,16 @@ export default class PageAbout extends Component {
   render() {
     return (
       <Article {...content}>
-      <div css={aboutStyle}>
+        <div css={aboutStyle}>
         <p className = "big">Voting systems have the power to change election outcomes.</p>
         <br></br>
         <div className = "blurb">
           {aboutProject}
         </div>
+        <Description>
+        <Distribution />
+        {aboutProject}
+        </Description>
       </div>
       </Article>
     );
