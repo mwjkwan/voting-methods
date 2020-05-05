@@ -3,6 +3,9 @@
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 
+import { selectAll } from 'd3-selection';
+
+
 import Description from "../components/Description";
 import Article from "../components/Article";
 
@@ -11,6 +14,8 @@ import SimDots from "../viz/SimDots";
 import SimLine from "../viz/SimLine";
 import SimBar from "../viz/SimBar";
 import SimRace from "../viz/SimRace";
+
+const d3 = { selectAll };
 
 const part1 = (
   <div className='desc'>
@@ -79,6 +84,11 @@ const aboutStyle = css`
 `;
 
 export default class PageSimulate extends Component {
+
+  componentWillUnmount() {
+    d3.selectAll('.d3-tip').remove();
+  }
+
   render() {
     return (
       <div  css={aboutStyle} >

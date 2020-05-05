@@ -3,17 +3,21 @@
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 
+import { selectAll } from 'd3-selection';
+
 import Description from "../components/Description";
 import Article from "../components/Article";
 import Landing from "../viz/Landing";
+
+const d3 = { selectAll };
 
 const story = (
   <div className="blurb">
   <div className="big">Voting systems have the power to change election outcomes. </div>
   <br></br>
   <p>
-    In the US, the predominant voting system is <b>First Past the Post (FPTP)</b>, where each voter selects one candidate and the candidate with the most votes wins. 
-    While intuitive, it creates counterproductive incentives for both candidates and voters. Groups like FairVote, Voter Choice, Ballot Ready, and Voters Choose are advocating <b>Ranked Choice Voting (RCV)</b>, where voters can rank their preferences for multiple candidates. 
+    In the US, the predominant voting system is <b>First Past the Post (FPTP)</b>, where each voter selects one candidate and the candidate with the most votes wins.
+    While intuitive, it creates counterproductive incentives for both candidates and voters. Groups like FairVote, Voter Choice, Ballot Ready, and Voters Choose are advocating <b>Ranked Choice Voting (RCV)</b>, where voters can rank their preferences for multiple candidates.
   </p>
   <br></br>
   <p>The Voting Methods Project seeks to inform voters, activists, and politicians of different electoral methods through visualization, narrative explanations, interactive experiments, and simulations of real life elections.</p>
@@ -50,6 +54,11 @@ const style = css`
 `;
 
 export default class PageHome extends Component {
+
+  componentWillUnmount() {
+    d3.selectAll('.landing-d3-tip').remove();
+  }
+
   render() {
     return (
       <div>

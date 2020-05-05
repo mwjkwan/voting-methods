@@ -261,6 +261,7 @@ export default class Landing extends Component {
     var mapBase = this.state.svg.select('.map-base');
 
     var tooltip = d3Tip()
+      .attr('class', 'landing-d3-tip')
       .html(function(d) {
         if (entries[viz.convertCountry(d.properties.name)]) { // shouldn't be entries
           return '<b>' + d.properties.name + ':</b> ' + entries[viz.convertCountry(d.properties.name)][0]["Electoral system for national legislature"];
