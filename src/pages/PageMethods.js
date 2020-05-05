@@ -48,6 +48,7 @@ const style = css`
   }
   #scootit {
     margin-left: 4%;
+    margin-bottom: 4%;
   }
   #scootit2 {
     margin-left: 3.6%;

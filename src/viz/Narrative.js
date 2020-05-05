@@ -89,9 +89,6 @@ const methodblurb = (
     <p>
     We're going to illustrate how each method works, as well as their relative benefits and drawbacks.
     </p>
-    <br></br>
-    <br></br>
-    <br></br>
     </left>
   </div>
 );
