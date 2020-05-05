@@ -686,8 +686,14 @@ export default class Polarization extends Component {
 
     return (
       <div css={narrativeStyle}>
-
+      <div id="methods"></div>
       <div className='main'>
+        <div className='jumplinks'>
+          Jump to:
+          <a href="#methods" class="btn btn-link">FPTP/RCV Explanations</a>
+          <a href="#polarize"  class="btn btn-link">Polarization/Two-Party</a>
+          <a href="#strategic"  class="btn btn-link">Strategic Voting</a>
+        </div>
         <div className='graphic2'>
           <div id="viz2"></div>
         </div>
@@ -708,7 +714,9 @@ export default class Polarization extends Component {
             ))}
           </Scrollama>
          </div>
+         
       </div>
+      <div id="strategic"></div>
       </div>
       )
   }

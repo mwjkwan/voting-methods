@@ -754,11 +754,19 @@ export default class Strategic extends Component {
 
     return (
       <div css={narrativeStyle}>
-
+      <div id="methods"></div>
       <div className='main'>
+        
+        <div className='jumplinks'>
+          Jump to:
+          <a href="#methods" class="btn btn-link">FPTP/RCV Explanations</a>
+          <a href="#polarize"  class="btn btn-link">Polarization/Two-Party</a>
+          <a href="#strategic"  class="btn btn-link">Strategic Voting</a>
+        </div>
         <div className='graphic3'>
           <div id="viz3"></div>
         </div>
+        <div id="polarize"></div>
         <div className='scroller'>
           <Scrollama
             onStepEnter={this.onStepEnter}
