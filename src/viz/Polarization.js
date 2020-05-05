@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import React, { Component } from 'react';
 import { css, jsx } from '@emotion/core';
+import { Card } from "react-bootstrap";
 import { Scrollama, Step } from 'react-scrollama';
 import { select, selectAll, mouse } from 'd3-selection';
 import { csv } from 'd3-fetch';
@@ -68,6 +69,10 @@ const narrativeStyle = css`
     margin-left:20px;
     margin-right:20px;
 
+  }
+  .card-text {
+    font-size: 18px !important;
+    line-height: 1.3;
   }
 
   .btn {
@@ -713,13 +718,19 @@ export default class Polarization extends Component {
             {descriptions.map ( desc => (
               <Step data={desc.key} key={desc.key}>
                 <div className="step" >
-                  <p className = "desc" id={"desc" + desc.key}>{desc.description}</p>
+                  <p className = "desc" id={"desc" + desc.key}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Text>{desc.description}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </p>
                 </div>
               </Step>
             ))}
           </Scrollama>
          </div>
-         
+
       </div>
       <div id="strategic"></div>
       </div>

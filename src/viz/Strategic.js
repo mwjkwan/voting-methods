@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { css, jsx } from '@emotion/core';
 import { Scrollama, Step } from 'react-scrollama';
+import { Card } from "react-bootstrap";
 import { select, selectAll, mouse } from 'd3-selection';
 import { csv } from 'd3-fetch';
 import { path } from 'd3-path';
@@ -42,6 +43,11 @@ const narrativeStyle = css`
   .data {
     font-size: 5rem;
     text-align: center
+  }
+
+  .card-text {
+    font-size: 18px !important;
+    line-height: 1.3;
   }
 
   .scroller {
@@ -760,7 +766,7 @@ export default class Strategic extends Component {
       <div css={narrativeStyle}>
       <div id="methods"></div>
       <div className='main'>
-        
+
         <div className='jumplinks' id="tocl">
           <b id="toc">Table of Contents</b>
           <br></br>
@@ -783,7 +789,13 @@ export default class Strategic extends Component {
             {descriptions.map ( desc => (
               <Step data={desc.key} key={desc.key}>
                 <div className="step" >
-                  <p className = "desc" id={"desc" + desc.key}>{desc.description}</p>
+                  <p className = "desc" id={"desc" + desc.key}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Text>{desc.description}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </p>
                 </div>
               </Step>
             ))}
