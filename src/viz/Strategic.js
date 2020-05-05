@@ -144,7 +144,7 @@ export default class Strategic extends Component {
   }
 
   onStepEnter = ({ element, data }) => {
-    element.style.backgroundColor = 'lightgoldenrodyellow';
+    //element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState( { data });
     console.log(data)
     this.update();
