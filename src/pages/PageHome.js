@@ -7,9 +7,14 @@ import Description from "../components/Description";
 import Article from "../components/Article";
 import Landing from "../viz/Landing";
 
-const story = <div className="big">The Voting Methods Project aims to help everyone better understand
-the process and outcome of different voting methods.
-The result of an election can hinge on the specific electoral method used. </div>;
+const story = (
+  <div className="blurb">
+  <div className="big">Voting systems have the power to change election outcomes. </div>
+  <br></br>
+  <p>As a result, it is vital that voters, activists, and politicians remain informed about different electoral methods.</p>
+  <br></br>
+  </div>
+  );
 
 const style = css`
   div {
@@ -22,11 +27,16 @@ const style = css`
   }
   .big {
     margin-top: 12%;
-    margin-left: 8%;
-    font-size: 2em !important;
+    font-size: 2.5em !important;
     font-weight: 700;
     color: black;
     line-height: 1;
+  }
+
+  .blurb {
+    margin-left: 8%;
+    padding-bottom: 0%;
+    margin-bottom: 0%;
   }
 `;
 
