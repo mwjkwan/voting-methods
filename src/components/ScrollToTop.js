@@ -1,23 +1,17 @@
-/** @jsx jsx */
+import React, { useEffect, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { Component } from "react";
-import { css, jsx } from "@emotion/core";
-
-const descriptionStyle = css`
-  .description {
-    max-width: 50em !important;
-    margin-left: 0em;
-  }
-`;
-
-export default class ScrollToTop extends Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0)
+function ScrollToTop({ history, children }) {
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      window.scrollTo(0, 0);
+    });
+    return () => {
+      unlisten();
     }
-  }
+  }, []);
 
-  render() {
-    return this.props.children
-  }
+  return <Fragment>{children}</Fragment>;
 }
+
+export default withRouter(ScrollToTop);
