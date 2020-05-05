@@ -2,7 +2,7 @@
 
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
-
+import { Card } from "react-bootstrap";
 import Description from "../components/Description";
 import Article from "../components/Article";
 import Distribution from "../viz/Distribution";
@@ -50,6 +50,10 @@ const aboutProject = (
       <li>Professor Sarah John, University of Virginia</li>
       <li>Sebastian Ellefson, Ballot Ready</li>
     </ul>
+    <br></br>
+    <Card>
+      <Card.Img variant="top" src={require('../assets/img/credits.png')}/>
+    </Card>
   </div>
 );
 
@@ -68,30 +72,32 @@ const aboutStyle = css`
     margin-bottom: 8%;
   }
 
+  .credits {
+    max-width: 60vw;
+  }
+
   .big {
     margin-top: 8%;
     margin-left: 8%;
     font-size: 50px;
     font-weight: 700;
+    color: black;
+    line-height: 1;
   }
 `;
 
 export default class PageAbout extends Component {
   render() {
     return (
+      <div css={aboutStyle}>
       <Article {...content}>
-        <div css={aboutStyle}>
         <p className = "big">Voting systems have the power to change election outcomes.</p>
         <br></br>
         <div className = "blurb">
-          {aboutProject}
+        <Description>{aboutProject}</Description>
         </div>
-        <Description>
-        <Distribution />
-        {aboutProject}
-        </Description>
-      </div>
       </Article>
+      </div>
     );
   }
 }
