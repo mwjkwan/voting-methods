@@ -177,7 +177,6 @@ export default class SimRace extends Component {
     yearData = d3.map(yearData, (d) => d.key)
     numData = d3.map(numData, (d) => d.key)
 
-      console.log(numData);
 
 
     d3.selectAll('.axis').remove();
@@ -191,7 +190,6 @@ export default class SimRace extends Component {
 
     const xAxis = d3.axisBottom(x)
       .tickFormat((d) => {
-        console.log(d);
         return d + ' (' + yearData.get(d).values[0].key + ' - ' + yearData.get(d).values[yearData.get(d).values.length - 1].key + ', ' + numData.get(d).value + ' candidates)';
       });
 

@@ -80,8 +80,6 @@ export default class SimMap extends Component {
 
     elections = elections.sort((a, b) => b.values.length - a.values.length )
 
-    console.log(years);
-
 
     var bubbleScale = d3.scaleLog()
       .domain(d3.extent(elections, (d) => d['values'].length ))

@@ -78,8 +78,6 @@ export default class SimLine extends Component {
         }).sort((a, b) => a.year - b.year )
       }})
 
-      console.log(groupedData)
-
       const color = d3.scaleOrdinal()
         .domain(groups)
         .range(['#9E81CC', '#48A36D']);
