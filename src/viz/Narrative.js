@@ -63,7 +63,7 @@ const narrativeStyle = css`
     margin-top: 10%;
     margin-bottom: 10%;
     text-align: center;
-    font-size: 15px;
+    font-size: 24px;
   }
 
   .desc {
@@ -82,15 +82,19 @@ const polarizeblurb = (
   <div>
     <left>
     <p>
-    First past the post encourages the polarization of candidate ideologies. It consequently helps entrench two-party political systems.
+    First past the post encourages a two-party system and the polarization of candidate ideologies.
     </p>
     <br></br>
     <p>
-    RCV can encourage more moderate candidates.
+    RCV can encourage more moderate candidates and can better support smaller parties and a multi-party system.
     </p>
     <br></br>
     <p>
-    We'll demonstrate both phenomena below.
+    These are not universal laws but common trends.
+    </p>
+    <br></br>
+    <p>
+    We'll demonstrate these phenomena below.
     </p>
     </left>
   </div>
@@ -422,11 +426,11 @@ export default class Narrative extends Component {
       } else {
         bold = "#cand2";
       }
-      this.sleep(2200).then(() => {
-        svg.select(bold)
-           .transition(2000)
-           .attr("font-weight", 900)
-      })
+      // this.sleep(2200).then(() => {
+      //   svg.select(bold)
+      //      .transition(2000)
+      //      .attr("font-weight", 900)
+      // })
       this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size()});
 
     }

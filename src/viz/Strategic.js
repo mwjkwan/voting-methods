@@ -202,6 +202,7 @@ export default class Strategic extends Component {
       svg.selectAll("#grey").transition()
                             .duration(2000)
                             .attr("cx", function(d, i) {return 3*width/4 - 15 -15*8 - 15*i})
+                            .attr("fill", "#ED4F3A")
                             .attr("cy", 300-5)
                             .attr("r", 6)
     }
@@ -271,10 +272,10 @@ export default class Strategic extends Component {
     }
 
     if (this.state.data === "11") {
-      var ballots = [[0, 2, 3, 1], [0, 3, 2, 1], [0, 3, 2, 1], [1, 3, 2, 0], [1, 3, 2, 0], 
-                    [3, 0, 1, 2], [0, 2, 3, 1], [0, 2, 3, 1], [2, 3, 1, 0], [1, 3, 2, 0], 
-                    [1, 2, 3, 0], [2, 3, 1, 0], [0, 2, 3, 1], [0, 3, 2, 1], [2, 3, 1, 0], 
-                    [1, 3, 2, 0], [1, 2, 3, 0], [3, 2, 0, 1], [0, 3, 2, 1], [0, 2, 3, 1], 
+      var ballots = [[0, 2, 3, 1], [0, 3, 2, 1], [0, 3, 2, 1], [1, 3, 2, 0], [1, 3, 2, 0],
+                    [3, 0, 1, 2], [0, 2, 3, 1], [0, 2, 3, 1], [2, 3, 1, 0], [1, 3, 2, 0],
+                    [1, 2, 3, 0], [2, 3, 1, 0], [0, 2, 3, 1], [0, 3, 2, 1], [2, 3, 1, 0],
+                    [1, 3, 2, 0], [1, 2, 3, 0], [3, 2, 0, 1], [0, 3, 2, 1], [0, 2, 3, 1],
                     [2, 0, 3, 1], [1, 3, 2, 0], [3, 2, 0, 1], [3, 0, 2, 1], [3, 1, 0, 2]]
 
       this.rcvballotToDot(0, width, svg, 1500, 1500, ballots);
@@ -323,7 +324,7 @@ export default class Strategic extends Component {
         .attr("cx", 3*width/25)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
-    
+
       svg.selectAll(".v3shadow")
         .transition()
         .attr("cx", 2*width/25)
@@ -396,22 +397,22 @@ export default class Strategic extends Component {
 
 
 
-      var max = Math.max(red.size(), blue.size(), grey.size(), teal.size());
-      var bold = "";
-      if (red.size() === max) {
-        bold = "#cand0";
-      } else if (blue.size() === max) {
-        bold = "#cand1";
-      } else if (grey.size() === max){
-        bold = "#cand2";
-      } else {
-        bold = "#cand3"
-      }
-      this.sleep(2200).then(() => {
-        svg.select(bold)
-           .transition(2000)
-           .attr("font-weight", 900)
-      })
+      // var max = Math.max(red.size(), blue.size(), grey.size(), teal.size());
+      // var bold = "";
+      // if (red.size() === max) {
+      //   bold = "#cand0";
+      // } else if (blue.size() === max) {
+      //   bold = "#cand1";
+      // } else if (grey.size() === max){
+      //   bold = "#cand2";
+      // } else {
+      //   bold = "#cand3"
+      // }
+      // this.sleep(2200).then(() => {
+      //   svg.select(bold)
+      //      .transition(2000)
+      //      .attr("font-weight", 900)
+      // })
       this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size(), tealSize: teal.size()});
     }
 
@@ -440,24 +441,24 @@ export default class Strategic extends Component {
            .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
            .attr("cy", 195)
            .attr("r", 6)
-  
+
         svg.selectAll("#teal[firstvote=v1grey]")
            .transition()
            .duration(2000)
            .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*tealSize})
            .attr("cy", 285)
            .attr("r", 6)
-  
+
         this.sleep(2300).then(() => {
-          svg.select("#cand2")
-             .transition()
-             .attr("font-weight", 100)
-          svg.select("#cand0")
-             .transition(100)
-             .attr("font-weight", 900)
+          // svg.select("#cand2")
+          //    .transition()
+          //    .attr("font-weight", 100)
+          // svg.select("#cand0")
+          //    .transition(100)
+          //    .attr("font-weight", 900)
           svg.selectAll("#blue.v1").remove()
         })
-  
+
       }
 
       if (this.state.data === "17") {
@@ -475,15 +476,15 @@ export default class Strategic extends Component {
 
       if (this.state.data === "18") {
         var tealSize = this.state.tealSize
-  
+
         svg.selectAll("#teal[firstvote=v1blue]")
            .transition()
            .duration(2000)
            .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*(tealSize + 3)})
            .attr("cy", 285)
            .attr("r", 6)
-  
-  
+
+
         this.sleep(2300).then(() => {
           svg.select("#cand0")
              .transition()
@@ -492,7 +493,7 @@ export default class Strategic extends Component {
              .transition(100)
              .attr("font-weight", 900)
         })
-  
+
       }
   }
 

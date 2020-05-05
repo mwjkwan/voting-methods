@@ -125,6 +125,7 @@ export default class Polarization extends Component {
       redSize: 0,
       blueSize: 0,
       greySize: 0,
+      tealSize: 0,
       //value: 0,
       //stories: stories,
       //steps: [...stories.keys()], // ... is array destructuring operator
@@ -222,6 +223,7 @@ export default class Polarization extends Component {
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
         .attr("cy", 195)
         .attr("r", 6)
+      this.setState({blueSize: blue.size()});
 
       blue.transition()
           .duration(2000)
@@ -349,6 +351,7 @@ export default class Polarization extends Component {
         .attr("cx", 3*width/25)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
+      this.setState({redSize: redSize + red.size()})
 
       svg.selectAll(".v2shadow")
         .transition()
@@ -409,6 +412,17 @@ export default class Polarization extends Component {
           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
           .attr("cy", 255)
           .attr("r", 6)
+        this.setState({greySize: teal.size() + greySize})
+
+        var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
+        var blueSize = this.state.blueSize
+        red.transition()
+          .duration(2000)
+          .attr("fill", "#2994D2")
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+          .attr("cy", 155)
+          .attr("r", 6)
+        this.setState({blueSize: red.size() + blueSize})
 
       svg.selectAll(".v1shadow")
          .attr("opacity", 1)
@@ -477,6 +491,7 @@ export default class Polarization extends Component {
 
     }
 
+     }
   }
 
   sleep = (milliseconds) => {
@@ -600,17 +615,16 @@ export default class Polarization extends Component {
 
   initialize() {
     // thanks xisabao
-    var parentWidth = d3
-      .select('.graphic2')
-      .node()
-      .getBoundingClientRect().width;
+    var parentWidth = d3.select('.graphic2')
+                        .node()
+                        .getBoundingClientRect().width;
 
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 
     const width = parentWidth - margin.left - margin.right;
     const height = 800 - margin.top - margin.bottom;
-    this.setState({width, height})
+    this.setState({width, height});
 
     // Get a handle on the SVG
     var svg = d3.select("#viz2")
@@ -619,7 +633,7 @@ export default class Polarization extends Component {
                 .attr('height', height);
 
     // Initialize the ballot SVG
-    svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
+    svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4")
     svg.append("text")
        .attr("x", 10.3*width/32)
        .attr("y", width/4 + 30)

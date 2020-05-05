@@ -39,9 +39,7 @@ export default class SimBar extends Component {
     Promise.all([
       d3.csv(`${process.env.PUBLIC_URL}/data/election_data.csv`),
     ]).then(([res]) => {
-      console.log(res);
         const distinctData = res.filter((v, i, a) => a.map(x => x.candidates.toLowerCase()).indexOf(v.candidates.toLowerCase()) === i);
-        console.log(distinctData);
         this.setState({ electionData: res, distinctData: distinctData });
         this.initialize();
     });
@@ -57,7 +55,7 @@ export default class SimBar extends Component {
     const viz = this;
 
     var parentWidth = d3
-      .select('.simLine-graphic')
+      .select('.simBar-graphic')
       .node()
       .getBoundingClientRect().width;
 
@@ -151,7 +149,6 @@ export default class SimBar extends Component {
     var RCV;
     var FPTP;
 
-    console.log(selected);
 
     if (selected === "all") {
       RCV = d3.nest()
@@ -174,40 +171,44 @@ export default class SimBar extends Component {
         .key((d) => d.gender)
         .entries(this.state.distinctData.filter((d) => d.fptp === "TRUE" ));
     }
-    console.log(RCV[10].values[0].values.length);
-    console.log(FPTP[10].values[0].values.length);
+
 
     var rcvPlaceSelect = viz.state.svg.select('.bars')
-      .selectAll('g.place')
+      .selectAll('g.rcv-place')
       .data(RCV);
 
     var rcvPlace = rcvPlaceSelect.enter()
       .append('g')
         .attr('class', 'rcv-place')
+        .merge(rcvPlaceSelect)
         .attr('transform', (d) => 'translate(' + (viz.state.width/2) + ', ' + viz.state.y(d.key) + ')');
+
+    rcvPlace.transition();
 
     rcvPlaceSelect.exit().remove();
 
-    var rcvBarSelect = rcvPlace.selectAll('rect')
+    var rcvBarSelect = rcvPlace.selectAll('rect.rcv-bars')
       .data((d) => d.values )
 
-    rcvBarSelect.enter().append('rect')
-        .merge(rcvBarSelect)
+    var rcvBar = rcvBarSelect.enter().append('rect')
         .attr('class', 'rcv-bars')
+        .merge(rcvBarSelect)
         .attr('x', 50)
         .attr('y', (d) =>  viz.state.ySubgroup(d.key)  )
         .attr('height', (d) => viz.state.ySubgroup.bandwidth())
         .attr('width', (d) => viz.state.RCVx(d.values.length))
         .attr('fill', (d) => viz.state.color(d.key));
 
+    rcvBar.transition();
+
     rcvBarSelect.exit().remove();
 
-    var rcvTextSelect = rcvPlace.selectAll('text')
+    var rcvTextSelect = rcvPlace.selectAll('text.rcv-labels')
       .data((d) => d.values )
 
     rcvTextSelect.enter().append('text')
-      .merge(rcvTextSelect)
       .attr('class', 'rcv-labels')
+      .merge(rcvTextSelect)
       .attr('x', (d) => viz.state.RCVx(d.values.length) + 60)
       .attr('y', (d) => viz.state.ySubgroup(d.key) + viz.state.ySubgroup.bandwidth()/2 + 6)
       .text((d) => d.values.length);
@@ -215,36 +216,40 @@ export default class SimBar extends Component {
     rcvTextSelect.exit().remove();
 
     var fptpPlaceSelect = viz.state.svg.select('.bars')
-      .selectAll('g.place')
+      .selectAll('g.fptp-place')
       .data(FPTP)
 
     var fptpPlace = fptpPlaceSelect.enter()
       .append('g')
         .attr('class', 'fptp-place')
+        .merge(fptpPlaceSelect)
         .attr('transform', (d) => 'translate(-50, ' + viz.state.y(d.key) + ')');
 
     fptpPlaceSelect.exit().remove();
 
-    var fptpBarSelect = fptpPlace.selectAll('rect')
+    var fptpBarSelect = fptpPlace.selectAll('rect.fptp-bars')
       .data((d) => d.values )
 
-    fptpBarSelect.enter().append('rect')
-        .merge(fptpBarSelect)
+    var fptpBar = fptpBarSelect.enter().append('rect')
         .attr('class', 'fptp-bars')
+        .merge(fptpBarSelect)
         .attr('x', (d) =>  viz.state.FPTPx(d.values.length) )
         .attr('y', (d) => viz.state.ySubgroup(d.key)  )
         .attr('height', (d) => viz.state.ySubgroup.bandwidth())
         .attr('width', (d) => (viz.state.width/2) - viz.state.FPTPx(d.values.length))
         .attr('fill', (d) => viz.state.color(d.key));
 
+    fptpBar.transition();
+
     fptpBarSelect.exit().remove();
 
     var fptpTextSelect = fptpPlace
-        .selectAll('text')
+        .selectAll('text.fptp-labels')
         .data((d) => d.values )
 
     fptpTextSelect.enter().append('text')
           .attr('class', 'fptp-labels')
+          .merge(fptpTextSelect)
           .attr('x', (d) => viz.state.FPTPx(d.values.length) - 25)
           .attr('y', (d) => viz.state.ySubgroup(d.key) + viz.state.ySubgroup.bandwidth()/2 + 6)
           .text((d) => d.values.length);

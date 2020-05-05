@@ -5,9 +5,9 @@ import { select, selectAll, mouse, event } from 'd3-selection';
 import { csv } from 'd3-fetch';
 import { path } from 'd3-path';
 import { extent } from 'd3-array';
-import { scaleOrdinal, scaleLinear } from 'd3-scale';
+import { scaleOrdinal, scaleLinear, scaleLog } from 'd3-scale';
 import { transition } from 'd3-transition';
-import { nest } from 'd3-collection';
+import { nest, map } from 'd3-collection';
 import { queue } from 'd3-queue';
 import { geoPath, geoAlbersUsa } from 'd3-geo';
 import d3Tip from 'd3-tip';
@@ -15,7 +15,7 @@ import * as topojson from 'topojson-client';
 
 import topoData from '../assets/data/usa.json';
 
-const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, scaleLinear, transition, nest, queue, geoAlbersUsa, geoPath, extent };
+const d3 = { select, selectAll, mouse, csv, path, scaleOrdinal, scaleLinear, scaleLog, transition, nest, map, queue, geoAlbersUsa, geoPath, extent };
 
 
 export default class SimMap extends Component {
@@ -33,6 +33,12 @@ export default class SimMap extends Component {
       d3.csv(`${process.env.PUBLIC_URL}/data/election_data.csv`),
       d3.csv(`${process.env.PUBLIC_URL}/data/election_location.csv`)
     ]).then(([res1, res2]) => {
+        res1 = res1.map((d) => {
+          return {
+            ...d,
+            date: +d.date
+          }
+        });
         this.setState({ electionData: res1, locationData: res2 });
         this.initialize();
     });
@@ -68,8 +74,17 @@ export default class SimMap extends Component {
       .key((d) => d.contest)
       .entries(this.state.electionData);
 
+    var years = d3.nest()
+      .key((d) => d.place)
+      .key((d) => d.date).sortKeys((a, b) => +a - +b)
+      .entries(this.state.electionData);
 
-    var bubbleScale = d3.scaleLinear()
+    elections = elections.sort((a, b) => b.values.length - a.values.length )
+
+    console.log(years);
+
+
+    var bubbleScale = d3.scaleLog()
       .domain(d3.extent(elections, (d) => d['values'].length ))
       .range([0, 50]);
 
@@ -109,6 +124,12 @@ export default class SimMap extends Component {
         }
       });
 
+    var infoPanel = svg.append('g')
+      .attr('class', 'info')
+      .attr('width', 150)
+      .attr('height', 100)
+      .attr('transform', 'translate(' + (width - 150) + ', ' + (height - 150) + ')') ;
+
     var bubbles = svg.append('g')
       .attr('class', 'bubbles')
       .selectAll('circle')
@@ -117,6 +138,7 @@ export default class SimMap extends Component {
     bubbles.enter()
       .append('circle')
       .attr('class', 'place-bubble')
+      .attr('id', (d, i) => 'bubble' + i)
       .attr('cx', (d) =>
         projection([coords.get(d.key)[0]['Longitude'], coords.get(d.key)[0]['Latitude']])[0]
         )
@@ -125,20 +147,83 @@ export default class SimMap extends Component {
       )
       .attr('r', (d) =>  bubbleScale(d['values'].length) )
       .attr('fill', (d) => colorScale(d.key))
-      .attr('fill-opacity', '0.6')
+      .attr('fill-opacity', (d) => d.values.length > 20 ? '0.2' : '0.6')
       .attr('stroke', (d) => colorScale(d.key))
-      .attr('stroke-width', 2);
+      .attr('stroke-width', 2)
+      .on('mouseenter', function(d, i) {
+        //var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
+
+        d3.select('#bubble' + i).style('cursor', 'pointer');
+        var placeInfo = coords.get(d.key)[0];
+        var placeYears = d3.map(years, (d) => d.key).get(d.key).values;
+        infoPanel.append('text')
+          .text(placeInfo.Place + ', ' + placeInfo.State + ': ');
+        infoPanel.append('text')
+          .attr('y', 20)
+          .text(d.values.length + ' RCV elections');
+        infoPanel.append('text')
+          .attr('y', 40)
+          .text('from ' + placeYears[0].key + ' to ' + placeYears[placeYears.length - 1].key);
+      })
+      .on('mouseleave', function(d, i) {
+        infoPanel.selectAll('text').remove();
+        d3.select('#bubble' + i).style('cursor', 'default');
+      });
 
     bubbles.enter()
       .append('text')
       .attr('class', 'place-label')
+      .attr('id', (d, i) => 'label' + i)
       .attr('x', (d) =>
-        projection([coords.get(d.key)[0]['Longitude'], coords.get(d.key)[0]['Latitude']])[0] + 20
+        projection([coords.get(d.key)[0]['Longitude'], coords.get(d.key)[0]['Latitude']])[0] + 10
       )
-      .attr('y', (d) =>
-        projection([coords.get(d.key)[0]['Longitude'], coords.get(d.key)[0]['Latitude']])[1] - 20
+      .attr('y', (d) => {
+        var og = projection([coords.get(d.key)[0]['Longitude'], coords.get(d.key)[0]['Latitude']])[1] - 10;
+        var add;
+        switch (coords.get(d.key)[0]['Place']) {
+          case 'San Francisco':
+            add = -25;
+            break;
+          case 'Oakland':
+            add = 0;
+            break;
+          case 'Berkeley':
+          case 'Payson':
+            add = 25;
+            break;
+          case 'San Leandro':
+            add = 50;
+            break;
+          default:
+            add = 0;
+            break;
+        }
+        return og + add;
+        }
       )
-      .text((d) => d.key);
+      .text((d) => d.key)
+      .on('mouseenter', function(d, i) {
+        //var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
+
+        d3.select('#label' + i).style('cursor', 'pointer');
+
+        var placeInfo = coords.get(d.key)[0];
+        var placeYears = d3.map(years, (d) => d.key).get(d.key).values;
+        infoPanel.append('text')
+          .text(placeInfo.Place + ', ' + placeInfo.State + ': ');
+        infoPanel.append('text')
+          .attr('y', 20)
+          .text(d.values.length + ' RCV elections');
+        infoPanel.append('text')
+          .attr('y', 40)
+          .text('from ' + placeYears[0].key + ' to ' + placeYears[placeYears.length - 1].key)
+      })
+      .on('mouseleave', function(d, i) {
+        infoPanel.selectAll('text').remove();
+
+        d3.select('#label' + i).style('cursor', 'default');
+      });
+;
 
 
   }
