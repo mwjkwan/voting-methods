@@ -204,8 +204,12 @@ export default class SimLine extends Component {
           var x0 = x.invert(d3.mouse(this)[0]),
               i = bisectDate(groupedData[0].values, x0, 1),
               d0 = groupedData[0].values[i - 1],
-              d1 = groupedData[0].values[i],
-              j = x0 - d0.year > d1.year - x0 ? i : i-1;
+              d1 = groupedData[0].values[i];
+          if (d0 && d1) {
+              var j = x0 - d0.year > d1.year - x0 ? i : i-1;
+            } else {
+              var j = i-1;
+            }
           var a = groupedData[0].values[j];
           var b = groupedData[1].values[j];
           focus1.attr("transform", "translate(" + x(a.year) + "," + y(a.value) + ")");
