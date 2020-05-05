@@ -11,9 +11,11 @@ import { nest } from 'd3-collection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { line } from 'd3-shape';
 import { format } from 'd3-format';
+import { range } from 'd3-array';
+import { drag } from 'd3-drag';
 
 
-const d3 = { axisBottom, axisLeft, format, select, selectAll, line, mouse, csv, path, scaleOrdinal, transition, scaleLinear, nest };
+const d3 = { axisBottom, axisLeft, drag, range, format, select, selectAll, line, mouse, csv, path, scaleOrdinal, transition, scaleLinear, nest };
 
 const style = css`
   body {
@@ -63,33 +65,15 @@ export default class Distribution extends Component {
     super(props);
     //const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
     this.state = {
-      data: "",
       svg: null,
-      step: 0,
-      width: 0,
-      height: 0,
-      redSize: 0,
-      blueSize: 0,
-      greySize: 0,
-      progress: 0,
       initialized: false,
+      candidates: {
+        "A": 0,
+        "B": 1,
+        "C": -1,
+      }
     }
   }
-
-  // onStepEnter = ({ element, data }) => {
-  //   element.style.backgroundColor = 'lightgoldenrodyellow';
-  //   this.setState( { data });
-  //   console.log(data)
-  //   this.update();
-  // }
-
-  // onStepExit= ({ element }) => {
-  //   element.style.backgroundColor = '#fff';
-  // }
-
-  // onStepProgress = ({ element, progress }) => {
-  //   this.setState({ progress });
-  // }
 
   componentDidMount() {
     Promise.all([
@@ -97,7 +81,8 @@ export default class Distribution extends Component {
     ]).then(() => {
         this.make_rules();
         this.chart_line();
-        this.make_mouseover_guides();
+        this.renderCandidates();
+        // this.make_mouseover_guides();
     });
   }
 
@@ -108,21 +93,33 @@ export default class Distribution extends Component {
     this.setState({svg: svg});
   }
 
+  x (input) {
+    const { width } = this.state;
+    d3.scaleLinear().domain([-10, 10]).range([0, width]);
+  }
+
+  y (input) {
+    const { height } = this.state;
+    d3.scaleLinear().domain([ 0, 1.1]).range([height, 0]);
+  }
+
   initialize() {
-    // thanks xisabao
+    const { candidates } = this.state;
     var parentWidth = d3
       .select('.graphic')
       .node()
       .getBoundingClientRect().width;
-    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
+    const margin = { top: 0, right: 0, bottom: 0, left: 50 };
   
     var width = parentWidth - margin.left - margin.right;
     var height = 800 - margin.top - margin.bottom;
-    var x = d3.scaleLinear().domain([-5, 5]).range([0, width]);
-    var y = d3.scaleLinear().domain([ 0, 1]).range([height, 0]);
+    var radius = 10;
+    var pad = 50;
+
+    var x = d3.scaleLinear().domain([-10, 10]).range([0, width]);
+    var y = d3.scaleLinear().domain([ 0, 1.1]).range([height, 0]);
     this.setState({width, height, x, y})
 
-    var pad = 50;
     var svg = d3.select("body")
         .append("svg:svg")
         .attr("height", height + pad)
@@ -134,13 +131,94 @@ export default class Distribution extends Component {
     var legend = d3.select("body").append("div")
         .classed("legend", true)
 
-    var continuous = this.make_gaussian_func(-2, .7);
+    var continuous = this.make_gaussian_func(0, 1);
+
+    var guides = vis.append("svg:g")
+      .classed("guides", true)
+      .attr("stroke-width", "1px");
+
+    // // Random circles
+    // const circles = d3.range(3).map(i => ({
+    //   x: Math.random() * (width - radius * 2) + radius,
+    //   y: Math.random() * (width - radius * 2) + radius,
+    // }));
+  
+    // // Help
+    // svg.selectAll("circle")
+    //   .data(circles)
+    //   .enter().append("circle")
+    //     .attr("cx", d => d.x)
+    //     .attr("cy", d => d.y)
+    //     .attr("r", radius)
+    //     .call(this.drag);
 
     // store svg info
-    this.setState({initialized: true, svg: svg, vis: vis, legend: legend, continuous: continuous});
+    this.setState({initialized: true, guides: guides, svg: svg, vis: vis, legend: legend, continuous: continuous, y_guides: null});
 
     // initialize axes
+
+  }
+
+  renderCandidates () {
+    const { vis, candidates, continuous, x, y } = this.state;
+    const points = Object.keys(candidates).map(name => {
+      vis.append("circle")
+            .classed("candidate", true)
+            .attr("r",10)
+            .attr("cx", x(candidates[name]))
+            .attr("cy", y(continuous(candidates[name])))
+            .attr("fill", "#BBF")
+            .attr("stroke", "#348")
+            .attr("opacity", "0.8")
+    })
+
+    let drag = d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended);
     
+    function dragstarted(d) {
+      d3.select(this).raise().classed('active', true);
+    }
+      
+    function dragged(d) {
+      const xi = x.invert(d3.mouse(this)[0]);
+      const yi = y.invert(d3.mouse(this)[1]);
+      d3.select(this)
+        .attr('cx', x(xi))
+        .attr('cy', y(yi))
+    }
+      
+    function dragended(d) {
+      d3.select(this).classed('active', false);
+    }
+
+    d3.selectAll("circle")
+      .call(drag);
+
+    // d3.selectAll("circle").on("mousedown", function() {
+    //   console.log("hi");
+    //   var circle = d3.select(this)
+    //       .classed("active", true);
+
+    //   var w = d3.select(window)
+    //             .on("mousemove", mousemove)
+    //             .on("mouseup", mouseup);
+    
+    //   function mousemove() {
+    //     console.log("mouse moved");
+    //     var xi = x.invert(d3.mouse(this)[0]);
+    //     var format_5f = d3.format(".5f");
+
+    //     circle.attr("transform", "translate("+(x(xi))+",0)")
+    //           .attr("transform", "translate(0," + y(continuous(xi))+")")
+    //           .attr("visibility", "visible")
+    //   }
+    
+    //   function mouseup() {
+    //     circle.classed("active", false);
+    //   }
+    // });
   }
 
   make_gaussian_func (mu, sigma_squared) {
@@ -171,29 +249,14 @@ export default class Distribution extends Component {
   }
 
   make_mouseover_guides() {
-    const { vis, width, height, x, y, continuous, legend } = this.state;
-    var guides = vis.append("svg:g")
-            .classed("guides", true)
-            .attr("stroke-width", "1px")
-    var y_guides = guides.append("svg:g")
-    guides.append("svg:line")
-            .attr("y1",height)
-    y_guides.append("svg:circle")
-            .attr("r",7)
-            .attr("fill", "#BBF")
-            .attr("stroke", "#348")
-            .attr("opacity", "0.8")
-    y_guides.append("svg:line")
-            .attr("x1",-20)
-            .attr("x2",+20)
-  
+    const { vis, width, height, x, y, continuous, legend, guides, y_guides } = this.state;
+
     vis.append("svg:rect")
         .classed("mouse_area", true)
         .attr("width",  width)
         .attr("height", height)
         .attr("opacity", "0")
-        .on("mousemove", update_legend_values)
-        .on("mouseout",   blank_legend_values)
+        .on("mousedown", update_legend_values)
   
     blank_legend_values();
   
@@ -209,8 +272,8 @@ export default class Distribution extends Component {
           .attr("transform", "translate("+(x(xi))+",0)")
           .attr("visibility", "visible")
   
-      y_guides
-          .attr("transform", "translate(0,"+y(continuous(xi))+")")
+      // y_guides
+      //     .attr("transform", "translate(0,"+y(continuous(xi))+")")
     }
   
     function blank_legend_values() {
@@ -263,12 +326,8 @@ export default class Distribution extends Component {
   }
 
   render() {
-    const { data, value } = this.state;
-
-
     return (
       <div css={style}>
-        <h1>HELLO</h1>
         <div className='main'>
           <div className='graphic'>
             <div id="viz"></div>
