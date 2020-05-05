@@ -157,7 +157,6 @@ export default class SimRace extends Component {
       .rollup((d) => d.length)
       .entries(filteredData)
 
-    console.log(filteredData);
 
 
     // # candidates by type and year
@@ -167,7 +166,6 @@ export default class SimRace extends Component {
       .rollup((d) => d.length)
       .entries(data);
 
-    console.log(yearData);
 
     d3.selectAll('.axis').remove();
 
@@ -231,7 +229,7 @@ export default class SimRace extends Component {
     barSelect.enter().append("rect")
       .attr('class', 'bar')
       .merge(barSelect)
-      .attr("x", (d) => {  console.log(d); return xSubgroup(d.key); })
+      .attr("x", (d) => {  return xSubgroup(d.key); })
       .attr("y", (d) => { return y(d.value); })
       .attr("width", xSubgroup.bandwidth())
       .attr("height", (d) => { return this.state.height - y(d.value); })

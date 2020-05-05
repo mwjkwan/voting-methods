@@ -97,7 +97,6 @@ export default class SimDots extends Component {
     var nestedData = d3.nest()
       .key((d) => d.place).sortKeys(d3.descending)
       .entries(this.state.electionData.filter((d) => d.different === "TRUE"));
-    console.log(nestedData);
 
     var y = d3.scaleLinear()
       .domain([0, d3.max(nestedData, (x) => x.values.length)])
