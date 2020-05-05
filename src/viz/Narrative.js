@@ -73,7 +73,7 @@ const narrativeStyle = css`
     color: #575757;
   }
   #toc {
-    font-size: 23px;
+    font-size: 25px;
   }
   #tocl {
     margin-left: 0.8%;
@@ -133,7 +133,7 @@ const strategicblurb = (
     </p>
     <br></br>
     <p>
-      RCV voting systems allow voters to fully express all preferences without worrying about splitting the vote. Strategic voting in RCV can occur, but even in these cases, a more moderate candidate is chosen.
+      RCV voting systems allow voters to fully express all preferences without worrying about splitting the vote. Strategic voting in RCV can occur where voters rank major candidates who might contend against their favorite candidate as last, but even in these cases, a more moderate candidate is chosen.
     </p>
     <br></br>
     <p>
