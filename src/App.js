@@ -51,11 +51,11 @@ class App extends React.Component {
             <ScrollToTop>
             <Switch>
               <Route exact path={`/`} render={() => <PageHome />} />
-              <Route exact path={`/overview`} render={() => <PageOverview />} />
-              <Route exact path={`/distribution`} render={() => <PageDistribution />} />
-              <Route exact path={`/simulate`} render={() => <PageSimulate />} />
-              <Route exact path={`/methods`} render={() => <PageMethods />} />
-              <Route exact path={`/about`} render={() => <PageAbout />} />
+              <Route exact path={`/#/overview`} render={() => <PageOverview />} />
+              <Route exact path={`/#/distribution`} render={() => <PageDistribution />} />
+              <Route exact path={`/#/simulate`} render={() => <PageSimulate />} />
+              <Route exact path={`/#/methods`} render={() => <PageMethods />} />
+              <Route exact path={`/#/about`} render={() => <PageAbout />} />
             </Switch>
             </ScrollToTop>
           </div>
