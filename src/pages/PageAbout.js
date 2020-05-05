@@ -59,8 +59,8 @@ export default class PageAbout extends Component {
       <Article {...content}>
         <div css={aboutStyle}>
           <Description>
-            {aboutProject}
             <Distribution />
+            {aboutProject}
           </Description>
         </div>
       </Article>
