@@ -92,6 +92,14 @@ const landingStyle = css`
   .card-text {
     font-size: 18px !important;
   }
+
+  #pushpush {
+    margin-left: 4%;
+  }
+
+  #push2 {
+    flex-basis: 30%;
+  }
 `;
 
 export default class Landing extends Component {
@@ -350,11 +358,11 @@ export default class Landing extends Component {
 
     return (
       <div css={landingStyle}>
-        <div className='main'>
-          <div className='graphic'>
+        <div className='main' id="pushpush">
+          <div className='graphic' >
             <div id="viz"></div>
           </div>
-          <div className='scroller'>
+          <div className='scroller' id="push2">
             <Scrollama
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
