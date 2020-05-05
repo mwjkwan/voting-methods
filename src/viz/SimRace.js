@@ -27,10 +27,12 @@ const style = css`
   }
   .selectedToggle {
     font-weight: 600;
+    letter-spacing: 3px;
   }
   .toggle {
     cursor: pointer;
-    font-size: 1.6em;
+    font-size: 1.2em;
+    color: #34495D;
   }
 
 `;
@@ -100,9 +102,9 @@ export default class SimRace extends Component {
       .getBoundingClientRect().width;
 
     // set the dimensions and margins of the graph
-    var margin = {top: 100, right: 50, bottom: 80, left: 50},
+    var margin = {top: 60, right: 80, bottom: 80, left: 50},
         width = parentWidth - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        height = 480 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#simRace")
@@ -155,7 +157,7 @@ export default class SimRace extends Component {
     var filteredData = data.filter((d) => d['Race/ethnicity identified'] !== 'n/a' && d['Race/ethnicity identified'] !== 'Undetermined');
 
     filteredData = d3.nest()
-      .key((d) => d['Election type (RCV, Primary, General, Runoff)'] === 'RCV' ? 'RCV' : 'FPTP')
+      .key((d) => d['Election type (RCV, Primary, General, Runoff)'] === 'RCV' ? 'RCV' : 'FPTP').sortKeys((a, b) =>  a === 'RCV' ? 1 : -1)
       .key((d) => d['Race/ethnicity identified'])
       .rollup((d) => d.length)
       .entries(filteredData)

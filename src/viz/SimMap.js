@@ -52,10 +52,10 @@ export default class SimMap extends Component {
       .getBoundingClientRect().width;
 
 
-    const margin = { top: 20, right: 40, bottom: 40, left: 40 };
+    const margin = { top: 20, right: 40, bottom: 0, left: 40 };
 
     const width = parentWidth - margin.left - margin.right;
-    const height = 720 - margin.top - margin.bottom;
+    const height = 600 - margin.top - margin.bottom;
 
     var svg = d3
         .select('#simMap')
@@ -71,7 +71,6 @@ export default class SimMap extends Component {
       .map(this.state.locationData);
     var elections = d3.nest()
       .key((d) => d.place)
-      .key((d) => d.contest)
       .entries(this.state.electionData);
 
     var years = d3.nest()
