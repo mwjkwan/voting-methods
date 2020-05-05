@@ -37,12 +37,12 @@
   {
     "key": "11",
     "description":
-    "With RCV, people can show their true preferences without worrying about splitting the vote as if their first choice doesn't make it past a round, their vote will go to their next favorite candidate. Let's see this in practice."
+    "With RCV, people can show their true preferences without worrying about splitting the vote as if their first choice doesn't make it past a round, their vote will go to their next choice. And while strategic voting can occur, it can result in a more moderate candidate."
   },
   {
     "key": "12",
     "description":
-    "Imagine a scenario where we have two major candidates Rodrigo Red and Terrence Teal on differing ends of the ideological spectrum. A supporter of one dislikes the other, and would prefer either of the moderate candidates Belinda Blue or Gracey Grey, in the event their favorite candidate loses."
+    "Imagine a scenario where we have two major candidates Rodrigo Red and Belinda Blue, where supporters of one strategically rank the other major candidate as last. Here, everyone is incentivized to rank their favorite candidate first, so the strategic voting iN FPTP is not present, but a different kind is."
   },
   {
     "key": "13",
@@ -77,6 +77,6 @@
   {
     "key": "19",
     "description":
-    "Here, we see how RCV dissuades the strategic voting as seen in FPTP. Supporters of non-major candidates can still voice their true preferences without being afraid of causing someone they dislike to win."
+    "Here, we see how RCV dissuades the strategic voting as seen in FPTP. Supporters of non-major candidates can still voice their true first preferences without being afraid of causing someone they dislike to win. Additionally, the RCV strategic voting results in a more moderate candidate winning, which can appease supporters of both major candidates."
   }
 ]

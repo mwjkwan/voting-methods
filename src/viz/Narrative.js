@@ -133,7 +133,7 @@ const strategicblurb = (
     </p>
     <br></br>
     <p>
-      Strategic voting in RCV voting systems generally can occur as well when voters rank their least favorite candidate last. However, this may also lead to a scenario where more moderate, or less popular candidates win.
+      RCV voting systems allow voters to fully express all preferences without worrying about splitting the vote. Strategic voting in RCV can occur, but even in these cases, a more moderate candidate is chosen.
     </p>
     <br></br>
     <p>
