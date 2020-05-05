@@ -31,7 +31,7 @@ const style = css`
   }
   .big {
     margin-top: 12%;
-    margin-left: 8%;
+    margin-left: 0%;
     font-size: 2.5em !important;
     font-weight: 700;
     color: black;

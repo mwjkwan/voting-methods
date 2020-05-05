@@ -78,9 +78,9 @@ const narrativeStyle = css`
   #tocl {
     margin-left: 0.8%;
   }
-  .card-text {
+  .card-text-s {
     padding: 10%;
-    font-size: 30px !important;
+    font-size: 24px !important;
   }
 `
 ;
@@ -703,7 +703,7 @@ export default class Narrative extends Component {
       <div css={narrativeStyle}>
       <div className="blurb" id="methods">
         <Card>
-          <div className="card-text">
+          <div className="card-text-s">
             {methodblurb}
           </div>
         </Card>
@@ -744,11 +744,19 @@ export default class Narrative extends Component {
          </div>
       </div>
       <div className="blurb" id="polarize">
-        {polarizeblurb}
+        <Card>
+          <div className="card-text-s">
+            {polarizeblurb}
+          </div>
+        </Card>
       </div>
         <Polarization jumpLink/>
       <div className="blurb" id="strategic">
-        {strategicblurb}
+        <Card>
+          <div className="card-text-s">
+            {strategicblurb}
+          </div>
+        </Card>
       </div>
         <Strategic/>
       </div>
