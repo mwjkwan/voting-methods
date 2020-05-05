@@ -78,9 +78,32 @@ const narrativeStyle = css`
 `
 ;
 
+const methodblurb = (
+  <div>
+    <left>
+    <p>
+    First Past The Post is the main voting system of the U.S.
+    </p>
+    <br></br>
+    <p>
+    Ranked Choice Voting is a popular alternative used in Australia, Maine, and some Californian cities.
+    </p>
+    <br></br>
+    <p>
+    We're going to illustrate how each method works, as well as their relative benefits and drawbacks.
+    </p>
+    <br></br>
+    <br></br>
+    <br></br>
+    </left>
+  </div>
+);
+
 const polarizeblurb = (
   <div>
     <left>
+    <br></br>
+    <br></br>
     <p>
     First past the post encourages a two-party system and the polarization of candidate ideologies.
     </p>
@@ -103,6 +126,8 @@ const polarizeblurb = (
 const strategicblurb = (
   <div>
     <left>
+    <br></br>
+    <br></br>
     <p>
       FPTP voting systems can encourage strategic voting as supporters of less popular candidates shift their vote to their more preferred of the most popular candidates, as opposed to their true first preference.
     </p>
@@ -650,12 +675,21 @@ export default class Narrative extends Component {
     this.setState({initialized: true, svg: svg});
   }
 
-  jumpLink(index) {
-    //console.log('okthere')
-    this.setState({data: descriptions[3].description})
-    // should call update wtih the appropriate paramters
-    // so that we display the locations of "index"
-  }
+  // jumpLink(index) {
+  //   //console.log('okthere')
+  //   if (index === 0) {
+  //     window.location.hash = "#methods"
+  //     console.log("here")
+  //   }
+  //   if (index === 1) {
+  //     window.location.hash = "#polarize"
+  //   }
+  //   if (index === 2) {
+  //     window.location.hash = "#strategic"
+  //   }
+  //   // should call update wtih the appropriate paramters
+  //   // so that we display the locations of "index"
+  // }
 
   render() {
     const { data, value } = this.state;
@@ -663,14 +697,15 @@ export default class Narrative extends Component {
 
     return (
       <div css={narrativeStyle}>
-
+      <div className="blurb" id="methods">
+        {methodblurb}
+      </div>
       <div className='main'>
         <div className='jumplinks'>
           Jump to:
-          <button type="button" href="#desc1" class="btn btn-link">FPTP Explanation</button>
-          <a href="#desc1" onClick={this.jumpLink.bind(this, 2)} class="btn btn-link">RCV Explanation</a>
-          <button type="button" href="#desc4"  class="btn btn-link">Polarization/Two-Party</button>
-          <button type="button" href="#desc2"  class="btn btn-link">Strategic Voting</button>
+          <a href="#methods" class="btn btn-link">FPTP/RCV Explanations</a>
+          <a href="#polarize"  class="btn btn-link">Polarization/Two-Party</a>
+          <a href="#strategic"  class="btn btn-link">Strategic Voting</a>
         </div>
         <div className='graphic'>
           <div id="viz"></div>
@@ -693,14 +728,14 @@ export default class Narrative extends Component {
           </Scrollama>
          </div>
       </div>
-      <div className="blurb">
+      <div className="blurb" id="polarize">
         {polarizeblurb}
       </div>
-      <Polarization/>
-      <div className="blurb">
+        <Polarization jumpLink/>
+      <div className="blurb" id="strategic">
         {strategicblurb}
       </div>
-      <Strategic/>
+        <Strategic/>
       </div>
       )
   }

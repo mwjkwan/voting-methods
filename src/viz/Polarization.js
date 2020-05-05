@@ -678,12 +678,7 @@ export default class Polarization extends Component {
     this.setState({initialized: true, svg: svg});
   }
 
-  jumpLink(index) {
-    //console.log('okthere')
-    this.setState({data: descriptions[3].description})
-    // should call update wtih the appropriate paramters
-    // so that we display the locations of "index"
-  }
+
 
   render() {
     const { data, value } = this.state;
@@ -693,13 +688,6 @@ export default class Polarization extends Component {
       <div css={narrativeStyle}>
 
       <div className='main'>
-        <div className='jumplinks'>
-          Jump to:
-          <button type="button" href="#desc1" class="btn btn-link">FPTP Explanation</button>
-          <a href="#desc1" onClick={this.jumpLink.bind(this, 2)} class="btn btn-link">RCV Explanation</a>
-          <button type="button" href="#desc4"  class="btn btn-link">Polarization/Two-party</button>
-          <button type="button" href="#desc2"  class="btn btn-link">Strategic Voting</button>
-        </div>
         <div className='graphic2'>
           <div id="viz2"></div>
         </div>
