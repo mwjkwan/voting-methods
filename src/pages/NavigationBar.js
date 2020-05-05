@@ -17,6 +17,10 @@ class NavigationBar extends Component {
         text: "Overview"
       },
       {
+        to: "/distribution",
+        text: "Distributions"
+      },
+      {
         to: "/simulate",
         text: "Simulate"
       },

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import React, { Component } from 'react';
 import { css, jsx } from '@emotion/core';
+import { Card } from "react-bootstrap";
 import { Typography, Link } from '@material-ui/core'
 import { Scrollama, Step } from 'react-scrollama';
 import { select, selectAll, mouse, event } from 'd3-selection';
@@ -63,27 +64,41 @@ const landingStyle = css`
   .main {
     padding: 2em;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
   }
 
   .graphic {
-    flex-basis: 80%;
+    flex-basis: 100%;
     position: sticky;
     top: 60px;
-    width: 100%;
+    width: 70vw;
     align-self: flex-start;
   }
 
   .scroller {
-    flex-basis: 18%;
+    flex-basis: 80%;
   }
 
   .step {
+    width: 30vw;
     padding-top: 200px;
     padding-bottom: 200px;
+    padding-right: 100px;
     '&:last-child': {
       margin-bottom: 0;
     }
+  }
+
+  .card-text {
+    font-size: 18px !important;
+  }
+
+  #pushpush {
+    margin-left: 4%;
+  }
+
+  #push2 {
+    flex-basis: 30%;
   }
 `;
 
@@ -167,7 +182,7 @@ export default class Landing extends Component {
       .getBoundingClientRect().width;
 
 
-     const margin = { top: 20, right: 40, bottom: 40, left: 40 };
+     const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 
     const width = parentWidth - margin.left - margin.right;
     const height = 800 - margin.top - margin.bottom;
@@ -207,6 +222,7 @@ export default class Landing extends Component {
 
     svg.append('g')
         .attr('class', 'map-base')
+        .attr("transform", "translate(50,-50)")
 
     this.setState({ svg: svg, initialized: true });
     this.update(null);
@@ -342,11 +358,11 @@ export default class Landing extends Component {
 
     return (
       <div css={landingStyle}>
-        <div className='main'>
-          <div className='graphic'>
+        <div className='main' id="pushpush">
+          <div className='graphic' >
             <div id="viz"></div>
           </div>
-          <div className='scroller'>
+          <div className='scroller' id="push2">
             <Scrollama
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
@@ -357,12 +373,12 @@ export default class Landing extends Component {
               {steps.map ( value => (
                 <Step data={value} key={value}>
                   <div className='step'>
-                    <Typography component="h2">
-                      {longNames[value]}
-                    </Typography>
-                    <Typography component="p">
-                      {defns[value]}
-                    </Typography>
+                    <Card>
+                      <Card.Body>
+                        {longNames[value] && <Card.Text><h3><b>{longNames[value]}</b></h3></Card.Text>}
+                        <Card.Text>{defns[value]}</Card.Text>
+                      </Card.Body>
+                    </Card>
                   </div>
                 </Step>
               ))}

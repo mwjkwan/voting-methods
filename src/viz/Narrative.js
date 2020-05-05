@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import React, { Component } from 'react';
 import { css, jsx } from '@emotion/core';
+import { Card } from "react-bootstrap";
 import { Scrollama, Step } from 'react-scrollama';
 import { select, selectAll, mouse } from 'd3-selection';
 import { csv } from 'd3-fetch';
@@ -22,7 +23,6 @@ const narrativeStyle = css`
     display: flex;
     justify-content: space-between;
   }
-
   .graphic {
     flex-basis: 50%;
     position: sticky;
@@ -31,24 +31,24 @@ const narrativeStyle = css`
     height: 75vh;
     align-self: flex-start;
   }
-
   .data {
     font-size: 5rem;
     text-align: center
   }
-
   .scroller {
     flex-basis: 30%;
   }
-
   .jumplinks {
     position: sticky;
     top: 160px;
     width: 200px;
     align-self: flex-start;
-
   }
 
+  .card-text {
+    font-size: 18px !important;
+    line-height: 1.3;
+  }
   .step {
     margin-right: 50px;
     padding-top: 200px;
@@ -58,29 +58,23 @@ const narrativeStyle = css`
     }
     font-size: 20px;
   }
-
   .blurb {
     margin: 20%;
     margin-top: 10%;
-    margin-bottom: 10%;
     text-align: center;
     font-size: 24px;
+    min-height: 100%;
   }
-
   .desc {
     margin-left:20px;
     margin-right:20px;
-
   }
-
   .btn {
     color: #575757;
   }
-
   #toc {
     font-size: 23px;
   }
-
   #tocl {
     margin-left: 0.8%;
   }
@@ -101,9 +95,6 @@ const methodblurb = (
     <p>
     We're going to illustrate how each method works, as well as their relative benefits and drawbacks.
     </p>
-    <br></br>
-    <br></br>
-    <br></br>
     </left>
   </div>
 );
@@ -731,7 +722,13 @@ export default class Narrative extends Component {
             {descriptions.map ( desc => (
               <Step data={desc.key} key={desc.key}>
                 <div className="step" >
-                  <p className = "desc" id={"desc" + desc.key}>{desc.description}</p>
+                  <p className = "desc" id={"desc" + desc.key}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Text>{desc.description}</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </p>
                 </div>
               </Step>
             ))}

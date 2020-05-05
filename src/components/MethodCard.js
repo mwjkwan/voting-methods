@@ -3,6 +3,7 @@
 import React from "react";
 import { css, jsx } from "@emotion/core";
 import { Card } from "react-bootstrap";
+import Button from 'react-bootstrap/Button'
 
 const style = css`
   img {
@@ -20,15 +21,26 @@ const style = css`
   }
 `;
 
-const MethodCard = props => {
-  const method = props.info;
-  return (
+export default class MethodCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false,
+    };
+    this.toggleView = this.toggleView.bind(this);
+  }
+
+  toggleView () {
+    this.setState(prevState => ({expanded: !prevState.expanded}))
+  }
+
+  render () {
+    const method = this.props.info;
+    const expanded = this.state.expanded;
+    return (
       <Card>
-        <Card.Img variant="top" src={require('../assets/methods/' + method.img)}/>
-        <Card.Body>
-          <Card.Text>{method.type.toUpperCase()}</Card.Text>
-          <Card.Title>{method.name}</Card.Title>
-          <Card.Text><b>{"HOW IT WORKS"}</b></Card.Text>
+        <Card.Img variant="top" onClick={this.toggleView} src={require('../assets/methods/' + method.img)}/>
+        {expanded && <Card.Body>
           <Card.Text>{method.summary}</Card.Text>
           <Card.Text>{method.description}</Card.Text>
           <br />
@@ -39,9 +51,10 @@ const MethodCard = props => {
           <Card.Text>{method.cons}</Card.Text>
           {method.locations &&  <br />}
           {method.locations &&  <Card.Text><b>Used in: </b>{method.locations.join(", ")}</Card.Text>}
-        </Card.Body>
+          <br />
+          <Button onClick={this.toggleView}>See Less</Button>
+        </Card.Body>}
       </Card>
-  );
+    )
+  }
 };
-
-export default MethodCard;

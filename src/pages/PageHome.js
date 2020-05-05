@@ -7,17 +7,26 @@ import Description from "../components/Description";
 import Article from "../components/Article";
 import Landing from "../viz/Landing";
 
-const story = <div>The voting methods project aims to help everyone better understand
+const story = <div className="big">The Voting Methods Project aims to help everyone better understand
 the process and outcome of different voting methods.
 The result of an election can hinge on the specific electoral method used. </div>;
 
-const content = {
-  header: "Home"
-};
-
 const style = css`
   div {
-    font-size: 18px !important;
+    font-size: 18px;
+    font-size: 20px !important;
+    line-height: 1;
+  }
+  .graphic {
+    text-align: right !important;
+  }
+  .big {
+    margin-top: 12%;
+    margin-left: 8%;
+    font-size: 2em !important;
+    font-weight: 700;
+    color: black;
+    line-height: 1;
   }
 `;
 
@@ -25,11 +34,11 @@ export default class PageHome extends Component {
   render() {
     return (
       <div>
-        <Article {...content}>
           <div css={style}>
-            <Description>{story}</Description>
+            <Description>
+              {story}
+            </Description>
           </div>
-        </Article>
         <Landing />
       </div>
     );
