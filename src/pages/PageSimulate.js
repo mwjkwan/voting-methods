@@ -58,17 +58,17 @@ const aboutStyle = css`
     font-size: 18px !important;
   }
   .desc {
-    padding: 3em;
+    padding-left: 1.5em;
   }
   #descLast {
     padding-top: 0;
   }
   .subheading {
-    padding-left: 1em;
+    padding-left: 1.5em;
     padding-top: 1em;
   }
   .big {
-    margin-top: 1em;
+    margin-top: 1.5em;
     margin-bottom: 1em;
     margin-left: 2%;
     font-size: 2em !important;
@@ -82,27 +82,35 @@ export default class PageSimulate extends Component {
   render() {
     return (
       <div  css={aboutStyle} >
-        <Article{...content}>
+        <Article>
+          <br></br>
           <div className="big">Alternative Outcomes: Case Studies with US Elections</div>
           <div className="subheading">
             <h2>Election Simulation & Data Analysis</h2>
           </div>
           {part1}
+          <br></br>
           <SimMap/>
           <div className="subheading">
             <h3>Outcome Discrepancies</h3>
           </div>
           {part2}
+          <br></br>
           <SimLine/>
+          <br></br>
           {part3}
+          <br></br>
           <SimDots/>
           <div className="subheading">
             <h3>Demographic Analysis</h3>
           </div>
           {part4}
+          <br></br>
           <SimBar/>
+          <br></br>
           {part5}
           {part6}
+          <br></br>
           <SimRace/>
         </Article>
       </div>

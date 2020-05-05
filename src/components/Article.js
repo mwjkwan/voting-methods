@@ -6,7 +6,8 @@ import Description from "../components/Description";
 const articleStyle = css`
   .Article {
     margin: 1em;
-    max-width: 60em;
+    margin-top: 2em;
+    max-width: 80em;
   }
   .Article > * {
     margin-bottom: 0.5em !important;
