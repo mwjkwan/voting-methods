@@ -1,31 +1,58 @@
 [
   {
     "key": "0",
-    "description": "Rodrigo and Gracey start off as the major candidates in this single-winner election."
+    "description": "We begin with four major candidates in this single-winner election."
   },
   {
     "key": "1",
-    "description": "Polls prior to the election show Gracey having a noticeable lead."
+    "description": "Polls prior to the election show Gracey in the lead."
   },
   {
     "key": "2",
-    "description": "But some voters are not interested in either candidate."
+    "description": "Realizng that Gracey will win, some of Rodrigo's supporters have incentive to switch to Belinda."
   },
   {
     "key": "3",
-    "description": "If Rodrigo and Gracey are clustered too closely on the ideological spectrum, another party can enter from the right to secure voters who may not have participated before."
+    "description": "And now Terrence supports have incentive to switch to Gracey."
   },
   {
     "key": "4",
-    "description": "Members of Rodrigo's base who voted for him because he was the most right-leaning candidate now have incentive to switch."
+    "description": "Gracey and Belinda both have incentive to shift away from center to attract more Rodrigo and Terrence voters, who can't express preferences for both candidates on one side of the spectrum."
   },
   {
     "key": "5",
-    "description": "Some of Rodrigo's supporters also have incentive to switch to Gracey if they'd rather elect her than Belinda."
+    "description": "We thus end with a much more polarized field than we started with and have reinforced only two parties."
   },
   {
     "key": "6",
-    "description": "Rodrigo is likely to drop out of the race. The field ends much more polarized than it started, which is characteristic of FPTP."
+    "description": "Now we'll show the reuslts of an analagous RCV election where we know each voter's preferences and don't have to rely on them switching candidates."
+  },
+  {
+    "key": "7",
+    "description": "Here are our voters' ranked preferences."
+  },
+  {
+    "key": "8",
+    "description": "One interesting trend we can already see is that the two more extreme candidates –– Terrence and Rodrigo –– seem to often occupy the last-choice slot."
+  },
+  {
+    "key": "9",
+    "description": "Let's first set up our vote-counting platform..."
+  },
+  {
+    "key": "10",
+    "description": "...And then count our first-choice votes, which are the same as in the FPTP round."
+  },
+  {
+    "key": "11",
+    "description": "Since there's a tie for last-place, we'll remove both Rodrigo and Terrence."
+  },
+  {
+    "key": "12",
+    "description": "Now we'll count the second-choice candidates of voters' whose first choice was removed."
+  },
+  {
+    "key": "13",
+    "description": "Notice we have a more moderate result than before and that all voters could express their true preferences without any candidate re-positioning or strategic voting."
   }
-
 ]

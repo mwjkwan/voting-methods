@@ -7,9 +7,6 @@ import Description from "../components/Description";
 import Article from "../components/Article";
 import Narrative from "../viz/Narrative";
 
-const story = (
-  <div>This page shows the narrative of the different voting methods.</div>
-);
 
 const content = {
   header: "The Story"
@@ -27,7 +24,6 @@ export default class PageOverview extends Component {
       <div>
         <Article {...content}>
           <div css={style}>
-            <Description>{story}</Description>
           </div>
         </Article>
         <Narrative />

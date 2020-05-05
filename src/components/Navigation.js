@@ -8,7 +8,7 @@ class Navigation extends Component {
   renderLink(link, path) {
     const highlight = link.to !== "/" ? path.includes(link.to) : path === "/";
     return (
-      <NavLink
+      <NavLink style={{color: '#ffffff'}}
         className={"link" + (highlight ? " Highlight" : "")}
         tag={RRNavLink}
         exact
@@ -43,8 +43,8 @@ class Navigation extends Component {
 
     return (
       <div>
-        <Navbar bg="light" fixed="top" expand="lg">
-          <Navbar.Brand href="/">Voting Methods</Navbar.Brand>
+        <Navbar style={{backgroundColor: '#34495D'}} fixed="top" expand="lg">
+          <Navbar.Brand style={{color: '#ffffff'}} href="/">Voting Methods Project</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
