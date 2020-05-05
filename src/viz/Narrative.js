@@ -59,8 +59,8 @@ const narrativeStyle = css`
     font-size: 20px;
   }
   .blurb {
-    margin: 20%;
-    margin-top: 10%;
+    margin: 10%;
+    margin-top: 3%;
     text-align: center;
     font-size: 24px;
     min-height: 100%;
@@ -78,6 +78,10 @@ const narrativeStyle = css`
   #tocl {
     margin-left: 0.8%;
   }
+  .card-text {
+    padding: 10%;
+    font-size: 30px !important;
+  }
 `
 ;
 
@@ -85,7 +89,7 @@ const methodblurb = (
   <div>
     <left>
     <p>
-    First Past The Post is the main voting system of the U.S.
+    <b>First Past The Post is the main voting system of the U.S.</b>
     </p>
     <br></br>
     <p>
@@ -698,7 +702,11 @@ export default class Narrative extends Component {
     return (
       <div css={narrativeStyle}>
       <div className="blurb" id="methods">
-        {methodblurb}
+        <Card>
+          <div className="card-text">
+            {methodblurb}
+          </div>
+        </Card>
       </div>
       <div className='main'>
         <div className='jumplinks' id="tocl">

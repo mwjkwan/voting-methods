@@ -309,7 +309,7 @@ export default class Polarization extends Component {
          .attr("cx", width/4 - width/24 + 3*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
          .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
 
-      var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terence Teal"]
+      var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terrence Teal"]
       svg.selectAll(".cand").data(cand).enter().append("text")
                     .attr("x", width/4 + width/9)
                     .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ (i)*width/20})

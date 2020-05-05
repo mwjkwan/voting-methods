@@ -31,6 +31,7 @@ const style = css`
   }
   .big {
     margin-top: 12%;
+    margin-left: 8%;
     font-size: 2.5em !important;
     font-weight: 700;
     color: black;
@@ -52,6 +53,7 @@ export default class PageHome extends Component {
           <div css={style}>
             <Description>
               {story}
+              <hr></hr>
             </Description>
           </div>
         <Landing />

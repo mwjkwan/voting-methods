@@ -66,17 +66,13 @@ const aboutProject = (
 );
 
 const content = {
-  header: "About"
 };
 
 const aboutStyle = css`
-  div {
-    font-size: 18px !important;
-  }
 
   .blurb {
-    margin-left: 8%;
-    font-size: 15px;
+    margin-left: 1.9em;
+    font-size: 18px;
     margin-bottom: 8%;
   }
 
@@ -85,9 +81,9 @@ const aboutStyle = css`
   }
 
   .big {
-    margin-top: 8%;
-    margin-left: 8%;
-    font-size: 50px;
+    margin-top: 1.5em;
+    margin-left: 1em;
+    font-size: 2em;
     font-weight: 700;
     color: black;
     line-height: 1;
@@ -98,13 +94,14 @@ export default class PageAbout extends Component {
   render() {
     return (
       <div css={aboutStyle}>
-      <Article {...content}>
-        <p className = "big">The Voting Methods Project aims to help everyone better understand
-the process and outcome of different voting methods.</p>
+      <Article>
         <br></br>
-        <div className = "blurb">
-        <Description>{aboutProject}</Description>
+        <div className = "big">
+          Many voting systems are variations of First Past the Post (FPTP) and Ranked Choice Voting (RCV). 
+          The Voting Methods Project allows you to explore and gain a better understanding of how these different systems work, as well as their benefits and drawbacks.
         </div>
+        <br></br>
+        <div className="blurb">{aboutProject}</div>
       </Article>
       </div>
     );

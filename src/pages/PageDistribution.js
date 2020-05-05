@@ -17,10 +17,6 @@ const aboutProject = (
   </div>
 );
 
-const content = {
-  header: "About"
-};
-
 const aboutStyle = css`
   .description {
     text-align: center !important;
@@ -42,6 +38,7 @@ const aboutStyle = css`
   }
   .big {
     margin-bottom: 1em;
+    margin-top: 1.5em;
     font-size: 2em !important;
     font-weight: 700;
     color: black;
@@ -72,7 +69,7 @@ export default class PageDistribution extends Component {
     const { dist } = this.state;
     return (
       <div css={aboutStyle}>
-        <Article {...content}>
+        <Article>
           <div className="subheading">
             <div className="big">Ideological Spectrum Simulation</div>
             {aboutProject}
