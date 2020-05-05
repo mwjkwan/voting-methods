@@ -33,14 +33,24 @@ const style = css`
   #methode {
     font-size: 18px;
     padding-bottom: 2%;
+    margin-left: 4.3%;
+    margin-bottom: 1em;
+    margin-top: 1em;
   }
   .big {
-    margin-top: 1em;
+    margin-top: 1.3em;
     margin-bottom: 1em;
     font-size: 2em !important;
     font-weight: 700;
     color: black;
     line-height: 1;
+    margin-left: 3.6%;
+  }
+  #scootit {
+    margin-left: 4%;
+  }
+  #scootit2 {
+    margin-left: 3.6%;
   }
 `;
 
@@ -71,11 +81,11 @@ export default class PageMethods extends Component {
       <div css={style}>
         <Article {...content}>
             <div className="big">Reference</div>
-            <Description>{story}</Description>
-            <Button variant={rcv ? "primary" : "secondary"} onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
+            <Description >{story}</Description>
+            <Button  id="scootit2" variant={rcv ? "primary" : "secondary"} onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
             <Button variant={fptp ? "success" : "secondary"} onClick={this.toggleFPTP}>First Past the Post (FPTP)</Button>{' '}
         </Article>
-        <CardColumns>
+        <CardColumns  id="scootit">
           {methods.map(method => {
             if (rcv && method.type === 'Ranked Choice (RCV)'
             || fptp && method.type === 'First Past the Post (FPTP)') {

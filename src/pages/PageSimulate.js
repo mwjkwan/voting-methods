@@ -70,6 +70,7 @@ const aboutStyle = css`
   .big {
     margin-top: 1em;
     margin-bottom: 1em;
+    margin-left: 2%;
     font-size: 2em !important;
     font-weight: 700;
     color: black;
