@@ -2,6 +2,7 @@ import React from "react";
 import NavigationBar from "./pages/NavigationBar";
 import PageAbout from "./pages/PageAbout";
 import PageHome from "./pages/PageHome";
+import PageDistribution from "./pages/PageDistribution";
 import PageMethods from "./pages/PageMethods";
 import PageOverview from "./pages/PageOverview";
 import PageSimulate from "./pages/PageSimulate";
@@ -49,6 +50,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path={`/`} render={() => <PageHome />} />
             <Route exact path={`/overview`} render={() => <PageOverview />} />
+            <Route exact path={`/distribution`} render={() => <PageDistribution />} />
             <Route exact path={`/simulate`} render={() => <PageSimulate />} />
             <Route exact path={`/methods`} render={() => <PageMethods />} />
             <Route exact path={`/about`} render={() => <PageAbout />} />
