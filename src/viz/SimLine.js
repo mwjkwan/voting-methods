@@ -28,7 +28,6 @@ export default class SimLine extends Component {
     Promise.all([
       d3.csv(`${process.env.PUBLIC_URL}/data/election_data.csv`),
     ]).then(([res]) => {
-      console.log(res);
         const tempData = res.map((d) => {
           return { ...d,
             date: +d.date,
@@ -68,8 +67,6 @@ export default class SimLine extends Component {
 
     elections = elections.filter((d) => d.key !== "NaN");
 
-    console.log(elections);
-
     const groupedData = groups.map((grp) => {
       return {
         name: grp,
@@ -81,7 +78,6 @@ export default class SimLine extends Component {
         }).sort((a, b) => a.year - b.year )
       }})
 
-      console.log(groupedData);
 
       const color = d3.scaleOrdinal()
         .domain(groups)

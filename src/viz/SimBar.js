@@ -39,9 +39,7 @@ export default class SimBar extends Component {
     Promise.all([
       d3.csv(`${process.env.PUBLIC_URL}/data/election_data.csv`),
     ]).then(([res]) => {
-      console.log(res);
         const distinctData = res.filter((v, i, a) => a.map(x => x.candidates.toLowerCase()).indexOf(v.candidates.toLowerCase()) === i);
-        console.log(distinctData);
         this.setState({ electionData: res, distinctData: distinctData });
         this.initialize();
     });
@@ -151,7 +149,6 @@ export default class SimBar extends Component {
     var RCV;
     var FPTP;
 
-    console.log(selected);
 
     if (selected === "all") {
       RCV = d3.nest()
@@ -174,8 +171,6 @@ export default class SimBar extends Component {
         .key((d) => d.gender)
         .entries(this.state.distinctData.filter((d) => d.fptp === "TRUE" ));
     }
-    console.log(RCV[10].values[0].values.length);
-    console.log(FPTP[10].values[0].values.length);
 
 
     var rcvPlaceSelect = viz.state.svg.select('.bars')
