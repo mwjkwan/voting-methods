@@ -6,6 +6,7 @@ import PageDistribution from "./pages/PageDistribution";
 import PageMethods from "./pages/PageMethods";
 import PageOverview from "./pages/PageOverview";
 import PageSimulate from "./pages/PageSimulate";
+import ScrollToTop from './components/ScrollToTop'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../src/styles/styles.scss";
 
@@ -26,13 +27,13 @@ class App extends React.Component {
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
   }
 
-  // componentWillMount() {
-  //   mql.addListener(this.mediaQueryChanged);
-  // }
+  componentWillMount() {
+    mql.addListener(this.mediaQueryChanged);
+  }
 
-  // componentWillUnmount() {
-  //   this.state.mql.removeListener(this.mediaQueryChanged);
-  // }
+  componentWillUnmount() {
+    this.state.mql.removeListener(this.mediaQueryChanged);
+  }
 
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
@@ -45,17 +46,19 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div className="Page">
-          <NavigationBar />
-          <Switch>
-            <Route exact path={`/`} render={() => <PageHome />} />
-            <Route exact path={`/overview`} render={() => <PageOverview />} />
-            <Route exact path={`/distribution`} render={() => <PageDistribution />} />
-            <Route exact path={`/simulate`} render={() => <PageSimulate />} />
-            <Route exact path={`/methods`} render={() => <PageMethods />} />
-            <Route exact path={`/about`} render={() => <PageAbout />} />
-          </Switch>
-        </div>
+          <div className="Page">
+            <NavigationBar />
+            <ScrollToTop>
+            <Switch>
+              <Route exact path={`/`} render={() => <PageHome />} />
+              <Route exact path={`/overview`} render={() => <PageOverview />} />
+              <Route exact path={`/distribution`} render={() => <PageDistribution />} />
+              <Route exact path={`/simulate`} render={() => <PageSimulate />} />
+              <Route exact path={`/methods`} render={() => <PageMethods />} />
+              <Route exact path={`/about`} render={() => <PageAbout />} />
+            </Switch>
+            </ScrollToTop>
+          </div>
       </Router>
     );
   }
