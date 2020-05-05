@@ -9,7 +9,10 @@ import Article from "../components/Article";
 import MethodCard from '../components/MethodCard';
 const methods = require("../assets/data/methods.json");
 
-const story = <div>The different methods we plan to cover.</div>;
+const story = <div id="methode">
+              There are many voting systems which are variations of First Past the Post (FPTP) and Ranked Choice Voting (RCV). 
+              This tool allows you to explore and gain a better understanding of how these different methods work, as well as their pros and cons.
+              </div>;
 
 const content = {
   header: "Methods"
@@ -26,6 +29,10 @@ const style = css`
   .table {
     margin: 1em;
     max-width: 90vw;
+  }
+  #methode {
+    font-size: 18px;
+    padding-bottom: 2%;
   }
 `;
 

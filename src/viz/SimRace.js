@@ -13,6 +13,8 @@ import { transition } from 'd3-transition';
 import { nest, map } from 'd3-collection';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { legendColor } from 'd3-svg-legend';
+import d3Tip from 'd3-tip';
+
 
 const d3 = { select, selectAll, mouse, event, csv, max, descending, scaleOrdinal, scaleLinear, scaleBand, transition, nest, map, axisLeft, axisBottom, legendColor };
 
@@ -25,11 +27,14 @@ const style = css`
   }
   .selectedToggle {
     font-weight: 600;
+    letter-spacing: 3px;
   }
   .toggle {
     cursor: pointer;
-    font-size: 1.6em;
+    font-size: 1.2em;
+    color: #34495D;
   }
+
 `;
 
 export default class SimRace extends Component {
@@ -97,9 +102,9 @@ export default class SimRace extends Component {
       .getBoundingClientRect().width;
 
     // set the dimensions and margins of the graph
-    var margin = {top: 100, right: 50, bottom: 80, left: 50},
+    var margin = {top: 60, right: 80, bottom: 80, left: 50},
         width = parentWidth - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        height = 480 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#simRace")
@@ -152,19 +157,26 @@ export default class SimRace extends Component {
     var filteredData = data.filter((d) => d['Race/ethnicity identified'] !== 'n/a' && d['Race/ethnicity identified'] !== 'Undetermined');
 
     filteredData = d3.nest()
-      .key((d) => d['Election type (RCV, Primary, General, Runoff)'])
+      .key((d) => d['Election type (RCV, Primary, General, Runoff)'] === 'RCV' ? 'RCV' : 'FPTP').sortKeys((a, b) =>  a === 'RCV' ? 1 : -1)
       .key((d) => d['Race/ethnicity identified'])
       .rollup((d) => d.length)
       .entries(filteredData)
 
-
+    var numData = d3.nest()
+      .key((d) => d['Election type (RCV, Primary, General, Runoff)'] === 'RCV' ? 'RCV' : 'FPTP')
+      .rollup((d) => d.length)
+      .entries(data);
 
     // # candidates by type and year
     var yearData = d3.nest()
-      .key((d) => d['Election type (RCV, Primary, General, Runoff)'])
-      .key((d) => d.Year)
+      .key((d) => d['Election type (RCV, Primary, General, Runoff)'] === 'RCV' ? 'RCV' : 'FPTP')
+      .key((d) => d.Year).sortKeys((a, b) => +a - +b)
       .rollup((d) => d.length)
       .entries(data);
+
+    yearData = d3.map(yearData, (d) => d.key)
+    numData = d3.map(numData, (d) => d.key)
+
 
 
     d3.selectAll('.axis').remove();
@@ -176,10 +188,15 @@ export default class SimRace extends Component {
       .range([0, this.state.width])
       .padding(0.2);
 
+    const xAxis = d3.axisBottom(x)
+      .tickFormat((d) => {
+        return d + ' (' + yearData.get(d).values[0].key + ' - ' + yearData.get(d).values[yearData.get(d).values.length - 1].key + ', ' + numData.get(d).value + ' candidates)';
+      });
+
     this.state.svg.append('g')
       .attr('class', 'axis')
       .attr('transform', 'translate(0, ' + (this.state.height) + ')')
-      .call(d3.axisBottom(x));
+      .call(xAxis);
 
     const xSubgroup = d3.scaleBand()
       .domain(race_categories)
@@ -206,6 +223,17 @@ export default class SimRace extends Component {
     // Enter in data = loop group per group
     .data(filteredData)
 
+    var tooltip = d3Tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d) {
+        return '<b>' + d.key + "</b>: " + d.value + ' candidates';
+
+      })
+      .style('color', '#fff')
+      .style('background', 'rgba(0, 0, 0, 0.6)')
+      .style('padding', '4px 8px')
+      .style('border-radius', '4px');
 
     var barSelect = groupSelect.enter()
     .append("g")
@@ -226,6 +254,8 @@ export default class SimRace extends Component {
 
     barSelect.exit().remove();
 
+    this.state.svg.call(tooltip);
+
     barSelect.enter().append("rect")
       .attr('class', 'bar')
       .merge(barSelect)
@@ -233,7 +263,15 @@ export default class SimRace extends Component {
       .attr("y", (d) => { return y(d.value); })
       .attr("width", xSubgroup.bandwidth())
       .attr("height", (d) => { return this.state.height - y(d.value); })
-      .attr("fill", (d) => { return this.state.color(d.key); });
+      .attr("fill", (d) => { return this.state.color(d.key); })
+      .on('mouseover', function(d) {
+        tooltip.show(d, this);
+
+      })
+      .on('mouseout', function(d) {
+        tooltip.hide(d, this);
+      });
+
 
   }
 

@@ -11,6 +11,8 @@ import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { legendColor } from 'd3-svg-legend';
+import d3Tip from 'd3-tip';
+
 
 const d3 = { select, selectAll, mouse, event, csv, max, descending, scaleOrdinal, scaleLinear, scaleBand, transition, nest, axisLeft, axisBottom, legendColor };
 
@@ -48,9 +50,9 @@ export default class SimDots extends Component {
       .getBoundingClientRect().width;
 
     // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 80, left: 30},
+    var margin = {top: 0, right: 30, bottom: 80, left: 30},
         width = parentWidth - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 360 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#simDots")
@@ -98,12 +100,26 @@ export default class SimDots extends Component {
       .key((d) => d.place).sortKeys(d3.descending)
       .entries(this.state.electionData.filter((d) => d.different === "TRUE"));
 
-    var y = d3.scaleLinear()
-      .domain([0, d3.max(nestedData, (x) => x.values.length)])
-      .range([this.state.height, 0]);
+    // var y = d3.scaleLinear()
+    //   .domain([0, d3.max(nestedData, (x) => x.values.length)])
+    //   .range([this.state.height, 0]);
+    //
+    // this.state.svg.append('g')
+    //     .call(d3.axisLeft(y));
 
-    this.state.svg.append('g')
-        .call(d3.axisLeft(y));
+    var tooltip = d3Tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function(d) {
+        return '<b>' + d.value.contest + "</b>: " + d.value.candidates;
+
+      })
+      .style('color', '#fff')
+      .style('background', 'rgba(0, 0, 0, 0.6)')
+      .style('padding', '4px 8px')
+      .style('border-radius', '4px');
+
+    this.state.svg.call(tooltip);
 
     var bars = this.state.svg.selectAll('.bar')
       .data(nestedData)
@@ -116,12 +132,24 @@ export default class SimDots extends Component {
       .data((d) => d.values.map((x) => ( { key: d.key, value: x } )))
       .enter()
       .append('circle')
-        .attr('cy', (d, i) => this.state.height - 20*i - 10)
+        .attr('cy', (d, i) => this.state.height - 24*i - 14)
         .attr('r', 10)
-        .attr('fill', (d) => this.state.color(d.key));
+        .attr('fill', (d) => this.state.color(d.key))
+        .on('mouseover', function(d, i) {
+          //var mouse = d3.mouse(viz.state.svg.node()).map( (d) => parseInt(d) );
+          var x = event.pageX,
+              y = event.pageY;
+          tooltip.show(d, this);
+          tooltip.style('top', y + 'px');
+          tooltip.style('left', x + 'px');
+        })
+        .on('mouseout', function(d, i) {
+          tooltip.hide(d, this) ;
+        });
 
-
-
+    bars.append('text')
+      .text((d) => d.values.length)
+      .attr('transform', (d) => 'translate(-6, ' + (this.state.height - 24*d.values.length - 12) + ')');
 
   }
 

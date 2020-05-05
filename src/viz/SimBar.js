@@ -14,6 +14,13 @@ import { legendColor } from 'd3-svg-legend';
 
 const d3 = { select, selectAll, mouse, event, csv, max, descending, scaleOrdinal, scaleLinear, scaleBand, transition, nest, axisLeft, axisBottom, legendColor };
 
+const simbarStyle = css`
+  .selectCandidate {
+    margin-left: 5%;
+    width: 40%;
+  }
+`;
+
 export default class SimBar extends Component {
   constructor(props) {
     super(props);
@@ -60,9 +67,9 @@ export default class SimBar extends Component {
       .getBoundingClientRect().width;
 
     // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 50, bottom: 30, left: 50},
+    var margin = {top: 100, right: 50, bottom: 30, left: 50},
         width = parentWidth - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        height = 720 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select("#simBar")
@@ -85,6 +92,16 @@ export default class SimBar extends Component {
       .key((d) => d.place).sortKeys(d3.descending)
       .key((d) => d.gender)
       .entries(this.state.electionData.filter((d) => d.fptp === "TRUE" ));
+
+    svg.append('text')
+      .attr('transform', 'translate(' + (width/4 - 20) + ', -20)')
+      .style('font-size', '16pt')
+      .text('FPTP');
+
+    svg.append('text')
+      .attr('transform', 'translate(' + (3*width/4 - 20) + ', -20)')
+      .style('font-size', '16pt')
+      .text('RCV');
 
 
     const groups = RCV.map((d) => d.key);
@@ -261,9 +278,9 @@ export default class SimBar extends Component {
 
   render() {
     return (
-      <div className="simBar-graphic">
-        <Form.Control as="select" onChange={this.handleSelect} >
-          <option value="all">All Elections</option>
+      <div className="simBar-graphic" css={simbarStyle}>
+        <Form.Control as="select" onChange={this.handleSelect} className='selectCandidate' >
+          <option value="all">All Candidates</option>
           <option value="distinct">Distinct Candidates</option>
         </Form.Control>
         <div id="simBar"></div>
