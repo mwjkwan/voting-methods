@@ -106,8 +106,6 @@ const methodblurb = (
 const polarizeblurb = (
   <div>
     <left>
-    <br></br>
-    <br></br>
     <p>
     First past the post encourages a two-party system and the polarization of candidate ideologies.
     </p>
@@ -130,8 +128,6 @@ const polarizeblurb = (
 const strategicblurb = (
   <div>
     <left>
-    <br></br>
-    <br></br>
     <p>
       FPTP voting systems can encourage strategic voting as supporters of less popular candidates shift their vote to their more preferred of the most popular candidates, as opposed to their true first preference.
     </p>
