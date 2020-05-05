@@ -10,17 +10,13 @@ import Distribution from "../viz/Distribution";
 const aboutProject = (
   <div>
     <p>
-    In the US, the predominant voting system is <b>First Past the Post (FPTP)</b>, where each voter selects one candidate and the candidate with the most votes wins. 
-    While intuitive, it creates counterproductive incentives for both candidates and voters. Groups like FairVote, Voter Choice, Ballot Ready, and Voters Choose are advocating <b>Ranked Choice Voting (RCV)</b>, where voters can rank their preferences for multiple candidates. 
-    </p>
-    <br></br>
-    <p>
-    Thus, for a course on campaigns and elections, we built <b>The Voting Methods Project</b> as a resource to help academics and election reform activists illustrate the effects of different voting systems.
+    Elections can hinge on the specific electoral method used. Thus, realizing the importance of informing political actors of different electoral methods,
+     we built <b>The Voting Methods Project</b> as a resource to help academics and election reform activists illustrate the effects of different voting systems.
     </p>
     <br></br>
     <p>
       The Voting Methods Project seeks to act as a resource which provides tools to:
-      </p>
+    </p>
       <br></br>
       <ul>
         <li>showcase the various electoral methods used throughout the world, </li>
@@ -29,7 +25,6 @@ const aboutProject = (
         <li>extend these ideas to actual RCV elections which would have had different results under FPTP, and</li>
         <li>provide a catalog which details out the various pros and cons of different FPTP and RCV electoral methods.</li>
       </ul>
-    
     <br></br>
     <hr></hr>
     <br></br>

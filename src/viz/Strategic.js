@@ -125,7 +125,7 @@ const rcvblurb = (
     </p>
     <br></br>
     <p>
-    Let’s take a closer look, once we add in a fourth candidate Terence Teal.
+    Let’s take a closer look, once we add in a fourth candidate Terrence Teal.
     </p>
     </left>
   </div>
@@ -269,7 +269,7 @@ export default class Strategic extends Component {
          .attr("cx", width/4 - width/24 + 3*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
          .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
 
-      var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terence Teal"]
+      var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terrence Teal"]
       svg.selectAll(".cand").data(cand).enter().append("text")
                     .attr("x", width/4 + width/9)
                     .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ (i)*width/20})
@@ -352,7 +352,7 @@ export default class Strategic extends Component {
                       .attr("stroke", "black")
                       .attr("id", "axis")
 
-        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terence Teal"]
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey", "Terrence Teal"]
         svg.selectAll(".candName").data(cand).enter().append("text")
                       .attr("x", 3*width/4 + 10)
                       .attr("y", function(d,i){return 200 + 30*i})
