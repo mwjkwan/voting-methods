@@ -112,7 +112,7 @@ export default class Distribution extends Component {
     const margin = { top: 0, right: 0, bottom: 0, left: 50 };
   
     var width = parentWidth - margin.left - margin.right;
-    var height = 800 - margin.top - margin.bottom;
+    var height = 400 - margin.top - margin.bottom;
     var radius = 10;
     var pad = 50;
 
@@ -163,7 +163,7 @@ export default class Distribution extends Component {
     const { vis, candidates, continuous, x, y } = this.state;
     const points = Object.keys(candidates).map(name => {
       vis.append("circle")
-            .classed("candidate", true)
+            .classed(name, true)
             .attr("r",10)
             .attr("cx", x(candidates[name]))
             .attr("cy", y(continuous(candidates[name])))
@@ -177,19 +177,19 @@ export default class Distribution extends Component {
                 .on('drag', dragged)
                 .on('end', dragended);
     
-    function dragstarted(d) {
+    function dragstarted() {
       d3.select(this).raise().classed('active', true);
     }
       
-    function dragged(d) {
+    function dragged() {
       const xi = x.invert(d3.mouse(this)[0]);
       const yi = y.invert(d3.mouse(this)[1]);
       d3.select(this)
         .attr('cx', x(xi))
-        .attr('cy', y(yi))
+        .attr('cy', y(continuous(xi)));
     }
       
-    function dragended(d) {
+    function dragended() {
       d3.select(this).classed('active', false);
     }
 

@@ -58,8 +58,10 @@ export default class PageAbout extends Component {
     return (
       <Article {...content}>
         <div css={aboutStyle}>
-          <Distribution />
-          <Description>{aboutProject}</Description>
+          <Description>
+            {aboutProject}
+            <Distribution />
+          </Description>
         </div>
       </Article>
     );
