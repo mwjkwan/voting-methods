@@ -11,6 +11,7 @@ import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import Polarization from "../viz/Polarization"
 import Strategic from "../viz/Strategic"
+import { curveStep } from 'd3';
 const descriptions = require("../assets/data/narrative.json");
 
 
@@ -188,11 +189,18 @@ export default class Narrative extends Component {
     var svg = this.state.svg;
     var width = this.state.width;
 
+    if (this.state.data === "0") {
+      d3.selectAll("svg > *").remove();
+      this.initializeBallot(svg);
+    }
+
     if (this.state.data === "1") {
       // var ballots = [0, 1, 2, 2, 2, 0, 1, 1, 2,
       //                2, 0, 2, 2, 0, 0, 0, 1, 0,
       //                2, 2, 2, 1, 0, 0, 1]
-      this.ballotToDot(0, width, svg, 1500, 1500, this.state.ballots);
+      d3.selectAll("svg > *").remove();
+      this.initializeBallot(svg);
+      this.ballotToDot(0, width, svg, 1500, 1500, this.state.ballots, "1");
 
       console.log("initialized");
       this.setState({svg: svg});
@@ -231,27 +239,6 @@ export default class Narrative extends Component {
           return "#grey"
         }
        });
-
-      //  if (cand === 1) {
-      //   color = "#2994D2"
-      //   cand_id = "blue"
-      // } else if (cand === 2) {
-      //   color = "#34495D"
-      //   cand_id = "grey"
-      // } else {
-      //   color = "#ED4F3A"
-      //   cand_id = "red"
-      // }
-
-//        var vote = svg.append("circle")
-//        .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand*width/20)
-//        .attr("r", width/80).attr("fill", color).attr("id", cand_id)
-
-// vote.transition()
-// .duration(speed)
-// .attr("cx", 3*width/4)
-// .attr("cy", 30 + index*15)
-// .attr("r", 6)
 
       svg.selectAll("circle")
         .transition()
@@ -556,48 +543,49 @@ export default class Narrative extends Component {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
 
-  ballotToDot = (index, width, svg, wait, speed, ballots) => {
-    //var svg = this.state.svg;
-    var cand = ballots[index]
-    var color = ""
-    var cand_id = ""
-    if (cand === 1) {
-      color = "#2994D2"
-      cand_id = "blue"
-    } else if (cand === 2) {
-      color = "#34495D"
-      cand_id = "grey"
-    } else {
-      color = "#ED4F3A"
-      cand_id = "red"
-    }
-    var vote = svg.append("circle")
-                 .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand*width/20)
-                 .attr("r", width/80).attr("fill", color).attr("id", cand_id)
-
-    vote.transition()
-        .duration(speed)
-        .attr("cx", 3*width/4)
-        .attr("cy", 30 + index*15)
-        .attr("r", 6)
-
-    this.setState({svg: svg});
-    if (index < 24) {
-      if (wait !== 0) {
-        this.sleep(speed).then(() => {
-          if (index === 2) {
-            wait = 0
-          }
-          this.ballotToDot(index+1, width, svg, wait, speed, ballots)
-        })
-
+  ballotToDot = (index, width, svg, wait, speed, ballots, step) => {
+      //var svg = this.state.svg;
+    if (this.state.data === step) {
+      var cand = ballots[index]
+      var color = ""
+      var cand_id = ""
+      if (cand === 1) {
+        color = "#2994D2"
+        cand_id = "blue"
+      } else if (cand === 2) {
+        color = "#34495D"
+        cand_id = "grey"
       } else {
-        this.ballotToDot(index+1, width, svg, wait, speed, ballots)
+        color = "#ED4F3A"
+        cand_id = "red"
+      }
+      var vote = svg.append("circle")
+                  .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand*width/20)
+                  .attr("r", width/80).attr("fill", color).attr("id", cand_id)
 
+      vote.transition()
+          .duration(speed)
+          .attr("cx", 3*width/4)
+          .attr("cy", 30 + index*15)
+          .attr("r", 6)
+
+      this.setState({svg: svg});
+      if (index < 24) {
+        if (wait !== 0) {
+          this.sleep(speed).then(() => {
+            if (index === 2) {
+              wait = 0
+            }
+            this.ballotToDot(index+1, width, svg, wait, speed, ballots, step)
+          })
+
+        } else {
+          this.ballotToDot(index+1, width, svg, wait, speed, ballots, step)
+
+        }
       }
     }
     this.setState({svg: svg});
-
   }
 
   rcvballotToDot = (index, width, svg, wait, speed, ballots) => {
@@ -691,6 +679,13 @@ export default class Narrative extends Component {
                 .attr('width', width)
                 .attr('height', height);
 
+    this.setState({svg});
+    //this.initializeBallot(svg);
+  }
+  initializeBallot = svg => {
+    //var svg = this.state.svg;
+    const width = this.state.width;
+    const height = this.state.height;
     // Initialize the ballot SVG
     svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
     svg.append("text")
