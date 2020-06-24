@@ -146,7 +146,6 @@ const strategicblurb = (
 export default class Narrative extends Component {
   constructor(props) {
     super(props);
-    //const stories = ['Motivation', 'FPTP', 'con 1', 'example 1', 'con 2', 'example 2']
     this.state = {
       data: "",
       svg: null,
@@ -156,16 +155,15 @@ export default class Narrative extends Component {
       redSize: 0,
       blueSize: 0,
       greySize: 0,
-      //value: 0,
-      //stories: stories,
-      //steps: [...stories.keys()], // ... is array destructuring operator
       progress: 0,
       initialized: false,
+      ballots: [0, 1, 2, 2, 2, 0, 1, 1, 2,
+        2, 0, 2, 2, 0, 0, 0, 1, 0,
+        2, 2, 2, 1, 0, 0, 1]
     }
   }
 
   onStepEnter = ({ element, data }) => {
-    //element.style.backgroundColor = 'lightgoldenrodyellow';
     this.setState( { data });
     console.log(data)
     this.update();
@@ -188,31 +186,79 @@ export default class Narrative extends Component {
 
 
     var svg = this.state.svg;
-    var width = this.state.width
+    var width = this.state.width;
 
     if (this.state.data === "1") {
-      var ballots = [0, 1, 2, 2, 2, 0, 1, 1, 2,
-                     2, 0, 2, 2, 0, 0, 0, 1, 0,
-                     2, 2, 2, 1, 0, 0, 1]
-      this.ballotToDot(0, width, svg, 1500, 1500, ballots);
+      // var ballots = [0, 1, 2, 2, 2, 0, 1, 1, 2,
+      //                2, 0, 2, 2, 0, 0, 0, 1, 0,
+      //                2, 2, 2, 1, 0, 0, 1]
+      this.ballotToDot(0, width, svg, 1500, 1500, this.state.ballots);
 
-      console.log("initialized")
+      console.log("initialized");
       this.setState({svg: svg});
 
     }
 
     if (this.state.data === "2") {
-      svg.select("rect").remove()
-      svg.select("#ballot").remove()
-      svg.selectAll("#cand").remove()
-      svg.selectAll("#boxes").remove()
+      // svg.select("rect").remove()
+      // svg.select("#ballot").remove()
+      // svg.selectAll("#cand").remove()
+      // svg.selectAll("#boxes").remove()
+
+      d3.selectAll("svg > *").remove();
+
+      svg.selectAll("votes").data(this.state.ballots).enter().append("circle")
+       .attr("cx", 3*width/4)
+       .attr("cy", function(d,i){return 30 + i*15})
+       .attr("r", width/80)
+       .attr("fill", 
+       function(d, i) {
+         if (d === 0) {
+           return "#ED4F3A"
+         } else if (d === 1) {
+           return "#2994D2"
+         } else {
+           return "#34495D"
+         }
+        })
+       .attr("id",
+       function(d, i) {
+        if (d === 0) {
+          return "#red"
+        } else if (d === 1) {
+          return "#blue"
+        } else {
+          return "#grey"
+        }
+       });
+
+      //  if (cand === 1) {
+      //   color = "#2994D2"
+      //   cand_id = "blue"
+      // } else if (cand === 2) {
+      //   color = "#34495D"
+      //   cand_id = "grey"
+      // } else {
+      //   color = "#ED4F3A"
+      //   cand_id = "red"
+      // }
+
+//        var vote = svg.append("circle")
+//        .attr("cx", width/4 + width/25).attr("cy", width/4 + 3*width/32 + cand*width/20)
+//        .attr("r", width/80).attr("fill", color).attr("id", cand_id)
+
+// vote.transition()
+// .duration(speed)
+// .attr("cx", 3*width/4)
+// .attr("cy", 30 + index*15)
+// .attr("r", 6)
 
       svg.selectAll("circle")
         .transition()
         .duration(1500)
         .attr("cx", 10)
         .attr("cy", function(d, i) {return 50 + i*15})
-        .attr("r", 6)
+        .attr("r", 6);
 
       this.sleep(1500).then(() => {
         var ax = [...Array(1).keys()]
@@ -223,9 +269,9 @@ export default class Narrative extends Component {
                       .attr("y2", 50 + 25*15)
                       .attr("stroke-width", 1.5)
                       .attr("stroke", "black")
-                      .attr("id", "axis")
+                      .attr("id", "axis");
 
-        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"];
         svg.selectAll(".candName").data(cand).enter().append("text")
                       .attr("x", 3*width/4 + 10)
                       .attr("y", function(d,i){return 200 + 30*i})
@@ -234,7 +280,7 @@ export default class Narrative extends Component {
                       .attr("font-size", "16px")
                       .attr("fill", "black")
                       .attr("id", function(d, i) {return "cand".concat(i.toString())})
-                      .attr("class", "candName")
+                      .attr("class", "candName");
 
        })
 
@@ -248,19 +294,19 @@ export default class Narrative extends Component {
         .duration(2000)
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
         .attr("cy", 195)
-        .attr("r", 6)
+        .attr("r", 6);
 
       blue.transition()
           .duration(2000)
           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
           .attr("cy", 225)
-          .attr("r", 6)
+          .attr("r", 6);
 
       grey.transition()
           .duration(2000)
           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
           .attr("cy", 255)
-          .attr("r", 6)
+          .attr("r", 6);
 
       var max = Math.max(red.size(), blue.size(), grey.size());
       var bold = "";
@@ -746,7 +792,7 @@ export default class Narrative extends Component {
           </div>
         </Card>
       </div>
-        <Polarization jumpLink/>
+        <Polarization/>
       <div className="blurb" id="strategic">
         <Card>
           <div className="card-text-s">
