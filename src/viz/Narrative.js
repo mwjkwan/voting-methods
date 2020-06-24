@@ -214,60 +214,63 @@ export default class Narrative extends Component {
       // svg.selectAll("#boxes").remove()
 
       d3.selectAll("svg > *").remove();
+      this.sleep(50).then(() => {
+        svg.selectAll("votes").data(this.state.ballots).enter().append("circle")
+        .attr("cx", 3*width/4)
+        .attr("cy", function(d,i){return 30 + i*15})
+        .attr("r", width/80)
+        .attr("fill", 
+        function(d, i) {
+          if (d === 0) {
+            return "#ED4F3A"
+          } else if (d === 1) {
+            return "#2994D2"
+          } else {
+            return "#34495D"
+          }
+          })
+        .attr("id",
+        function(d, i) {
+          if (d === 0) {
+            return "#red"
+          } else if (d === 1) {
+            return "#blue"
+          } else {
+            return "#grey"
+          }
+        });
 
-      svg.selectAll("votes").data(this.state.ballots).enter().append("circle")
-       .attr("cx", 3*width/4)
-       .attr("cy", function(d,i){return 30 + i*15})
-       .attr("r", width/80)
-       .attr("fill", 
-       function(d, i) {
-         if (d === 0) {
-           return "#ED4F3A"
-         } else if (d === 1) {
-           return "#2994D2"
-         } else {
-           return "#34495D"
-         }
-        })
-       .attr("id",
-       function(d, i) {
-        if (d === 0) {
-          return "#red"
-        } else if (d === 1) {
-          return "#blue"
-        } else {
-          return "#grey"
-        }
-       });
-
-      svg.selectAll("circle")
-        .transition()
-        .duration(1500)
-        .attr("cx", 10)
-        .attr("cy", function(d, i) {return 50 + i*15})
-        .attr("r", 6);
+        svg.selectAll("circle")
+          .transition()
+          .duration(1500)
+          .attr("cx", 10)
+          .attr("cy", function(d, i) {return 50 + i*15})
+          .attr("r", 6);
+      })
 
       this.sleep(1500).then(() => {
-        var ax = [...Array(1).keys()]
-        svg.selectAll("#axis").data(ax).enter().append("line")
-                      .attr("x1", 3*width/4)
-                      .attr("y1", 50)
-                      .attr("x2", 3*width/4)
-                      .attr("y2", 50 + 25*15)
-                      .attr("stroke-width", 1.5)
-                      .attr("stroke", "black")
-                      .attr("id", "axis");
+        if (this.state.data === "2") {
+          var ax = [...Array(1).keys()]
+          svg.selectAll("#axis").data(ax).enter().append("line")
+                        .attr("x1", 3*width/4)
+                        .attr("y1", 50)
+                        .attr("x2", 3*width/4)
+                        .attr("y2", 50 + 25*15)
+                        .attr("stroke-width", 1.5)
+                        .attr("stroke", "black")
+                        .attr("id", "axis");
 
-        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"];
-        svg.selectAll(".candName").data(cand).enter().append("text")
-                      .attr("x", 3*width/4 + 10)
-                      .attr("y", function(d,i){return 200 + 30*i})
-                      .text(function(d, i){return d})
-                      .attr("font-family", "akkurat")
-                      .attr("font-size", "16px")
-                      .attr("fill", "black")
-                      .attr("id", function(d, i) {return "cand".concat(i.toString())})
-                      .attr("class", "candName");
+          var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"];
+          svg.selectAll(".candName").data(cand).enter().append("text")
+                        .attr("x", 3*width/4 + 10)
+                        .attr("y", function(d,i){return 200 + 30*i})
+                        .text(function(d, i){return d})
+                        .attr("font-family", "akkurat")
+                        .attr("font-size", "16px")
+                        .attr("fill", "black")
+                        .attr("id", function(d, i) {return "cand".concat(i.toString())})
+                        .attr("class", "candName");
+        }
 
        })
 
@@ -568,6 +571,9 @@ export default class Narrative extends Component {
           .attr("cx", 3*width/4)
           .attr("cy", 30 + index*15)
           .attr("r", 6)
+      if (this.state.data !== step) {
+        return;
+      }
 
       this.setState({svg: svg});
       if (index < 24) {
@@ -576,14 +582,28 @@ export default class Narrative extends Component {
             if (index === 2) {
               wait = 0
             }
-            this.ballotToDot(index+1, width, svg, wait, speed, ballots, step)
+            if (this.state.data === step) {
+              this.ballotToDot(index+1, width, svg, wait, speed, ballots, step);
+            }
+            else {
+              return;
+            }
           })
 
         } else {
-          this.ballotToDot(index+1, width, svg, wait, speed, ballots, step)
+          if (this.state.data === step) {
+            this.ballotToDot(index+1, width, svg, wait, speed, ballots, step);
+          }
+          else {
+            return;
+          }
 
         }
       }
+    }
+    else {
+      this.setState({svg: svg});
+      return;
     }
     this.setState({svg: svg});
   }
