@@ -10,8 +10,7 @@ import Distribution from "../viz/Distribution";
 const aboutProject = (
   <div>
     <p>
-    Elections can hinge on the specific electoral method used. Thus, realizing the importance of informing political actors of different electoral methods,
-     we built <b>The Voting Methods Project</b> as a resource to help academics and election reform activists illustrate the effects of different voting systems.
+    Elections can hinge on the electoral method used. We built <b>The Voting Methods Project</b> as a resource to help academics, election reform activistsm, and political actors illustrate the effects of different voting systems.
     </p>
     <br></br>
     <p>
@@ -46,19 +45,6 @@ const aboutProject = (
     us on the scope and direction of our project:
     </p>
     <br></br>
-    <ul>
-      <li>Nicco Mele, Harvard Kennedy School</li>
-      <li>Paul Dingus, Bluebonnet Data</li>
-      <li>Russell Mindich, Harvard College '20</li>
-      <li>Jeremy Seitz-Brown, FairVote</li>
-      <li>Chris Oates, Voter Choice</li>
-      <li>Larry Buchanan, The New York Times</li>
-      <li>Brandon Martinez, Voters Choose</li>
-      <li>Xavier Morales, Voters Choose</li>
-      <li>Professor Sarah John, University of Virginia</li>
-      <li>Sebastian Ellefson, Ballot Ready</li>
-    </ul>
-    <br></br>
     <Card>
       <Card.Img variant="top" src={require('../assets/img/credits.png')}/>
     </Card>
@@ -86,7 +72,7 @@ const aboutStyle = css`
     font-size: 2em;
     font-weight: 700;
     color: black;
-    line-height: 1;
+    line-height: 1.2;
   }
 `;
 
@@ -98,7 +84,7 @@ export default class PageAbout extends Component {
         <br></br>
         <div className = "big">
           Many voting systems are variations of First Past the Post (FPTP) and Ranked Choice Voting (RCV). 
-          The Voting Methods Project allows you to explore and gain a better understanding of how these different systems work, as well as their benefits and drawbacks.
+          The Voting Methods Project allows you to explore and evaluate these different systems.
         </div>
         <br></br>
         <div className="blurb">{aboutProject}</div>

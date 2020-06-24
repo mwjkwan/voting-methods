@@ -10,8 +10,8 @@ import MethodCard from '../components/MethodCard';
 const methods = require("../assets/data/methods.json");
 
 const story = <div id="methods">
-                There are many voting systems which are variations of First Past the Post (FPTP) and Ranked Choice Voting (RCV).
-                This tool allows you to explore and gain a better understanding of how these different methods work, as well as their pros and cons.
+                Many voting systems are variations of First Past the Post (FPTP) and Ranked Choice Voting (RCV).
+                This tool allows you to explore how these different methods work, as well as their pros and cons. Click on a method to learn more about it.
               </div>;
 
 const style = css`
@@ -29,7 +29,7 @@ const style = css`
   #methods {
     font-size: 18px;
     padding-bottom: 2%;
-    margin-left: 4.3%;
+    margin-left: 4%;
     margin-bottom: 1em;
     margin-top: 1em;
   }
@@ -40,15 +40,16 @@ const style = css`
     font-weight: 700;
     color: black;
     line-height: 1;
-    margin-left: 3.6%;
+    margin-left: 4%;
   }
-  #scootit {
+  #cards {
     margin-left: 4%;
     margin-bottom: 4%;
   }
-  #scootit2 {
-    margin-left: 3.6%;
+  #heading {
+    margin-left: 4%;
   }
+
 `;
 
 export default class PageMethods extends Component {
@@ -76,14 +77,17 @@ export default class PageMethods extends Component {
     const { rcv, fptp } = this.state;
     return (
       <div css={style}>
-        <Article>
+        <Article id="align">
             <br></br>
             <div className="big">Voting Methods Reference</div>
             {story}
-            <Button  id="scootit2" variant={rcv ? "primary" : "secondary"} onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
-            <Button variant={fptp ? "success" : "secondary"} onClick={this.toggleFPTP}>First Past the Post (FPTP)</Button>{' '}
+            <div id="heading">
+              <p>Filter by type:</p>
+              <Button variant={rcv ? "primary" : "secondary"} onClick={this.toggleRCV}>Ranked Choice (RCV)</Button>{' '}
+              <Button variant={fptp ? "success" : "secondary"} onClick={this.toggleFPTP}>First Past the Post (FPTP)</Button>{' '}
+            </div>
         </Article>
-        <CardColumns  id="scootit">
+        <CardColumns  id="cards">
           {methods.map(method => {
             if (rcv && method.type === 'Ranked Choice (RCV)'
             || fptp && method.type === 'First Past the Post (FPTP)') {
