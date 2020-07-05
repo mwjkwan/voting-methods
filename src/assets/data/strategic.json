@@ -7,17 +7,17 @@
   {
     "key": "2",
     "description":
-    "Imagine if we have three candidates, one of which is more right-leaning, and the other two are more left-leaning. And supporters of Rodrigo Red and Gracey Grey have a slight preference towards their preferred candidate, but overall agree with both."
+    "Imagine we have three candidates, one of which is more right-leaning, and the other two are more left-leaning. And supporters of Rodrigo Red and Gracey Grey have a slight preference towards their preferred candidate, but overall agree with both."
   },
   {
     "key": "3",
     "description":
-    "Now, if everyone votes for their favorite candidate, then, despite the left-leaning base being larger than the right-wing base, the left-wing candidates split the vote and thus resulted in the right-wing candidate Belinda Blue having a plurality."
+    "If everyone votes for their favorite candidate, despite the left-leaning base being larger than the right-wing base, the left-wing candidates split the vote. This results in the right-wing candidate Belinda Blue having a plurality."
   },
   {
     "key": "4",
     "description":
-    "Thus, voters begin to vote strategically to maximize the chances of any left-wing candidate winning. Therefore, some of the Grey supporters will switch to Red (who appears to have more support than Grey)."
+    "Thus, left-wing voters vote strategically to maximize the chances of any left-wing candidate winning. Specifically, some of the Gracey Grey supporters will switch to Rodrigo Red (who appears to have more support than Grey)."
   },
   {
     "key": "5",
@@ -37,12 +37,12 @@
   {
     "key": "11",
     "description":
-    "With RCV, people can show their true preferences without worrying about splitting the vote as if their first choice doesn't make it past a round, their vote will go to their next choice. And while strategic voting can occur, it can result in a more moderate candidate."
+    "With RCV, people can show their true preferences without worrying about splitting the vote because if their first choice doesn't make it past a round, their vote will go to their next choice. And while strategic voting can still occur, it's not as heavily incentivized and can more easily result in ideological moderation."
   },
   {
     "key": "12",
     "description":
-    "Imagine a scenario where we have two major candidates Rodrigo Red and Belinda Blue, where supporters of one strategically rank the other major candidate as last. Here, everyone is incentivized to rank their favorite candidate first, so the strategic voting in FPTP is not present, but a different kind is."
+    "Imagine again we have two major candidates, Rodrigo Red and Belinda Blue. Supporters of one candidate strategically rank the other major candidate as last. Here, everyone is incentivized to rank their favorite candidate first, so the strategic voting in FPTP is not present, but a different kind is."
   },
   {
     "key": "13",
