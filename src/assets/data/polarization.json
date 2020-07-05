@@ -17,7 +17,11 @@
   },
   {
     "key": "4",
-    "description": "Gracey and Belinda both have incentive to shift away from center to attract more Rodrigo and Terrence voters, who can't express preferences for both candidates on one side of the spectrum."
+    "description": "Gracey and Belinda both have incentive to shift away from center to attract more Rodrigo and Terrence voters."
+  },
+  {
+    "key": "4.5",
+    "description": "Realizing their original candidates won't win and that they can at least ensure the opposite field of the field loses, more Rodrigo and Terrence voters switch to more popular candidates."
   },
   {
     "key": "5",

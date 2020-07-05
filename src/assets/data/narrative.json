@@ -5,15 +5,23 @@
   },
   {
     "key": "1",
-    "description": "First past the post (FPTP) is the voting system used by most of the U.S. Every voter selects one candidate."
+    "description": "First past the post (FPTP) is the voting system used by most of the U.S. We'll represent votes as dots."
+  },
+  {
+    "key": "1.5",
+    "description": "Every voter selects one candidate."
   },
   {
     "key": "2",
-    "description": "We'll represent votes as these colored dots."
+    "description": "And we'll use these votes to simulate the election outcomes of various voting methods."
+  },
+  {
+    "key": "2.5",
+    "description": "We count the votes. FPTP uses plurality rules."
   },
   {
     "key": "3",
-    "description": "We count the votes. Gracey Grey wins since she has the most votes, even though she didn't have a majority of votes."
+    "description": "This means that Gracey Grey wins, since she has the most votes, even though she doesn't have a majority of the total votes."
   },
   {
     "key": "4",
