@@ -226,7 +226,7 @@ export default class Polarization extends Component {
       del = 0;
     }
     teal.transition()
-      .duration(2000)
+      .duration(del)
       .attr("fill", "#34495D")
       .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
       .attr("cy", 295)
@@ -251,7 +251,7 @@ export default class Polarization extends Component {
       .attr("cy", 155)
       .attr("r", 6)
 
-    svg.selectAll("#cand1").transition().duration(2000).attr("y", 160)
+    svg.selectAll("#cand1").transition().duration(del).attr("y", 160)
 
     var grey = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true],#grey")
     //greySize = this.state.greySize
@@ -260,31 +260,41 @@ export default class Polarization extends Component {
       .attr("cy", 315)
       .attr("r", 6)
 
-    svg.selectAll("#cand2").transition().duration(2000).attr("y", 320)
+    svg.selectAll("#cand2").transition().duration(del).attr("y", 320)
+    this.setState({svg});
 
+  }
 
-    this.sleep(del).then(() => {
-      var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=false]")
-      var greySize = this.state.greySize
-      teal.transition()
-        .duration(del)
-        .attr("fill", "#34495D")
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
-        .attr("cy", 315)
-        .attr("r", 6)
-      this.setState({greySize: teal.size() + greySize})
+  fptpStep45 = (svg, delay) => {
+    var width = this.state.width;
+    let del; 
+    if (delay) {
+      del = 2000;
+    }
+    else {
+      del = 0;
+    }
+    var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=false]")
+    var greySize = this.state.greySize
+    teal.transition()
+      .duration(del)
+      .attr("fill", "#34495D")
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+      .attr("cy", 315)
+      .attr("r", 6)
+    this.setState({greySize: teal.size() + greySize})
 
-      var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
-      var blueSize = this.state.blueSize
-      red.transition()
-        .duration(del)
-        .attr("fill", "#2994D2")
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
-        .attr("cy", 155)
-        .attr("r", 6)
-      this.setState({blueSize: red.size() + blueSize})
+    var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
+    var blueSize = this.state.blueSize
+    red.transition()
+      .duration(del)
+      .attr("fill", "#2994D2")
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+      .attr("cy", 155)
+      .attr("r", 6)
+    this.setState({blueSize: red.size() + blueSize})
+    this.setState({svg});
 
-    })
   }
 
   update() {
@@ -331,6 +341,17 @@ export default class Polarization extends Component {
 
     }
 
+    if (this.state.data === "4.5") {
+      d3.selectAll("svg > *").remove();
+      this.setup();
+      this.fptpCount(svg, false);
+      this.fptpStep2(svg, false);
+      this.fptpStep3(svg, false);
+      this.fptpStep4(svg, false);
+      this.fptpStep45(svg, true);
+
+    }
+
     if (this.state.data === "5") {
       d3.selectAll("svg > *").remove();
       this.setup();
@@ -338,6 +359,7 @@ export default class Polarization extends Component {
       this.fptpStep2(svg, false);
       this.fptpStep3(svg, false);
       this.fptpStep4(svg, false);
+      this.fptpStep45(svg, false);
       svg.selectAll("#cand0,#cand3").remove()
     }
 
