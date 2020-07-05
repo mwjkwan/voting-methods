@@ -291,7 +291,7 @@ export default class Narrative extends Component {
 
       svg.selectAll("circle")
         .transition()
-        .duration(1200)
+        .duration(1500)
         .attr("cx", 10)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
@@ -379,19 +379,19 @@ export default class Narrative extends Component {
       var blue = svg.selectAll("#blue");
       var grey = svg.selectAll("#grey");
       red.transition()
-        .duration(2000)
+        .duration(1500)
         .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
         .attr("cy", 195)
         .attr("r", 6)
 
       blue.transition()
-          .duration(2000)
+          .duration(1500)
           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
           .attr("cy", 225)
           .attr("r", 6)
 
       grey.transition()
-          .duration(2000)
+          .duration(1500)
           .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
           .attr("cy", 255)
           .attr("r", 6)
@@ -405,7 +405,15 @@ export default class Narrative extends Component {
         2, 2, 2, 1, 0, 0, 1]
       svg.selectAll("votes").data(ballots).enter().append("circle")
       .attr("cx", 10)
-      .attr("cy", function(d,i){return 50 + i*15})
+      .attr("cy", function(d,i){
+        if (d === 0) {
+          return 195;
+        } else if (d === 1) {
+          return 225;
+        } else {
+          return 255;
+        }
+      })
       .attr("r", width/80)
       .attr("fill", 
       function(d, i) {
@@ -426,7 +434,31 @@ export default class Narrative extends Component {
         } else {
           return "grey"
         }
-      });
+      })
+      .attr("hidden", true);
+
+      var red = svg.selectAll("#red");
+      var blue = svg.selectAll("#blue");
+      var grey = svg.selectAll("#grey");
+      red.transition()
+        .duration(0)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 195)
+        .attr("r", 6)
+
+      blue.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 225)
+          .attr("r", 6)
+
+      grey.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 255)
+          .attr("r", 6)
+
+      var circles = svg.selectAll("#red,#blue,#grey").attr("hidden", null);
 
       var ax = [...Array(1).keys()]
         svg.selectAll("#axis").data(ax).enter().append("line")
@@ -468,12 +500,7 @@ export default class Narrative extends Component {
 
     if (this.state.data === "4") {
       // remove stuff
-      svg.selectAll("circle").remove();
-      svg.select("#cand0").remove();
-      svg.select("#cand1").remove();
-      svg.select("#cand2").remove();
-      svg.select("line").remove();
-      svg.selectAll("#boxes").remove()
+      d3.selectAll("svg > *").remove();
 
     }
 
@@ -784,18 +811,8 @@ export default class Narrative extends Component {
 
     this.setState({svg: svg});
     if (index < 24) {
-      if (wait !== 0) {
-        this.sleep(speed).then(() => {
-          if (index === 2) {
-            wait = 0
-          }
-          this.rcvballotToDot(index+1, width, svg, wait, speed, ballots)
-        })
-
-      } else {
         this.rcvballotToDot(index+1, width, svg, wait, speed, ballots)
-
-      }
+ 
     }
     this.setState({svg: svg});
 
