@@ -11,7 +11,6 @@ import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import Polarization from "../viz/Polarization"
 import Strategic from "../viz/Strategic"
-import { curveStep } from 'd3';
 const descriptions = require("../assets/data/narrative.json");
 
 
@@ -189,17 +188,17 @@ export default class Narrative extends Component {
     var svg = this.state.svg;
     var width = this.state.width;
 
-    if (this.state.data === "0") {
-      d3.selectAll("svg > *").remove();
-      this.initializeBallot(svg);
-    }
+    // if (this.state.data === "0") {
+    //   d3.selectAll("svg > *").remove();
+    //   this.initializeBallot(svg);
+    // }
 
     if (this.state.data === "1") {
       // var ballots = [0, 1, 2, 2, 2, 0, 1, 1, 2,
       //                2, 0, 2, 2, 0, 0, 0, 1, 0,
       //                2, 2, 2, 1, 0, 0, 1]
       d3.selectAll("svg > *").remove();
-      this.initializeBallot(svg);
+      //this.initializeBallot(svg);
       this.ballotToDot(0, width, svg, 1500, 1500, this.state.ballots, "1");
 
       console.log("initialized");
@@ -699,14 +698,6 @@ export default class Narrative extends Component {
                 .attr('width', width)
                 .attr('height', height);
 
-    this.setState({svg});
-    //this.initializeBallot(svg);
-  }
-  initializeBallot = svg => {
-    //var svg = this.state.svg;
-    const width = this.state.width;
-    const height = this.state.height;
-    // Initialize the ballot SVG
     svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
     svg.append("text")
        .attr("x", 10.3*width/32)
@@ -774,7 +765,6 @@ export default class Narrative extends Component {
           <a href="#strategic" style={{padding: "0%"}} class="btn btn-link">Strategic Voting</a>
         </div>
         <div className='graphic'>
-          <div id="viz"></div>
         </div>
         <div className='scroller'>
           <Scrollama
