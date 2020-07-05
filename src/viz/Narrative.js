@@ -501,11 +501,55 @@ export default class Narrative extends Component {
     if (this.state.data === "4") {
       // remove stuff
       d3.selectAll("svg > *").remove();
+      svg.append("rect").attr("x", width/4-width/24).attr("y", width/4-width/100).attr("width", width/3).attr("height", width/4).style("fill", "#F4F4F4");
+       svg.append("text")
+          .attr("x", 10.3*width/32)
+          .attr("y", width/4+25)
+          .text("Ballot")
+          .attr("font-family", "akkurat")
+          .attr("font-size", "24px")
+          .attr("fill", "black")
+          .attr("id", "ballot")
+
+      var boxlabels = ["3", "2", "1"]
+      svg.selectAll(".boxlabels").data(boxlabels).enter().append("text")
+                    .attr("x", function(d,i){return width/4 + i*width/25 - width/128})
+                    .attr("y", width/4 + 9*width/128)
+                    .text(function(d, i){return d})
+                    .attr("font-family", "akkurat")
+                    .attr("font-size", "14px")
+                    .attr("fill", "black")
+                    .attr("id", function(d, it) {return "boxlabel"})
+                    .attr("class", "boxlabels")
+
+      // make three columns of circles, from middle, left, right
+      var box = [...Array(3).keys()]
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+      svg.selectAll("boxes").data(box).enter().append("circle")
+        .attr("cx", width/4 + 2*width / 25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+        .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+      svg.selectAll(".cand").data(cand).enter().append("text")
+                    .attr("x", width/4 + width/9)
+                    .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ i*width/20})
+                    .text(function(d, i){return d})
+                    .attr("font-family", "akkurat")
+                    .attr("font-size", "16px")
+                    .attr("fill", "black")
+                    .attr("id", function(d, it) {return "cand"})
+                    .attr("class", "cand")
 
     }
 
     if (this.state.data === "5") {
-
+      
+      d3.selectAll("svg > *").remove();
       // Initialize the ballot SVG
       svg.append("rect").attr("x", width/4-width/24).attr("y", width/4-width/100).attr("width", width/3).attr("height", width/4).style("fill", "#F4F4F4");
        svg.append("text")
@@ -561,11 +605,12 @@ export default class Narrative extends Component {
     }
 
     if (this.state.data === "6") {
-      svg.select("rect").remove()
-      svg.select("#ballot").remove()
-      svg.selectAll("#cand").remove()
-      svg.selectAll("#boxes").remove()
-      svg.selectAll(".boxlabels").remove()
+      d3.selectAll("svg > *").remove();
+      var ballots = [[0, 2, 1], [1, 0, 2], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
+                     [1, 2, 0], [1, 0, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
+                     [2, 0, 1], [0, 2, 1], [0, 2, 1], [0, 2, 1], [1, 0, 2], [0, 2, 1],
+                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [1, 0, 2], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
+      this.rcvballotToDot(0, width, svg, 0, 0, ballots);
 
       svg.selectAll(".v3")
         .transition()
@@ -598,7 +643,7 @@ export default class Narrative extends Component {
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
 
-      this.sleep(1500).then(() => {
+      this.sleep(200).then(() => {
         var ax = [...Array(1).keys()]
         svg.selectAll("#axis").data(ax).enter().append("line")
                       .attr("x1", 3*width/4)
@@ -626,6 +671,67 @@ export default class Narrative extends Component {
 
     if (this.state.data === "7") {
       // var v1s = svg.selectAll(".v1");
+      d3.selectAll("svg > *").remove();
+      var ballots = [[0, 2, 1], [1, 0, 2], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
+                     [1, 2, 0], [1, 0, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
+                     [2, 0, 1], [0, 2, 1], [0, 2, 1], [0, 2, 1], [1, 0, 2], [0, 2, 1],
+                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [1, 0, 2], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
+      this.rcvballotToDot(0, width, svg, 0, 0, ballots);
+
+      svg.selectAll(".v3")
+        .transition()
+        .duration(0)
+        .attr("cx", width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v2")
+        .transition()
+        .duration(0)
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v1")
+        .transition()
+        .duration(0)
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+        .transition()
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v2shadow")
+        .transition()
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      this.sleep(0).then(() => {
+        var ax = [...Array(1).keys()]
+        svg.selectAll("#axis").data(ax).enter().append("line")
+                      .attr("x1", 3*width/4)
+                      .attr("y1", 50)
+                      .attr("x2", 3*width/4)
+                      .attr("y2", 50 + 25*15)
+                      .attr("stroke-width", 1.5)
+                      .attr("stroke", "black")
+                      .attr("id", "axis")
+
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+        svg.selectAll(".candName").data(cand).enter().append("text")
+                      .attr("x", 3*width/4 + 10)
+                      .attr("y", function(d,i){return 200 + 30*i})
+                      .text(function(d, i){return d})
+                      .attr("font-family", "akkurat")
+                      .attr("font-size", "16px")
+                      .attr("fill", "black")
+                      .attr("id", function(d, i) {return "cand".concat(i.toString())})
+                      .attr("class", "candName")
+      });
+      
       var red = svg.selectAll("#red.v1");
       var blue = svg.selectAll("#blue.v1");
       var grey = svg.selectAll("#grey.v1");
@@ -676,11 +782,197 @@ export default class Narrative extends Component {
     }
 
     if (this.state.data === "8") {
+      d3.selectAll("svg > *").remove();
+      var ballots = [[0, 2, 1], [1, 0, 2], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
+                     [1, 2, 0], [1, 0, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
+                     [2, 0, 1], [0, 2, 1], [0, 2, 1], [0, 2, 1], [1, 0, 2], [0, 2, 1],
+                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [1, 0, 2], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
+      this.rcvballotToDot(0, width, svg, 0, 0, ballots);
+
+      svg.selectAll(".v3")
+        .transition()
+        .duration(0)
+        .attr("cx", width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v2")
+        .transition()
+        .duration(0)
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v1")
+        .transition()
+        .duration(0)
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+        .transition()
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v2shadow")
+        .transition()
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      this.sleep(0).then(() => {
+        var ax = [...Array(1).keys()]
+        svg.selectAll("#axis").data(ax).enter().append("line")
+                      .attr("x1", 3*width/4)
+                      .attr("y1", 50)
+                      .attr("x2", 3*width/4)
+                      .attr("y2", 50 + 25*15)
+                      .attr("stroke-width", 1.5)
+                      .attr("stroke", "black")
+                      .attr("id", "axis")
+
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+        svg.selectAll(".candName").data(cand).enter().append("text")
+                      .attr("x", 3*width/4 + 10)
+                      .attr("y", function(d,i){return 200 + 30*i})
+                      .text(function(d, i){return d})
+                      .attr("font-family", "akkurat")
+                      .attr("font-size", "16px")
+                      .attr("fill", "black")
+                      .attr("id", function(d, i) {return "cand".concat(i.toString())})
+                      .attr("class", "candName")
+      });
+      
+      var red = svg.selectAll("#red.v1");
+      var blue = svg.selectAll("#blue.v1");
+      var grey = svg.selectAll("#grey.v1");
+
+      svg.selectAll(".v1shadow")
+         .transition(function(d, i) {return 50 + i*15})
+
+
+      red.transition()
+        .duration(0)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 195)
+        .attr("r", 6)
+
+      blue.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 225)
+          .attr("r", 6)
+
+      grey.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 255)
+          .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+         .attr("opacity", 1)
+
       svg.selectAll("#blue.v1").remove()
       svg.select("#cand1").remove()
+
+      this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size()});
     }
 
     if (this.state.data === "9") {
+      d3.selectAll("svg > *").remove();
+      var ballots = [[0, 2, 1], [1, 0, 2], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
+                     [1, 2, 0], [1, 0, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
+                     [2, 0, 1], [0, 2, 1], [0, 2, 1], [0, 2, 1], [1, 0, 2], [0, 2, 1],
+                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [1, 0, 2], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
+      this.rcvballotToDot(0, width, svg, 0, 0, ballots);
+
+      svg.selectAll(".v3")
+        .transition()
+        .duration(0)
+        .attr("cx", width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v2")
+        .transition()
+        .duration(0)
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v1")
+        .transition()
+        .duration(0)
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+        .transition()
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v2shadow")
+        .transition()
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      this.sleep(0).then(() => {
+        var ax = [...Array(1).keys()]
+        svg.selectAll("#axis").data(ax).enter().append("line")
+                      .attr("x1", 3*width/4)
+                      .attr("y1", 50)
+                      .attr("x2", 3*width/4)
+                      .attr("y2", 50 + 25*15)
+                      .attr("stroke-width", 1.5)
+                      .attr("stroke", "black")
+                      .attr("id", "axis")
+
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+        svg.selectAll(".candName").data(cand).enter().append("text")
+                      .attr("x", 3*width/4 + 10)
+                      .attr("y", function(d,i){return 200 + 30*i})
+                      .text(function(d, i){return d})
+                      .attr("font-family", "akkurat")
+                      .attr("font-size", "16px")
+                      .attr("fill", "black")
+                      .attr("id", function(d, i) {return "cand".concat(i.toString())})
+                      .attr("class", "candName")
+      });
+      
+      var red = svg.selectAll("#red.v1");
+      var blue = svg.selectAll("#blue.v1");
+      var grey = svg.selectAll("#grey.v1");
+
+      svg.selectAll(".v1shadow")
+         .transition(function(d, i) {return 50 + i*15})
+
+
+      red.transition()
+        .duration(0)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 195)
+        .attr("r", 6)
+
+      blue.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 225)
+          .attr("r", 6)
+
+      grey.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 255)
+          .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+         .attr("opacity", 1)
+
+      svg.selectAll("#blue.v1").remove()
+      svg.select("#cand1").remove()
+
+      this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size()});
 
       svg.selectAll(".v2shadow")
          .attr("opacity", 1)
@@ -690,26 +982,131 @@ export default class Narrative extends Component {
          .duration(1000)
          .attr("cx",  3*width/25)
          .attr("r", 6)
+      this.setState({svg});
     }
     if (this.state.data === "10") {
+      d3.selectAll("svg > *").remove();
+      var ballots = [[0, 2, 1], [1, 0, 2], [2, 0, 1], [2, 0, 1], [2, 1, 0], [0, 2, 1],
+                     [1, 2, 0], [1, 0, 2], [2, 1, 0], [2, 0, 1], [0, 1, 2], [2, 1, 0],
+                     [2, 0, 1], [0, 2, 1], [0, 2, 1], [0, 2, 1], [1, 0, 2], [0, 2, 1],
+                     [2, 0, 1], [2, 1, 0], [2, 1, 0], [1, 0, 2], [0, 2, 1], [0, 1, 2], [1, 0, 2]]
+      this.rcvballotToDot(0, width, svg, 0, 0, ballots);
+
+      svg.selectAll(".v3")
+        .transition()
+        .duration(0)
+        .attr("cx", width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v2")
+        .transition()
+        .duration(0)
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+      svg.selectAll(".v1")
+        .transition()
+        .duration(0)
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+        .transition()
+        .attr("cx", 3*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      svg.selectAll(".v2shadow")
+        .transition()
+        .attr("cx", 2*width/25)
+        .attr("cy", function(d, i) {return 50 + i*15})
+        .attr("r", 6)
+
+      this.sleep(0).then(() => {
+        var ax = [...Array(1).keys()]
+        svg.selectAll("#axis").data(ax).enter().append("line")
+                      .attr("x1", 3*width/4)
+                      .attr("y1", 50)
+                      .attr("x2", 3*width/4)
+                      .attr("y2", 50 + 25*15)
+                      .attr("stroke-width", 1.5)
+                      .attr("stroke", "black")
+                      .attr("id", "axis")
+
+        var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+        svg.selectAll(".candName").data(cand).enter().append("text")
+                      .attr("x", 3*width/4 + 10)
+                      .attr("y", function(d,i){return 200 + 30*i})
+                      .text(function(d, i){return d})
+                      .attr("font-family", "akkurat")
+                      .attr("font-size", "16px")
+                      .attr("fill", "black")
+                      .attr("id", function(d, i) {return "cand".concat(i.toString())})
+                      .attr("class", "candName")
+      });
+      
+      var red = svg.selectAll("#red.v1");
+      var blue = svg.selectAll("#blue.v1");
+      var grey = svg.selectAll("#grey.v1");
+
+      svg.selectAll(".v1shadow")
+         .transition(function(d, i) {return 50 + i*15})
+
+
+      red.transition()
+        .duration(0)
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+        .attr("cy", 195)
+        .attr("r", 6)
+
+      blue.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 225)
+          .attr("r", 6)
+
+      grey.transition()
+          .duration(0)
+          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+          .attr("cy", 255)
+          .attr("r", 6)
+
+      svg.selectAll(".v1shadow")
+         .attr("opacity", 1)
+
+      svg.selectAll("#blue.v1").remove()
+      svg.select("#cand1").remove()
+
+      this.setState({redSize: red.size(), blueSize: blue.size(), greySize: grey.size()});
+
+      svg.selectAll(".v2shadow")
+         .attr("opacity", 1)
+
+      svg.selectAll("[firstvote=v1blue]")
+         .transition()
+         .duration(0)
+         .attr("cx",  3*width/25)
+         .attr("r", 6)
+
       var redSize = this.state.redSize
       var greySize = this.state.greySize
       svg.selectAll("#red[firstvote=v1blue]")
          .transition()
-         .duration(2000)
+         .duration(1500)
          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
          .attr("cy", 195)
          .attr("r", 6)
 
       svg.selectAll("#grey[firstvote=v1blue]")
          .transition()
-         .duration(2000)
+         .duration(1500)
          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
          .attr("cy", 255)
          .attr("r", 6)
 
 
-      this.sleep(2300).then(() => {
+      this.sleep(1000).then(() => {
         svg.select("#cand2")
            .transition()
            .attr("font-weight", 100)
