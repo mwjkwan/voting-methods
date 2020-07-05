@@ -126,147 +126,218 @@ export default class Polarization extends Component {
     this.initialize();
   }
 
-  // componentWillUnmount() {
-  //   this.props.removeSelf();
-  // }
+  fptpCount = (svg, delay) => {
+    var width = this.state.width;
+
+    let del;
+    if (delay) {
+      del = 1750;
+    } else {
+      del = 0; 
+    }
+
+    var blue = svg.selectAll("#blue")
+    blue.transition()
+      .duration(del)
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+      .attr("cy", 175)
+      .attr("r", 6)
+    this.setState({blueSize: blue.size()})
+
+    var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
+    red.transition()
+      .duration(del)
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+      .attr("cy", 135)
+      .attr("r", 6)
+    this.setState({redSize: red.size()})
+
+    red = svg.selectAll("#red[blue-detractor=true][grey-detractor=false]")
+    var redSize = this.state.redSize
+    red.transition()
+      .duration(del)
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
+      .attr("cy", 135)
+      .attr("r", 6)
+    this.setState({redSize: redSize + red.size()})
+
+    var grey = svg.selectAll("#grey")
+    grey.transition()
+      .duration(del)
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+      .attr("cy", 295)
+      .attr("r", 6)
+    this.setState({greySize: grey.size()})
+
+    var teal = svg.selectAll("#teal[grey-detractor=false][blue-detractor=false]")
+    teal.transition()
+      .duration(del)
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
+      .attr("cy", 335)
+      .attr("r", 6)
+    this.setState({tealSize: teal.size()})
+
+    teal = svg.selectAll("#teal[grey-detractor=true][blue-detractor=false]")
+    var tealSize = this.state.tealSize
+    teal.transition()
+      .duration(del)
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*tealSize})
+      .attr("cy", 335)
+      .attr("r", 6)
+    this.setState({tealSize: tealSize + teal.size()})
+
+    this.sleep(del).then(() => {
+      if (this.state.data === "1") {
+        svg.select("#cand2").attr("font-weight", 900);
+      }
+    })
+
+    this.setState({svg});
+  }
+
+  fptpStep2 = (svg, delay) => {
+    var width = this.state.width;
+    var red = svg.selectAll("#red[blue-detractor=true][grey-detractor=false]")
+    let del;
+    if (delay) {
+      del = 2000;
+    } else {
+      del = 0;
+    }
+    var blueSize = this.state.blueSize
+    red.transition()
+      .duration(del)
+      .attr("fill", "#2994D2")
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+      .attr("cy", 175)
+      .attr("r", 6)
+    this.setState({blueSize: red.size() + blueSize})
+  }
+
+  fptpStep3 = (svg, delay) => {
+    var width = this.state.width;
+    var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true]")
+    var greySize = this.state.greySize
+    let del; 
+    if (delay) {
+      del = 2000;
+    }
+    else {
+      del = 0;
+    }
+    teal.transition()
+      .duration(2000)
+      .attr("fill", "#34495D")
+      .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+      .attr("cy", 295)
+      .attr("r", 6)
+    this.setState({greySize: teal.size() + greySize})
+  }
+
+  fptpStep4 = (svg, delay) => {
+    var width = this.state.width;
+    let del; 
+    if (delay) {
+      del = 2000;
+    }
+    else {
+      del = 0;
+    }
+
+    var blue = svg.selectAll("#red[blue-detractor=true][grey-detractor=false],#blue")
+    //greySize = this.state.greySize
+    blue.transition()
+      .duration(del)
+      .attr("cy", 155)
+      .attr("r", 6)
+
+    svg.selectAll("#cand1").transition().duration(2000).attr("y", 160)
+
+    var grey = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true],#grey")
+    //greySize = this.state.greySize
+    grey.transition()
+      .duration(del)
+      .attr("cy", 315)
+      .attr("r", 6)
+
+    svg.selectAll("#cand2").transition().duration(2000).attr("y", 320)
+
+
+    this.sleep(del).then(() => {
+      var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=false]")
+      var greySize = this.state.greySize
+      teal.transition()
+        .duration(del)
+        .attr("fill", "#34495D")
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
+        .attr("cy", 315)
+        .attr("r", 6)
+      this.setState({greySize: teal.size() + greySize})
+
+      var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
+      var blueSize = this.state.blueSize
+      red.transition()
+        .duration(del)
+        .attr("fill", "#2994D2")
+        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
+        .attr("cy", 155)
+        .attr("r", 6)
+      this.setState({blueSize: red.size() + blueSize})
+
+    })
+  }
 
   update() {
     console.log('updating');
 
 
     var svg = this.state.svg;
-    var width = this.state.width
+    var width = this.state.width;
+
+    if (this.state.data === "0") {
+      d3.selectAll("svg > *").remove();
+      this.setup();
+    }
 
     if (this.state.data === "1") {
-
-
-      var blue = svg.selectAll("#blue")
-      blue.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-        .attr("cy", 175)
-        .attr("r", 6)
-      this.setState({blueSize: blue.size()})
-
-      var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
-      red.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-        .attr("cy", 135)
-        .attr("r", 6)
-      this.setState({redSize: red.size()})
-
-      red = svg.selectAll("#red[blue-detractor=true][grey-detractor=false]")
-      var redSize = this.state.redSize
-      red.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*redSize})
-        .attr("cy", 135)
-        .attr("r", 6)
-      this.setState({redSize: redSize + red.size()})
-
-      var grey = svg.selectAll("#grey")
-      grey.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-        .attr("cy", 295)
-        .attr("r", 6)
-      this.setState({greySize: grey.size()})
-
-      var teal = svg.selectAll("#teal[grey-detractor=false][blue-detractor=false]")
-      teal.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i})
-        .attr("cy", 335)
-        .attr("r", 6)
-      this.setState({tealSize: teal.size()})
-
-      teal = svg.selectAll("#teal[grey-detractor=true][blue-detractor=false]")
-      var tealSize = this.state.tealSize
-      teal.transition()
-        .duration(2000)
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*tealSize})
-        .attr("cy", 335)
-        .attr("r", 6)
-      this.setState({tealSize: tealSize + teal.size()})
-
-      this.sleep(2250).then(() => {
-        svg.select("#cand2").attr("font-weight", 900)
-      })
+      d3.selectAll("svg > *").remove();
+      this.setup();
+      this.fptpCount(svg, true);
     }
 
     if (this.state.data === "2") {
-      var red = svg.selectAll("#red[blue-detractor=true][grey-detractor=false]")
-      var blueSize = this.state.blueSize
-      red.transition()
-        .duration(2000)
-        .attr("fill", "#2994D2")
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
-        .attr("cy", 175)
-        .attr("r", 6)
-      this.setState({blueSize: red.size() + blueSize})
+      d3.selectAll("svg > *").remove();
+      this.setup();
+      this.fptpCount(svg, false);
+      this.fptpStep2(svg, true);
     }
 
     if (this.state.data === "3") {
-      var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true]")
-      var greySize = this.state.greySize
-      teal.transition()
-        .duration(2000)
-        .attr("fill", "#34495D")
-        .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
-        .attr("cy", 295)
-        .attr("r", 6)
-      this.setState({greySize: teal.size() + greySize})
+      d3.selectAll("svg > *").remove();
+      this.setup();
+      this.fptpCount(svg, false);
+      this.fptpStep2(svg, false);
+      this.fptpStep3(svg, true);
+      
     }
 
     if (this.state.data === "4") {
-      var blue = svg.selectAll("#red[blue-detractor=true][grey-detractor=false],#blue")
-      //greySize = this.state.greySize
-      blue.transition()
-        .duration(2000)
-        .attr("cy", 155)
-        .attr("r", 6)
-
-      svg.selectAll("#cand1").transition().duration(2000).attr("y", 160)
-
-      var grey = svg.selectAll("#teal[blue-detractor=false][grey-detractor=true],#grey")
-      //greySize = this.state.greySize
-      grey.transition()
-        .duration(2000)
-        .attr("cy", 315)
-        .attr("r", 6)
-
-      svg.selectAll("#cand2").transition().duration(2000).attr("y", 320)
-
-
-      this.sleep(2250).then(() => {
-        var teal = svg.selectAll("#teal[blue-detractor=false][grey-detractor=false]")
-        var greySize = this.state.greySize
-        teal.transition()
-          .duration(2000)
-          .attr("fill", "#34495D")
-          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*greySize})
-          .attr("cy", 315)
-          .attr("r", 6)
-        this.setState({greySize: teal.size() + greySize})
-
-        var red = svg.selectAll("#red[blue-detractor=false][grey-detractor=false]")
-        var blueSize = this.state.blueSize
-        red.transition()
-          .duration(2000)
-          .attr("fill", "#2994D2")
-          .attr("cx", function(d, i) {return 3*width/4 - 15 - 15*i - 15*blueSize})
-          .attr("cy", 155)
-          .attr("r", 6)
-        this.setState({blueSize: red.size() + blueSize})
-
-      })
-
-
+      d3.selectAll("svg > *").remove();
+      this.setup();
+      this.fptpCount(svg, false);
+      this.fptpStep2(svg, false);
+      this.fptpStep3(svg, false);
+      this.fptpStep4(svg, true);
 
     }
 
     if (this.state.data === "5") {
+      d3.selectAll("svg > *").remove();
+      this.setup();
+      this.fptpCount(svg, false);
+      this.fptpStep2(svg, false);
+      this.fptpStep3(svg, false);
+      this.fptpStep4(svg, false);
       svg.selectAll("#cand0,#cand3").remove()
     }
 
@@ -495,10 +566,6 @@ export default class Polarization extends Component {
 
       })
     }
-
-    if (this.state.data === "13") {
-
-    }
   }
 
   sleep = (milliseconds) => {
@@ -627,6 +694,12 @@ export default class Polarization extends Component {
                 .attr('width', width)
                 .attr('height', height);
 
+    this.setState({svg});
+  }
+
+  setup() {
+    var svg = this.state.svg;
+    var width = this.state.width;
     var ax = [...Array(1).keys()]
     svg.selectAll("#axis").data(ax).enter().append("line")
                   .attr("x1", 3*width/4)
@@ -681,9 +754,6 @@ export default class Polarization extends Component {
        .attr("blue-detractor", function(d) {return (d[1] === 1 ? "true" : "false")})
        .attr("grey-detractor", function(d) {return (d[2] === 1 ? "true" : "false")})
 
-
-
-    // ballot to dot transformation
     this.setState({initialized: true, svg: svg});
   }
 

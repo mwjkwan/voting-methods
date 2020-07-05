@@ -801,51 +801,9 @@ export default class Narrative extends Component {
                 .attr('width', width)
                 .attr('height', height);
 
-    // // Initialize the ballot SVG
-    // svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
-    // svg.append("text")
-    //    .attr("x", 10.3*width/32)
-    //    .attr("y", width/4 + 30)
-    //    .text("Ballot")
-    //    .attr("font-family", "akkurat")
-    //    .attr("font-size", "24px")
-    //    .attr("fill", "black")
-    //    .attr("id", "ballot")
-    // var box = [...Array(3).keys()]
-    // svg.selectAll("boxes").data(box).enter().append("circle")
-    //    .attr("cx", width/4 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
-    //    .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
-    // var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
-    // svg.selectAll(".cand").data(cand).enter().append("text")
-    //               .attr("x", width/4 + width/14)
-    //               .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ i*width/20})
-    //               .text(function(d, i){return d})
-    //               .attr("font-family", "akkurat")
-    //               .attr("font-size", "16px")
-    //               .attr("fill", "black")
-    //               .attr("id", function(d, it) {return "cand"})
-    //               .attr("class", "cand")
-
-
     // ballot to dot transformation
     this.setState({initialized: true, svg: svg});
   }
-
-  // jumpLink(index) {
-  //   //console.log('okthere')
-  //   if (index === 0) {
-  //     window.location.hash = "#methods"
-  //     console.log("here")
-  //   }
-  //   if (index === 1) {
-  //     window.location.hash = "#polarize"
-  //   }
-  //   if (index === 2) {
-  //     window.location.hash = "#strategic"
-  //   }
-  //   // should call update wtih the appropriate paramters
-  //   // so that we display the locations of "index"
-  // }
 
   render() {
     const { data, value } = this.state;
@@ -902,7 +860,7 @@ export default class Narrative extends Component {
           </div>
         </Card>
       </div>
-        <Polarization jumpLink/>
+        <Polarization/>
       <div className="blurb" id="strategic">
         <Card>
           <div className="card-text-s">
