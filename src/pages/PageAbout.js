@@ -3,9 +3,8 @@
 import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 import { Card } from "react-bootstrap";
-import Description from "../components/Description";
 import Article from "../components/Article";
-import Distribution from "../viz/Distribution";
+import { Icon } from 'semantic-ui-react'
 
 const aboutProject = (
   <div>
@@ -32,9 +31,16 @@ const aboutProject = (
     </p>
     <br></br>
     <ul>
-      <li>Gabriel Apoj</li>
+      <li>
+        Gabriel Apoj Pascal <space></space>
+        (<a href="mailto:gabapoj@gmail.com">Email</a>)
+      </li>
       <li>Melissa Kwan</li>
-      <li>Sahana Srinivasan</li>
+      <li>
+        Sahana Srinivasan <space></space>
+        (<a href="mailto:sahanas009@gmail.com">Email</a>, <space></space>
+         <a href="https://github.com/sahana-srinivasan">GitHub</a>)
+        </li>
       <li>Yijiang Zhao</li>
       <li>Isabelle Zheng</li>
     </ul>

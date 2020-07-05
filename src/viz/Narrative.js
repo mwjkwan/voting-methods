@@ -11,6 +11,8 @@ import { transition } from 'd3-transition';
 import { nest } from 'd3-collection';
 import Polarization from "../viz/Polarization"
 import Strategic from "../viz/Strategic"
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 const descriptions = require("../assets/data/narrative.json");
 
 
@@ -81,6 +83,10 @@ const narrativeStyle = css`
   .card-text-s {
     padding: 10%;
     font-size: 24px !important;
+  }
+
+  #notif {
+    color: white !important;
   }
 `
 ;
@@ -190,8 +196,10 @@ export default class Narrative extends Component {
     this.setState({ progress });
   }
 
+
   componentDidMount() {
     this.initialize();
+    const notif = NotificationManager.info('You must use a full-size device (laptop, desktop) to see our animations.', 'Warning');
   }
   
   initializeBallot() {
@@ -819,74 +827,78 @@ export default class Narrative extends Component {
   render() {
     const { data, value } = this.state;
 
-
     return (
-      <div css={narrativeStyle}>
-      <div className="blurb" id="methods">
-        <Card>
-          <div className="card-text-s">
-            {methodblurb}
+      <div>
+        <div css={narrativeStyle}>
+          <div className="notif">
+            <NotificationContainer id="notif"/>
           </div>
-        </Card>
-      </div>
-      <div className='main'>
-        <div className='jumplinks' id="tocl">
-          <b id="toc">Table of Contents</b>
-          <br></br>
-          <a href="#methods" style={{padding: "0%"}} class="btn btn-link">FPTP/RCV Explanations</a>
-          <a href="#polarize" style={{padding: "0%"}} class="btn btn-link">Polarization/Two-Party</a>
-          <a href="#strategic" style={{padding: "0%"}} class="btn btn-link">Strategic Voting</a>
+          <div className="blurb" id="methods">
+            <Card>
+              <div className="card-text-s">
+                {methodblurb}
+              </div>
+            </Card>
+          </div>
+          <div className='main'>
+            <div className='jumplinks' id="tocl">
+              <b id="toc">Table of Contents</b>
+              <br></br>
+              <a href="#methods" style={{padding: "0%"}} class="btn btn-link">FPTP/RCV Explanations</a>
+              <a href="#polarize" style={{padding: "0%"}} class="btn btn-link">Polarization/Two-Party</a>
+              <a href="#strategic" style={{padding: "0%"}} class="btn btn-link">Strategic Voting</a>
+            </div>
+            <div className='graphic'>
+              <div id="viz"></div>
+            </div>
+            <div className='scroller'>
+              <Scrollama
+                onStepEnter={this.onStepEnter}
+                onStepExit={this.onStepExit}
+                progress
+                onStepProgress={this.onStepProgress}
+                offset={0.33}
+              >
+                {descriptions.map ( desc => (
+                  <Step data={desc.key} key={desc.key}>
+                    <div className="step" >
+                      <p className = "desc" id={"desc" + desc.key}>
+                        <Card>
+                          <Card.Body>
+                            <Card.Text>{desc.description}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </p>
+                    </div>
+                  </Step>
+                ))}
+              </Scrollama>
+            </div>
+          </div>
+          <div className="blurb" id="polarize">
+            <Card>
+              <div className="card-text-s">
+                {polarizeblurb}
+              </div>
+            </Card>
+          </div>
+            <Polarization/>
+          <div className="blurb" id="strategic">
+            <Card>
+              <div className="card-text-s">
+                {strategicblurb}
+              </div>
+            </Card>
+          </div>
+            <Strategic/>
+          <div className="blurb" id="ending">
+            <Card>
+              <div className="card-text-s">
+                {endingblurb}
+              </div>
+            </Card>
+          </div>
         </div>
-        <div className='graphic'>
-          <div id="viz"></div>
-        </div>
-        <div className='scroller'>
-          <Scrollama
-            onStepEnter={this.onStepEnter}
-            onStepExit={this.onStepExit}
-            progress
-            onStepProgress={this.onStepProgress}
-            offset={0.33}
-          >
-            {descriptions.map ( desc => (
-              <Step data={desc.key} key={desc.key}>
-                <div className="step" >
-                  <p className = "desc" id={"desc" + desc.key}>
-                    <Card>
-                      <Card.Body>
-                        <Card.Text>{desc.description}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </p>
-                </div>
-              </Step>
-            ))}
-          </Scrollama>
-         </div>
-      </div>
-      <div className="blurb" id="polarize">
-        <Card>
-          <div className="card-text-s">
-            {polarizeblurb}
-          </div>
-        </Card>
-      </div>
-        <Polarization/>
-      <div className="blurb" id="strategic">
-        <Card>
-          <div className="card-text-s">
-            {strategicblurb}
-          </div>
-        </Card>
-      </div>
-        <Strategic/>
-      <div className="blurb" id="ending">
-        <Card>
-          <div className="card-text-s">
-            {endingblurb}
-          </div>
-        </Card>
-      </div>
       </div>
       )
   }
