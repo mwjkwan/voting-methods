@@ -4,7 +4,6 @@ import { Component } from "react";
 import { css, jsx } from "@emotion/core";
 import { Card } from "react-bootstrap";
 import Article from "../components/Article";
-import { Icon } from 'semantic-ui-react'
 
 const aboutProject = (
   <div>
