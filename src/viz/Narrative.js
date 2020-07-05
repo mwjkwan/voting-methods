@@ -143,6 +143,17 @@ const strategicblurb = (
   </div>
 );
 
+const endingblurb = (
+  <div>
+    <left>
+    <p>
+      Those are the main differences we wanted to illustrate between FPTP and RCV. Check out the rest of our site for more information, visualizations, and simulations of voting methods.
+    </p>
+    <br></br>
+    </left>
+  </div>
+);
+
 export default class Narrative extends Component {
   constructor(props) {
     super(props);
@@ -869,6 +880,13 @@ export default class Narrative extends Component {
         </Card>
       </div>
         <Strategic/>
+      <div className="blurb" id="ending">
+        <Card>
+          <div className="card-text-s">
+            {endingblurb}
+          </div>
+        </Card>
+      </div>
       </div>
       )
   }
