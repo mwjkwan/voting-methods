@@ -12,15 +12,15 @@ const aboutProject = (
     </p>
     <br></br>
     <p>
-      The Voting Methods Project seeks to act as a resource which provides tools to:
+      The Voting Methods Project is a tool that:
     </p>
       <br></br>
       <ul>
-        <li>showcase the various electoral methods used throughout the world, </li>
-        <li>narrate an explanation and comparison of <b>First Past the Post (FPTP)</b> and <b>Ranked Choice Voting (RCV)</b>,</li>
-        <li>enable users to discover for themselves how the same pool of voters can result in a different election outcome depending on the voting method used,</li>
-        <li>extend these ideas to actual RCV elections which would have had different results under FPTP, and</li>
-        <li>provide a catalog which details out the various pros and cons of different FPTP and RCV electoral methods.</li>
+        <li>showcases the various electoral methods used throughout the world, </li>
+        <li>narrates an explanation and comparison of <b>First Past the Post (FPTP)</b> and <b>Ranked Choice Voting (RCV)</b>,</li>
+        <li>enables users to discover for themselves how the same pool of voters can result in a different election outcome depending on the voting method used,</li>
+        <li>extends these ideas to actual RCV elections which would have had different results under FPTP, and</li>
+        <li>provides a catalog which details out the various pros and cons of different FPTP and RCV electoral methods.</li>
       </ul>
     <br></br>
     <hr></hr>

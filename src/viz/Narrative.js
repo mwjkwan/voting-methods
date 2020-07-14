@@ -199,7 +199,7 @@ export default class Narrative extends Component {
 
   componentDidMount() {
     this.initialize();
-    const notif = NotificationManager.info('You must use a full-size device (laptop, desktop) to see our animations.', 'Warning');
+    //const notif = NotificationManager.info('You must use a full-size device (laptop, desktop) to see our animations.', 'Warning');
   }
   
   initializeBallot() {
@@ -820,8 +820,32 @@ export default class Narrative extends Component {
                 .attr('width', width)
                 .attr('height', height);
 
-    // ballot to dot transformation
+    // ballot setup
+    svg.append("rect").attr("x", width/4).attr("y", width/4).attr("width", width/4).attr("height", width/4).style("fill", "#F4F4F4");
+    svg.append("text")
+      .attr("x", 10.3*width/32)
+      .attr("y", width/4 + 30)
+      .text("Ballot")
+      .attr("font-family", "akkurat")
+      .attr("font-size", "24px")
+      .attr("fill", "black")
+      .attr("id", "ballot")
+    var box = [...Array(3).keys()]
+    svg.selectAll("boxes").data(box).enter().append("circle")
+      .attr("cx", width/4 + width/25).attr("cy", function(d,i){return width/4 + 3*width/32 + i*width/20})
+      .attr("r", width/80).attr("fill", "#C4C4C4").attr("id", "boxes")
+    var cand = ["Rodrigo Red", "Belinda Blue", "Gracey Grey"]
+    svg.selectAll(".cand").data(cand).enter().append("text")
+                  .attr("x", width/4 + width/14)
+                  .attr("y", function(d,i){return width/4 + 3*width/32 + 5+ i*width/20})
+                  .text(function(d, i){return d})
+                  .attr("font-family", "akkurat")
+                  .attr("font-size", "16px")
+                  .attr("fill", "black")
+                  .attr("id", function(d, it) {return "cand"})
+                  .attr("class", "cand")
     this.setState({initialized: true, svg: svg});
+    console.log("initialized");
   }
 
   render() {
@@ -830,9 +854,6 @@ export default class Narrative extends Component {
     return (
       <div>
         <div css={narrativeStyle}>
-          <div className="notif">
-            <NotificationContainer id="notif"/>
-          </div>
           <div className="blurb" id="methods">
             <Card>
               <div className="card-text-s">

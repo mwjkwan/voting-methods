@@ -15,6 +15,7 @@ const story = <div id="methods">
               </div>;
 
 const style = css`
+  
   .card-columns {
     margin: 1em;
     max-width: 90vw;
