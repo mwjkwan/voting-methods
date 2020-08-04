@@ -427,12 +427,14 @@ export default class Narrative extends Component {
 
       svg.selectAll(".v1shadow")
         .transition()
+        .duration(del1)
         .attr("cx", 3*width/25)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)
 
       svg.selectAll(".v2shadow")
         .transition()
+        .duration(del1)
         .attr("cx", 2*width/25)
         .attr("cy", function(d, i) {return 50 + i*15})
         .attr("r", 6)

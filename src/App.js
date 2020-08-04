@@ -6,6 +6,7 @@ import PageDistribution from "./pages/PageDistribution";
 import PageMethods from "./pages/PageMethods";
 import PageOverview from "./pages/PageOverview";
 import PageSimulate from "./pages/PageSimulate";
+import ScrollToTop from './components/ScrollToTop'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../src/styles/styles.scss";
 
@@ -47,6 +48,7 @@ class App extends React.Component {
       <Router>
           <div className="Page">
             <NavigationBar />
+            <ScrollToTop>
             <Switch>
               <Route exact path={`/`} render={() => <PageHome />} />
               <Route exact path={`/overview`} render={() => <PageOverview />} />
@@ -55,6 +57,7 @@ class App extends React.Component {
               <Route exact path={`/methods`} render={() => <PageMethods />} />
               <Route exact path={`/about`} render={() => <PageAbout />} />
             </Switch>
+            </ScrollToTop>
           </div>
       </Router>
     );
