@@ -1,4 +1,4 @@
-# voting-methods
-Harvard CS91r project visualizing voting methods.
+# Voting-methods
+Harvard CS91r project visualizing voting methods. 
 
-# Coming soon to Netlify!
+Check it out here: https://the-voting-methods.web.app/
